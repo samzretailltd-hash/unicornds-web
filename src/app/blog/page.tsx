@@ -7,6 +7,10 @@ export const metadata: Metadata = {
 };
 
 const POSTS = [
+  { slug: "ebay-seller-tools-comparison", title: "eBay Seller Tools Comparison 2026: 10 Tools Ranked by Category", excerpt: "Category-by-category breakdown of 10 eBay tools. Research, listing, VERO, AI, orders, pricing — find the right tool for your bottleneck, not just the best overall.", date: "21 April 2026", readTime: "15 min", tag: "Comparison", color: "#8B5CF6" },
+  { slug: "best-ai-listing-tool-ebay", title: "Best AI Listing Tool for eBay 2026: GPT-4o Generators Compared", excerpt: "Real AI vs fake AI in eBay listing tools. UnicornDS (GPT-4o), AutoDS, EcomSniper, DSM Tool compared with a real JBL Flip 6 title test.", date: "21 April 2026", readTime: "13 min", tag: "AI Tools", color: "#3B82F6" },
+  { slug: "best-ebay-competitor-research-tools", title: "Best eBay Competitor Research Tools 2026: 7 Tools Compared", excerpt: "Scan any eBay seller URL and find proven products. UnicornDS Competitor Scanner, Zik Analytics, Terapeak, EcomSniper, eBextractor reviewed.", date: "21 April 2026", readTime: "13 min", tag: "Research", color: "#8B5CF6" },
+  { slug: "best-ebay-tools-us-sellers", title: "Best eBay Seller Tools 2026: Top 8 Compared for Listing, Research & Dropshipping", excerpt: "Top 8 eBay tools ranked. UnicornDS, AutoDS, Zik, DSM, SaleFreaks, EcomSniper, SuperDS and eBay Hot Product Finder. Real pricing, honest pros and cons.", date: "21 April 2026", readTime: "14 min", tag: "Tools", color: "#7C3AED" },
   { slug: "ebay-variant-images-auto-upload", title: "Auto-Upload Variant Images to eBay — Only UnicornDS Does This", excerpt: "UnicornDS automatically uploads the correct product photo for each colour variant. No other eBay listing tool offers this feature.", date: "11 April 2026", readTime: "5 min", tag: "Feature", color: "#7C3AED" },
   { slug: "ebay-address-helper-aliexpress", title: "eBay Address Helper: Auto-Fill AliExpress Checkout in Seconds", excerpt: "Capture shipping addresses from eBay, Amazon, TikTok. One-click auto-fill on AliExpress checkout. Save an hour per day.", date: "11 April 2026", readTime: "5 min", tag: "Feature", color: "#7C3AED" },
   { slug: "ebay-auto-lister-free", title: "eBay Auto Lister Free: List Products Automatically Without Paying", excerpt: "Start listing on eBay automatically with a free auto lister. AI titles, image upload, VERO protection — all free.", date: "11 April 2026", readTime: "6 min", tag: "Tools", color: "#10B981" },
@@ -42,7 +46,6 @@ const POSTS = [
   { slug: "unicornds-vs-ecomsniper", title: "UnicornDS vs EcomSniper: Complete 2026 Comparison", excerpt: "Same 3,000 listings, 36% cheaper. Plus AI titles, Stock Checker, and Order Manager that EcomSniper lacks.", date: "10 April 2026", readTime: "10 min", tag: "Comparison", color: "#8B5CF6" },
   { slug: "how-to-dropship-ebay-usa", title: "How to Dropship on eBay in the USA: Complete Guide", excerpt: "Step-by-step guide for American sellers. Amazon.com sourcing, US tax, USPS shipping, and scaling to $3,000/month.", date: "10 April 2026", readTime: "15 min", tag: "USA", color: "#3B82F6" },
   { slug: "amazon-prime-ebay-arbitrage-usa", title: "Amazon Prime to eBay Arbitrage USA: $3,000/Month", excerpt: "The exact system to buy from Amazon with Prime and sell on eBay for profit. Real numbers and scaling strategy.", date: "10 April 2026", readTime: "14 min", tag: "USA", color: "#F59E0B" },
-  { slug: "best-ebay-tools-us-sellers", title: "Best eBay Tools for US Sellers 2026: Top 5 Compared", excerpt: "UnicornDS vs AutoDS vs Zik Analytics vs DSM Tool vs SaleFreaks. Honest comparison for American eBay sellers.", date: "10 April 2026", readTime: "12 min", tag: "USA", color: "#7C3AED" },
 ];
 
 export default function BlogPage() {
