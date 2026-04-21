@@ -16,6 +16,33 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // ══════════ Force non-www → www (canonical) ══════════
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "unicornds.io" }],
+        destination: "https://www.unicornds.io/:path*",
+        permanent: true,
+      },
+      // ══════════ Ghost URLs from old sitemaps — 301 to closest match ══════════
+      {
+        source: "/blog/ai-tools-ebay-listings-2026",
+        destination: "/blog/best-ai-listing-tool-ebay",
+        permanent: true,
+      },
+      {
+        source: "/blog/amazon-to-ebay-arbitrage-europe",
+        destination: "/blog/amazon-to-ebay-arbitrage",
+        permanent: true,
+      },
+      {
+        source: "/blog/best-products-dropship-ebay-europe",
+        destination: "/blog/ebay-dropshipping-germany-guide",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
