@@ -41,11 +41,11 @@ export async function POST(req: NextRequest) {
           stripe_customer_id: session.customer as string,
           stripe_subscription_id: subscriptionId,
           billing_period: tierInfo?.period || "monthly",
-          billing_period_end: sub.current_period_end
-            ? new Date(sub.current_period_end * 1000).toISOString()
+          billing_period_end: ((sub as any).current_period_end)
+            ? new Date(((sub as any).current_period_end) * 1000).toISOString()
             : null,
-          trial_end: sub.trial_end
-            ? new Date(sub.trial_end * 1000).toISOString()
+          trial_end: ((sub as any).trial_end)
+            ? new Date(((sub as any).trial_end) * 1000).toISOString()
             : null,
           updated_at: new Date().toISOString(),
         }, { merge: true });
@@ -80,15 +80,15 @@ export async function POST(req: NextRequest) {
             tier: tierInfo.tier,
             tokensTotal: tierInfo.tokensTotal,
             billing_period: tierInfo.period,
-            billing_period_end: sub.current_period_end
-              ? new Date(sub.current_period_end * 1000).toISOString()
+            billing_period_end: ((sub as any).current_period_end)
+              ? new Date(((sub as any).current_period_end) * 1000).toISOString()
               : null,
             updated_at: new Date().toISOString(),
           }, { merge: true });
         }
 
         // If subscription renewed, reset tokens
-        if (sub.status === "active" && !sub.cancel_at_period_end) {
+        if (sub.status === "active" && !((sub as any).cancel_at_period_end)) {
           await adminDb.collection("users").doc(uid).set({
             tokensUsed: 0,
             status: "active",
