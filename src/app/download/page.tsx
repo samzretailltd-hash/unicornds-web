@@ -122,7 +122,7 @@ export default function DownloadPage() {
           className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold inline-flex items-center gap-2 disabled:opacity-50"
         >
           <span className="text-xl">{downloading ? "⏳" : "⬇️"}</span>
-          {downloading ? "Downloading..." : "Download UnicornDS v7.10"}
+          {downloading ? "Downloading..." : "Download UnicornDS v7.11.2"}
         </button>
       ),
     },
