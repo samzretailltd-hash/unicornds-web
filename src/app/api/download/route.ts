@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     // Return the download URL (hashed filename)
     return NextResponse.json({
-      url: "/ext_d9f3a7b2e1c4.zip",
+      url: "/ext_a8c2f1e9d4b7.zip",
       filename: "UnicornDS_v7_11_2.zip",
       version: "7.11.2",
     });
