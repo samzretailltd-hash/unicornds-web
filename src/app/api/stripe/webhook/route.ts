@@ -21,18 +21,36 @@ export async function POST(req: NextRequest) {
       case "checkout.session.completed": {
         const session = event.data.object;
         const uid = session.metadata?.firebase_uid;
-        const subscriptionId = session.subscription as string;
-        if (!uid || !subscriptionId) break;
+        if (!uid) break;
 
-        // Get subscription to find the price/tier
+        const sessionMode = (session as any).mode;
+
+        // FREE TIER: Card verification only (setup mode, no charge)
+        if (sessionMode === "setup" || session.metadata?.tier === "free") {
+          await adminDb.collection("users").doc(uid).set({
+            tier: "free",
+            tokensUsed: 0,
+            tokensTotal: 100,
+            status: "active",
+            stripe_customer_id: (session.customer as string) || null,
+            card_verified: true,
+            card_verified_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }, { merge: true });
+          console.log("[Stripe] Card verified:", session.customer_email, "-> free (100 listings)");
+          break;
+        }
+
+        // PAID TIERS: Charged immediately, no trial
+        const subscriptionId = session.subscription as string;
+        if (!subscriptionId) break;
+
         const sub = await stripe.subscriptions.retrieve(subscriptionId);
         const priceId = sub.items.data[0]?.price?.id;
         const tierInfo = priceId ? PRICE_TO_TIER[priceId] : null;
-
         const tier = tierInfo?.tier || session.metadata?.tier || "starter";
         const tokensTotal = tierInfo?.tokensTotal || 500;
 
-        // Update Firestore user
         await adminDb.collection("users").doc(uid).set({
           tier,
           tokensUsed: 0,
@@ -40,17 +58,14 @@ export async function POST(req: NextRequest) {
           status: "active",
           stripe_customer_id: session.customer as string,
           stripe_subscription_id: subscriptionId,
-          billing_period: tierInfo?.period || "monthly",
-          billing_period_end: ((sub as any).current_period_end)
-            ? new Date(((sub as any).current_period_end) * 1000).toISOString()
-            : null,
-          trial_end: ((sub as any).trial_end)
-            ? new Date(((sub as any).trial_end) * 1000).toISOString()
+          card_verified: true,
+          billing_period: tierInfo?.period || session.metadata?.period || "monthly",
+          billing_period_end: (sub as any).current_period_end
+            ? new Date((sub as any).current_period_end * 1000).toISOString()
             : null,
           updated_at: new Date().toISOString(),
         }, { merge: true });
 
-        // Log payment
         await adminDb.collection("payments").add({
           uid,
           email: session.customer_email || "",
@@ -62,8 +77,7 @@ export async function POST(req: NextRequest) {
           stripe_subscription_id: subscriptionId,
           received_at: new Date().toISOString(),
         });
-
-        console.log(`[Stripe] ✅ ${session.customer_email} → ${tier} (${tierInfo?.period})`);
+        console.log("[Stripe] Paid:", session.customer_email, "->", tier);
         break;
       }
 
@@ -80,15 +94,14 @@ export async function POST(req: NextRequest) {
             tier: tierInfo.tier,
             tokensTotal: tierInfo.tokensTotal,
             billing_period: tierInfo.period,
-            billing_period_end: ((sub as any).current_period_end)
-              ? new Date(((sub as any).current_period_end) * 1000).toISOString()
+            billing_period_end: (sub as any).current_period_end
+              ? new Date((sub as any).current_period_end * 1000).toISOString()
               : null,
             updated_at: new Date().toISOString(),
           }, { merge: true });
         }
 
-        // If subscription renewed, reset tokens
-        if (sub.status === "active" && !((sub as any).cancel_at_period_end)) {
+        if (sub.status === "active" && !(sub as any).cancel_at_period_end) {
           await adminDb.collection("users").doc(uid).set({
             tokensUsed: 0,
             status: "active",
@@ -102,25 +115,23 @@ export async function POST(req: NextRequest) {
         const uid = sub.metadata?.firebase_uid;
         if (!uid) break;
 
-        // Downgrade to free
         await adminDb.collection("users").doc(uid).set({
           tier: "free",
           tokensUsed: 0,
-          tokensTotal: 10,
+          tokensTotal: 100,
           billing_period: null,
           billing_period_end: null,
           stripe_subscription_id: null,
           updated_at: new Date().toISOString(),
         }, { merge: true });
-
-        console.log(`[Stripe] ❌ ${uid} subscription cancelled → free`);
+        console.log("[Stripe] Cancelled:", uid, "-> free");
         break;
       }
 
       case "invoice.payment_failed": {
         const invoice = event.data.object;
-        const sub = ((invoice as any).subscription)
-          ? await stripe.subscriptions.retrieve(((invoice as any).subscription) as string)
+        const sub = (invoice as any).subscription
+          ? await stripe.subscriptions.retrieve((invoice as any).subscription as string)
           : null;
         const uid = sub?.metadata?.firebase_uid;
         if (!uid) break;
@@ -129,8 +140,7 @@ export async function POST(req: NextRequest) {
           status: "payment_failed",
           updated_at: new Date().toISOString(),
         }, { merge: true });
-
-        console.log(`[Stripe] ⚠️ Payment failed for ${uid}`);
+        console.log("[Stripe] Payment failed:", uid);
         break;
       }
     }

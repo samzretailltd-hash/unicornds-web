@@ -87,10 +87,12 @@ export function PricingSection() {
                   ))}
                 </ul>
                 {plan.id === "free" ? (
-                  <a href="/signup"
-                    className="block w-full py-3 rounded-xl text-sm font-bold transition-all border border-[#3d3580] text-[#a5a0cc] hover:border-[#7C3AED] hover:text-white">
-                    Start Free Trial
-                  </a>
+                  <button
+                    onClick={() => handleCheckout("free")}
+                    disabled={loading === "free"}
+                    className="block w-full py-3 rounded-xl text-sm font-bold transition-all border border-[#3d3580] text-[#a5a0cc] hover:border-[#7C3AED] hover:text-white disabled:opacity-50">
+                    {loading === "free" ? "Loading..." : "Start Free Trial"}
+                  </button>
                 ) : (
                   <button
                     onClick={() => handleCheckout(plan.id)}
