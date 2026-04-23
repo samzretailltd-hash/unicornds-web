@@ -119,8 +119,8 @@ export async function POST(req: NextRequest) {
 
       case "invoice.payment_failed": {
         const invoice = event.data.object;
-        const sub = invoice.subscription
-          ? await stripe.subscriptions.retrieve(invoice.subscription as string)
+        const sub = ((invoice as any).subscription)
+          ? await stripe.subscriptions.retrieve(((invoice as any).subscription) as string)
           : null;
         const uid = sub?.metadata?.firebase_uid;
         if (!uid) break;
