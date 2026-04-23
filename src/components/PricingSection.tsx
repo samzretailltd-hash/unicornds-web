@@ -87,9 +87,9 @@ export function PricingSection() {
                   ))}
                 </ul>
                 {plan.id === "free" ? (
-                  <a href={SITE.chrome_store}
+                  <a href="/signup"
                     className="block w-full py-3 rounded-xl text-sm font-bold transition-all border border-[#3d3580] text-[#a5a0cc] hover:border-[#7C3AED] hover:text-white">
-                    {t('pricing.install', geo.language)}
+                    Start Free Trial
                   </a>
                 ) : (
                   <button
