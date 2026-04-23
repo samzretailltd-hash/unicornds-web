@@ -17,7 +17,7 @@ export default function VerifyEmailPage() {
     return onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
-      if (u?.emailVerified) router.push("/download");
+      if (u?.emailVerified) router.push("/pricing");
     });
   }, [router]);
 
@@ -40,7 +40,7 @@ export default function VerifyEmailPage() {
       await user.reload();
       const refreshed = auth.currentUser;
       if (refreshed?.emailVerified) {
-        router.push("/download");
+        router.push("/pricing");
       } else {
         setError("Email not verified yet. Please check your inbox and click the verification link.");
       }
@@ -70,7 +70,7 @@ export default function VerifyEmailPage() {
   }
 
   if (user.emailVerified) {
-    router.push("/download");
+    router.push("/pricing");
     return null;
   }
 
