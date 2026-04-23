@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 const COUNTRIES = [
@@ -64,6 +64,7 @@ export default function SignupPage() {
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(cred.user, { displayName: fullName });
+      await sendEmailVerification(cred.user);
       const token = await cred.user.getIdToken();
       await fetch("/api/user/profile", {
         method: "POST",
@@ -75,7 +76,7 @@ export default function SignupPage() {
           ref: new URLSearchParams(window.location.search).get("ref") || null,
         }),
       });
-      router.push("/dashboard");
+      router.push("/verify-email");
     } catch (err: unknown) {
       const msg = (err as { code?: string }).code;
       if (msg === "auth/email-already-in-use") setError("An account with this email already exists. Try signing in.");

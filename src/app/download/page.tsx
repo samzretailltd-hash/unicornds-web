@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function DownloadPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -10,13 +11,16 @@ export default function DownloadPage() {
   const [step, setStep] = useState(0);
   const [downloading, setDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
+      // Redirect unverified users
+      if (u && !u.emailVerified) router.push("/verify-email");
     });
-  }, []);
+  }, [router]);
 
   const handleDownload = async () => {
     if (!user || downloading) return;
