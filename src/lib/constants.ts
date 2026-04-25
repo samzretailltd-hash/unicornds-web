@@ -36,10 +36,10 @@ export interface Plan {
 
 export const PLANS: Plan[] = [
   {
-    id: "free", name: "14-Day Trial", monthly: 0, annual: 0,
-    listings: "100 listings in 14 days",
+    id: "free", name: "Free Trial", monthly: 0, annual: 0,
+    listings: "100 free listings",
     features: [
-      { text: "Full Starter features for 14 days", status: "yes" },
+      { text: "No charge — card verified only", status: "yes" },
       { text: "Product Hunter (unlimited)", status: "yes" },
       { text: "AI Title Builder (GPT-4o)", status: "yes" },
       { text: "Competitor Scanner (3/day)", status: "ltd" },

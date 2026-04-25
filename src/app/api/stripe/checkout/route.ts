@@ -28,6 +28,11 @@ export async function POST(req: NextRequest) {
           firebase_uid: decoded.uid,
           tier: "free",
         },
+        custom_text: {
+          submit: {
+            message: "You will NOT be charged. We verify your card to prevent abuse. You get 100 free eBay listings — no hidden fees, cancel anytime.",
+          },
+        },
         success_url: `${req.nextUrl.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.nextUrl.origin}/pricing`,
       });
