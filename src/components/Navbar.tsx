@@ -30,7 +30,7 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-6 ml-auto">
-          <Link href="/#features" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">{t('nav.features', l)}</Link>
+          <Link href="/features" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">{t('nav.features', l)}</Link>
           <Link href="/#demos" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">Demos</Link>
           <Link href="/pricing" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">{t('nav.pricing', l)}</Link>
           <Link href="/blog" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">{t('nav.blog', l)}</Link>
@@ -55,7 +55,7 @@ export function Navbar() {
       {/* Mobile Menu */}
       {open && (
         <div className="lg:hidden bg-[#0f0e1a] border-b border-[#3d3580] px-4 py-4 flex flex-col gap-1">
-          <Link href="/#features" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.features', l)}</Link>
+          <Link href="/features" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.features', l)}</Link>
           <Link href="/#demos" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">Demos</Link>
           <Link href="/pricing" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.pricing', l)}</Link>
           <Link href="/blog" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.blog', l)}</Link>
