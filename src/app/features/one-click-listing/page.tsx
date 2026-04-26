@@ -14,7 +14,7 @@ export default function OneClickListingPage() {
       badgeColor="bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/20"
       title="One-Click Listing"
       subtitle="See it on Amazon. Click once. Listed on eBay. 60 seconds."
-      heroDescription="When you are browsing Amazon and spot a product worth selling on eBay, you should not need to copy data, switch tabs, fill forms, and upload images manually. With UnicornDS, a floating panel appears on every Amazon product page showing the Demand Score, profit calculation, competitor price bar, and VERO check status. If everything looks good, click 'List on eBay' and the extension handles everything: opens eBay, generates an AI title, writes a description, uploads images, fills item specifics, sets the price, and submits. One click, 60 seconds, listed."
+      heroDescription="When you are browsing Amazon and spot a product worth selling on eBay, you should not need to copy data, switch tabs, fill forms, and upload images manually. With UnicornDS, a floating panel appears on every Amazon product page showing the Demand Score, profit calculation, competitor price bar, and VERO check status. If everything looks good, click List on eBay and the extension handles everything: opens eBay, generates an AI title, writes a description, uploads images, fills item specifics, sets the price, and submits. One click, 60 seconds, listed."
       screenshotAlt="UnicornDS overlay on Amazon product page with one-click listing button"
       sections={[
         { icon: '⚡', title: 'Instant Overlay', description: 'A floating panel appears on every Amazon product page. See demand score, profit, competition, and VERO status at a glance.' },
