@@ -290,6 +290,9 @@ export function HomeContent() {
           {/* Extra features row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             {[
+              { icon: "📊", title: t('feat.demand', l), desc: t('feat.demand.desc', l) },
+              { icon: "🏷️", title: t('feat.ebaySales', l), desc: t('feat.ebaySales.desc', l) },
+              { icon: "💰", title: t('feat.priceBar', l), desc: t('feat.priceBar.desc', l) },
               { icon: "🛡️", title: t('feat.vero', l), desc: t('feat.vero.desc', l) },
               { icon: "📦", title: t('feat.stock', l), desc: t('feat.stock.desc', l) },
               { icon: "📋", title: t('feat.address', l), desc: t('feat.address.desc', l) },
