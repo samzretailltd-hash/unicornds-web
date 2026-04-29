@@ -232,6 +232,41 @@ export default function DashboardPage() {
           </div>
         )}
 
+        {/* Video Tutorials */}
+        <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold text-white">Video Tutorials</h2>
+            <a href="https://www.youtube.com/@Unicornds_io" target="_blank" rel="noopener noreferrer" className="text-xs text-[#A78BFA] hover:underline">View all on YouTube →</a>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {([
+              { id: "55JYQU06leM", title: "How to Install UnicornDS", duration: "1:29", step: "1" },
+              { id: "cIcomEFnEFw", title: "Extension Walkthrough & Settings", duration: "1:28", step: "2" },
+              { id: "uEr6XeOGEII", title: "Image Designer Setup", duration: "2:29", step: "3" },
+              { id: "qRzkR1AmnLQ", title: "List from AliExpress to eBay", duration: "2:47", step: "4" },
+              { id: "9WZ7cu4-XJY", title: "Amazon to eBay Arbitrage", duration: "2:59", step: "5" },
+            ]).map((v) => (
+              <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer"
+                className="group block rounded-lg overflow-hidden border border-[#3d3580]/50 hover:border-[#7C3AED]/50 transition-all">
+                <div className="relative">
+                  <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt={v.title}
+                    className="w-full aspect-video object-cover" loading="lazy" />
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-all">
+                    <div className="w-10 h-10 rounded-full bg-[#7C3AED] flex items-center justify-center">
+                      <span className="text-white text-sm ml-0.5">▶</span>
+                    </div>
+                  </div>
+                  <span className="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] px-1.5 py-0.5 rounded">{v.duration}</span>
+                  <span className="absolute top-1 left-1 bg-[#7C3AED] text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">Step {v.step}</span>
+                </div>
+                <div className="p-2.5">
+                  <p className="text-xs text-white font-medium group-hover:text-[#A78BFA] transition-colors leading-tight">{v.title}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
         {/* Bottom Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-6">
