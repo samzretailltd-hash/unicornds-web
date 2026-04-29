@@ -20,7 +20,7 @@ export function PricingSection() {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, tier, period: annual ? "yearly" : "monthly" }),
+        body: JSON.stringify({ token, tier, period: annual ? "yearly" : "monthly", trial: true }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
@@ -47,11 +47,12 @@ export function PricingSection() {
 
   return (
     <section id="pricing" className="py-24">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-14">
           <span className="inline-block px-4 py-1 rounded-full bg-[#7C3AED]/12 border border-[#7C3AED]/25 text-xs text-[#A78BFA] font-semibold uppercase tracking-wider mb-4">{t('nav.pricing', geo.language)}</span>
           <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold mb-3">{t('pricing.title', geo.language)}</h2>
-          <p className="text-[#a5a0cc]">{t('pricing.subtitle', geo.language)}</p>
+          <p className="text-[#a5a0cc] mb-2">{t('pricing.subtitle', geo.language)}</p>
+          <p className="text-sm text-[#F59E0B] font-semibold">Every plan includes a 14-day free trial — no charge until trial ends</p>
         </div>
         <div className="flex items-center justify-center gap-3 mb-12 text-sm">
           <span className={!annual ? "text-white font-bold" : "text-[#a5a0cc]"}>{t('pricing.monthly', geo.language)}</span>
@@ -62,7 +63,7 @@ export function PricingSection() {
             {t('pricing.annual', geo.language)} <span className="bg-[#10B981] text-white text-[10px] px-2 py-0.5 rounded-full font-bold ml-1">{t('pricing.save', geo.language)}</span>
           </span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {PLANS.map((plan) => {
             const gbpPrice = annual && plan.annual > 0 ? plan.annual / 12 : plan.monthly;
             const displayPrice = formatPrice(gbpPrice, geo);
@@ -71,13 +72,14 @@ export function PricingSection() {
             const colors = { yes: "text-[#10B981]", no: "text-[#6b6899]", ltd: "text-[#F59E0B]" };
             const isLoading = loading === plan.id;
             return (
-              <div key={plan.id} className={`bg-[#1E1B4B]/50 border rounded-xl p-7 text-center relative card-hover ${plan.popular ? "border-[#7C3AED] border-2" : "border-[#3d3580]"}`}>
+              <div key={plan.id} className={`bg-[#1E1B4B]/50 border rounded-xl p-7 text-center relative card-hover ${plan.popular ? "border-[#7C3AED] border-2 scale-[1.02]" : "border-[#3d3580]"}`}>
                 {plan.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#7C3AED] text-white text-[10px] font-extrabold px-4 py-1 rounded-full tracking-wider">{t('pricing.bestValue', geo.language)}</span>}
                 <div className="text-xl font-bold text-white mb-1">{plan.name}</div>
                 <div className="text-4xl font-extrabold text-[#F59E0B] my-3">
-                  {plan.monthly === 0 ? "Free" : <>{displayPrice}<small className="text-sm font-normal text-[#a5a0cc]">{t('pricing.perMonth', geo.language)}</small></>}
+                  {displayPrice}<small className="text-sm font-normal text-[#a5a0cc]">{t('pricing.perMonth', geo.language)}</small>
                 </div>
-                <div className="text-sm text-[#10B981] h-5 mb-2">{annualTotal}</div>
+                <div className="text-sm text-[#10B981] h-5 mb-1">{annualTotal}</div>
+                <div className="text-xs text-[#F59E0B] font-semibold mb-1">14 days FREE — then {displayPrice}/mo</div>
                 <div className="text-sm text-[#A78BFA] font-semibold mb-5">{plan.listings}</div>
                 <ul className="text-left mb-6 space-y-1.5">
                   {plan.features.map((f) => (
@@ -86,22 +88,14 @@ export function PricingSection() {
                     </li>
                   ))}
                 </ul>
-                {plan.id === "free" ? (
-                  <button
-                    onClick={() => handleCheckout("free")}
-                    disabled={loading === "free"}
-                    className="block w-full py-3 rounded-xl text-sm font-bold transition-all border border-[#3d3580] text-[#a5a0cc] hover:border-[#7C3AED] hover:text-white disabled:opacity-50">
-                    {loading === "free" ? "Loading..." : "Start Free Trial"}
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleCheckout(plan.id)}
-                    disabled={isLoading}
-                    className={`block w-full py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-50 ${plan.id === "empire" ? "btn-gold" : "btn-primary"}`}
-                  >
-                    {isLoading ? "Loading..." : plan.id === "empire" ? t('pricing.empire', geo.language) : `${t('pricing.get', geo.language)} ${plan.name}`}
-                  </button>
-                )}
+                <button
+                  onClick={() => handleCheckout(plan.id)}
+                  disabled={isLoading}
+                  className={`block w-full py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-50 ${plan.id === "empire" ? "btn-gold" : "btn-primary"}`}
+                >
+                  {isLoading ? "Loading..." : "Start 14-Day Free Trial"}
+                </button>
+                <p className="text-[10px] text-[#6b6899] mt-2">Cancel anytime during trial — no charge</p>
               </div>
             );
           })}

@@ -52,10 +52,9 @@ const jsonLd = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Chrome",
   offers: [
-    { "@type": "Offer", price: "0", priceCurrency: "GBP", name: "Free Trial" },
-    { "@type": "Offer", price: "23.99", priceCurrency: "GBP", name: "Starter Plan" },
-    { "@type": "Offer", price: "47.99", priceCurrency: "GBP", name: "Growth Plan" },
-    { "@type": "Offer", price: "79.99", priceCurrency: "GBP", name: "Empire Plan" },
+    { "@type": "Offer", price: "23.99", priceCurrency: "GBP", name: "Starter Plan — 14 days free" },
+    { "@type": "Offer", price: "47.99", priceCurrency: "GBP", name: "Growth Plan — 14 days free" },
+    { "@type": "Offer", price: "79.99", priceCurrency: "GBP", name: "Empire Plan — 14 days free" },
   ],
   description: "Chrome extension for eBay dropshipping and Amazon arbitrage. Find products, list automatically, manage your store.",
   url: "https://www.unicornds.io",
@@ -84,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             "@type": "FAQPage",
             "mainEntity": [
               { "@type": "Question", "name": "What is UnicornDS?", "acceptedAnswer": { "@type": "Answer", "text": "UnicornDS is a Chrome browser extension that helps eBay sellers find profitable products on Amazon and AliExpress, then list them on eBay automatically with AI-generated titles, VERO brand checking, and bulk listing capabilities." }},
-              { "@type": "Question", "name": "Is UnicornDS free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, UnicornDS offers a 14-day free trial with 100 listings. Paid plans start at £23.99/month for 500 listings (Starter), £47.99 for 1,500 listings (Growth), and £79.99 for 3,000 listings (Empire)." }},
+              { "@type": "Question", "name": "Is UnicornDS free?", "acceptedAnswer": { "@type": "Answer", "text": "Every plan includes a 14-day free trial with full access. Your card is captured for verification but you are NOT charged during the trial. Plans start at £23.99/month for 500 listings (Starter), £47.99 for 1,500 listings (Growth), and £79.99 for 3,000 listings (Empire). Cancel anytime during the trial and pay nothing." }},
               { "@type": "Question", "name": "How does UnicornDS compare to EcomSniper?", "acceptedAnswer": { "@type": "Answer", "text": "UnicornDS Empire offers 3,000 listings for £79.99/month compared to EcomSniper at $199/month. UnicornDS also includes exclusive features like AI title generation, Stock Checker, VERO protection for 3,390 brands, Smart Order Messages, Check on eBay, Restock tools, and phone auto-capture that EcomSniper does not offer." }},
               { "@type": "Question", "name": "Does UnicornDS work with Amazon and AliExpress?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, UnicornDS supports both Amazon arbitrage (US, UK, DE, AU) and AliExpress dropshipping. You can find products on either platform and list them on any eBay marketplace worldwide." }},
               { "@type": "Question", "name": "What is VERO protection?", "acceptedAnswer": { "@type": "Answer", "text": "VERO (Verified Rights Owner) is eBay's brand protection program. UnicornDS automatically checks every product against 3,390 known VERO brands before listing, preventing account suspensions from intellectual property violations." }},
