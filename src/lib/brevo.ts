@@ -103,6 +103,12 @@ export async function sendWelcomeEmail(email: string, name: string, tier: string
     <div style="text-align:center;margin:24px 0 8px;">
       <a href="https://www.unicornds.io/download" style="background:#7C3AED;color:#fff;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;">Download Extension</a>
     </div>
+
+    <div style="background:#FFF7ED;border:1px solid #F59E0B;border-radius:8px;padding:16px;margin:20px 0;text-align:center;">
+      <h3 style="color:#92400E;margin:0 0 8px;font-size:15px;">🎯 Book Your Free 1-on-1 Onboarding Call</h3>
+      <p style="color:#78350F;font-size:13px;margin:0 0 12px;">Get a personal walkthrough with our founder. We will set up everything together — your settings, first listings, and answer all your questions.</p>
+      <a href="https://calendly.com/1stunicornltd/30min" style="background:#F59E0B;color:#fff;padding:10px 28px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:13px;">Book 30-Min Call (Free)</a>
+    </div>
   `);
 
   return sendBrevoEmail({ to: email, toName: name, subject: `Welcome to UnicornDS — Your ${tierName} trial is active!`, html });

@@ -286,6 +286,16 @@ export default function DownloadPage() {
           </details>
         </div>
 
+        {/* Onboarding Call */}
+        <div className="bg-gradient-to-r from-[#F59E0B]/15 to-[#7C3AED]/15 border border-[#F59E0B]/30 rounded-xl p-6 mb-6 text-center">
+          <p className="text-lg font-bold text-white mb-1">🎯 Need Help Getting Started?</p>
+          <p className="text-sm text-[#a5a0cc] mb-4">Book a free 30-min onboarding call with our founder. We will walk you through everything — installation, settings, your first listing.</p>
+          <a href="https://calendly.com/1stunicornltd/30min" target="_blank" rel="noopener noreferrer"
+            className="inline-block px-8 py-3 bg-[#F59E0B] hover:bg-[#D97706] text-white rounded-xl text-sm font-bold transition-colors">
+            Book Free Onboarding Call
+          </a>
+        </div>
+
         {/* Support */}
         <div className="mt-12 text-center">
           <p className="text-sm text-[#6b6899]">

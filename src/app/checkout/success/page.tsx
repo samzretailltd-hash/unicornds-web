@@ -38,6 +38,16 @@ function SuccessContent() {
         <Link href="/download" className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold inline-block">
           Download Extension
         </Link>
+
+        <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 rounded-lg p-4 mt-5">
+          <p className="text-sm text-white font-semibold mb-1">🎯 Want a personal setup?</p>
+          <p className="text-xs text-[#a5a0cc] mb-3">Book a free 30-min onboarding call with our founder. We will set up everything together.</p>
+          <a href="https://calendly.com/1stunicornltd/30min" target="_blank" rel="noopener noreferrer"
+            className="inline-block px-6 py-2 bg-[#F59E0B] hover:bg-[#D97706] text-white rounded-lg text-xs font-bold transition-colors">
+            Book Free Onboarding Call
+          </a>
+        </div>
+
         <p className="text-xs text-[#6b6899] mt-4">Redirecting in {countdown}s...</p>
       </div>
     </div>

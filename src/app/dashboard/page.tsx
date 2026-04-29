@@ -232,6 +232,20 @@ export default function DashboardPage() {
           </div>
         )}
 
+        {/* Onboarding Call Banner — shown for trial users */}
+        {profile && (profile.tier === "trial" || profile.tier === "free" || profile.tier === "starter" || profile.tier === "growth" || profile.tier === "empire") && (
+          <a href="https://calendly.com/1stunicornltd/30min" target="_blank" rel="noopener noreferrer"
+            className="block bg-gradient-to-r from-[#F59E0B]/15 to-[#7C3AED]/15 border border-[#F59E0B]/30 rounded-xl p-4 mb-6 hover:border-[#F59E0B]/60 transition-colors">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-bold text-white">🎯 Book Your Free 1-on-1 Onboarding Call</p>
+                <p className="text-xs text-[#a5a0cc] mt-0.5">30-min Google Meet with our founder — we will set up everything together</p>
+              </div>
+              <span className="px-4 py-2 bg-[#F59E0B] text-white text-xs font-bold rounded-lg flex-shrink-0">Book Now</span>
+            </div>
+          </a>
+        )}
+
         {/* Video Tutorials */}
         <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
