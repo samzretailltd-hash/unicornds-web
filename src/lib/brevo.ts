@@ -198,3 +198,46 @@ export async function sendAdminPaymentFailed(email: string, tier: string) {
 
   return sendBrevoEmail({ to: ADMIN_EMAIL, subject: `⚠️ Payment failed: ${email} (${tier})`, html });
 }
+
+// ═══════════════════════════════════════════════
+// 6. ONBOARDING INVITE — sent to existing users
+// ═══════════════════════════════════════════════
+export async function sendOnboardingInvite(email: string, name: string) {
+  const firstName = name ? name.split(' ')[0] : 'there';
+  const html = wrapTemplate(`
+    <h2 style="color:#1E1B4B;margin:0 0 16px;">Hey ${firstName}! 👋</h2>
+    
+    <p style="color:#333;font-size:15px;line-height:1.6;">
+      Thank you for joining UnicornDS! I am Zohaib, the founder, and I want to make sure you get the most out of the tool.
+    </p>
+
+    <div style="background:#FFF7ED;border:2px solid #F59E0B;border-radius:12px;padding:24px;margin:20px 0;text-align:center;">
+      <h3 style="color:#92400E;margin:0 0 8px;font-size:18px;">🎯 Book Your Free 1-on-1 Onboarding Call</h3>
+      <p style="color:#78350F;font-size:14px;margin:0 0 16px;line-height:1.5;">
+        I will personally walk you through everything:<br/>
+        ✅ Setting up your extension and pricing rules<br/>
+        ✅ Finding your first winning products<br/>
+        ✅ Creating your first eBay listings<br/>
+        ✅ Answering all your questions
+      </p>
+      <a href="https://calendly.com/1stunicornltd/30min" style="background:#F59E0B;color:#fff;padding:14px 36px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;display:inline-block;">Book Your Free 30-Min Call</a>
+      <p style="color:#92400E;font-size:12px;margin:10px 0 0;">30 minutes · Google Meet · Weekdays 9am-5pm UK time</p>
+    </div>
+
+    <p style="color:#333;font-size:14px;line-height:1.6;">
+      This is completely free and there is no pressure — I just want to help you get started right and make your first sales faster.
+    </p>
+
+    <p style="color:#333;font-size:14px;line-height:1.6;">
+      If you prefer to learn on your own, we also have video tutorials on your <a href="https://www.unicornds.io/dashboard" style="color:#7C3AED;">dashboard</a>.
+    </p>
+
+    <p style="color:#333;font-size:14px;line-height:1.6;">
+      Looking forward to speaking with you!<br/>
+      <strong>Zohaib Hassan</strong><br/>
+      <span style="color:#666;font-size:13px;">Founder, UnicornDS</span>
+    </p>
+  `);
+
+  return sendBrevoEmail({ to: email, toName: name, subject: `🎯 ${firstName}, let's set up your UnicornDS together — book your free call`, html });
+}

@@ -196,6 +196,34 @@ export default function AdminPage() {
 
         {/* Users Tab */}
         {tab === "users" && (
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm text-[#a5a0cc]">{users.length} users</p>
+              <button
+                onClick={async () => {
+                  if (!confirm("Send onboarding invite email to ALL users who haven't received it yet?")) return;
+                  try {
+                    const token = await auth.currentUser?.getIdToken();
+                    const res = await fetch("/api/admin/send-onboarding", {
+                      method: "POST",
+                      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                    });
+                    const data = await res.json();
+                    if (data.ok) {
+                      const sent = data.results.filter((r: any) => r.status.includes("sent")).length;
+                      alert(`✅ Onboarding emails sent!\n\n${sent} emails sent out of ${data.total} users.\n\n${data.results.map((r: any) => `${r.email}: ${r.status}`).join("\n")}`);
+                    } else {
+                      alert("Error: " + (data.error || "Unknown error"));
+                    }
+                  } catch (e: any) {
+                    alert("Failed: " + e.message);
+                  }
+                }}
+                className="px-4 py-2 bg-[#F59E0B] hover:bg-[#D97706] text-white rounded-lg text-xs font-bold transition-colors"
+              >
+                📧 Send Onboarding Email to All
+              </button>
+            </div>
           <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -249,6 +277,7 @@ export default function AdminPage() {
                 </tbody>
               </table>
             </div>
+          </div>
           </div>
         )}
 
