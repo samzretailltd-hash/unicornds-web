@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { stripe, PRICE_TO_TIER } from "@/lib/stripe";
+import { sendWelcomeEmail, sendAdminNewPayment, sendAdminCancellation, sendAdminPaymentFailed } from "@/lib/brevo";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -38,6 +39,10 @@ export async function POST(req: NextRequest) {
             updated_at: new Date().toISOString(),
           }, { merge: true });
           console.log("[Stripe] Card verified:", session.customer_email, "-> free (100 listings)");
+          // Send welcome email + admin notification
+          const email = session.customer_email || "";
+          sendWelcomeEmail(email, "", "free", 0).catch(() => {});
+          sendAdminNewPayment({ email, tier: "free", amount: 0, currency: "gbp", period: "n/a", isTrial: false }).catch(() => {});
           break;
         }
 
@@ -50,12 +55,16 @@ export async function POST(req: NextRequest) {
         const tierInfo = priceId ? PRICE_TO_TIER[priceId] : null;
         const tier = tierInfo?.tier || session.metadata?.tier || "starter";
         const tokensTotal = tierInfo?.tokensTotal || 500;
+        const isTrialing = sub.status === "trialing";
+        const trialEnd = (sub as any).trial_end
+          ? new Date((sub as any).trial_end * 1000).toISOString()
+          : null;
 
         await adminDb.collection("users").doc(uid).set({
           tier,
           tokensUsed: 0,
           tokensTotal,
-          status: "active",
+          status: isTrialing ? "trialing" : "active",
           stripe_customer_id: session.customer as string,
           stripe_subscription_id: subscriptionId,
           card_verified: true,
@@ -63,6 +72,7 @@ export async function POST(req: NextRequest) {
           billing_period_end: (sub as any).current_period_end
             ? new Date((sub as any).current_period_end * 1000).toISOString()
             : null,
+          trial_end: trialEnd,
           updated_at: new Date().toISOString(),
         }, { merge: true });
 
@@ -78,6 +88,18 @@ export async function POST(req: NextRequest) {
           received_at: new Date().toISOString(),
         });
         console.log("[Stripe] Paid:", session.customer_email, "->", tier);
+        // Send welcome email + admin notification
+        const custEmail = session.customer_email || "";
+        const userName = session.customer_details?.name || "";
+        sendWelcomeEmail(custEmail, userName, tier, isTrialing ? 14 : 0).catch(() => {});
+        sendAdminNewPayment({
+          email: custEmail,
+          tier,
+          amount: (session.amount_total || 0) / 100,
+          currency: session.currency || "gbp",
+          period: tierInfo?.period || "monthly",
+          isTrial: isTrialing,
+        }).catch(() => {});
         break;
       }
 
@@ -90,6 +112,11 @@ export async function POST(req: NextRequest) {
         const tierInfo = priceId ? PRICE_TO_TIER[priceId] : null;
 
         if (tierInfo) {
+          const isTrialing = sub.status === "trialing";
+          const trialEnd = (sub as any).trial_end
+            ? new Date((sub as any).trial_end * 1000).toISOString()
+            : null;
+
           await adminDb.collection("users").doc(uid).set({
             tier: tierInfo.tier,
             tokensTotal: tierInfo.tokensTotal,
@@ -97,15 +124,19 @@ export async function POST(req: NextRequest) {
             billing_period_end: (sub as any).current_period_end
               ? new Date((sub as any).current_period_end * 1000).toISOString()
               : null,
+            status: isTrialing ? "trialing" : "active",
+            trial_end: trialEnd,
             updated_at: new Date().toISOString(),
           }, { merge: true });
         }
 
+        // Reset usage on renewal or trial→active transition
         if (sub.status === "active" && !(sub as any).cancel_at_period_end) {
           await adminDb.collection("users").doc(uid).set({
             tokensUsed: 0,
             status: "active",
           }, { merge: true });
+          console.log("[Stripe] Subscription active:", uid, "-> reset usage");
         }
         break;
       }
@@ -125,6 +156,10 @@ export async function POST(req: NextRequest) {
           updated_at: new Date().toISOString(),
         }, { merge: true });
         console.log("[Stripe] Cancelled:", uid, "-> free");
+        // Notify admin
+        const cancelledUser = await adminDb.collection("users").doc(uid).get();
+        const cancelledEmail = cancelledUser.data()?.email || uid;
+        sendAdminCancellation(cancelledEmail, sub.metadata?.tier || "unknown").catch(() => {});
         break;
       }
 
@@ -141,6 +176,10 @@ export async function POST(req: NextRequest) {
           updated_at: new Date().toISOString(),
         }, { merge: true });
         console.log("[Stripe] Payment failed:", uid);
+        // Notify admin
+        const failedUser = await adminDb.collection("users").doc(uid).get();
+        const failedEmail = failedUser.data()?.email || uid;
+        sendAdminPaymentFailed(failedEmail, sub?.metadata?.tier || "unknown").catch(() => {});
         break;
       }
     }

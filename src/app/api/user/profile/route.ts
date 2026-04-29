@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
+import { sendAdminNewSignup } from "@/lib/brevo";
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,6 +29,15 @@ export async function POST(req: NextRequest) {
       created_at: new Date().toISOString(),
       last_login: new Date().toISOString(),
     }, { merge: true });
+
+    // Notify admin about new signup (fire and forget)
+    sendAdminNewSignup({
+      email: decoded.email || "",
+      fullName: fullName || "",
+      phone: phone || "",
+      country: country || "",
+      ip,
+    }).catch(() => {});
 
     return NextResponse.json({ ok: true });
   } catch (err) {

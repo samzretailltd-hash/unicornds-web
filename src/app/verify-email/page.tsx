@@ -17,7 +17,7 @@ export default function VerifyEmailPage() {
     return onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
-      if (u?.emailVerified) router.push("/pricing");
+      if (u?.emailVerified) router.push("/select-plan");
     });
   }, [router]);
 

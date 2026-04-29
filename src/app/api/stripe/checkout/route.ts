@@ -4,7 +4,7 @@ import { stripe, TIER_PRICES } from "@/lib/stripe";
 
 export async function POST(req: NextRequest) {
   try {
-    const { token, tier, period } = await req.json();
+    const { token, tier, period, trial } = await req.json();
 
     if (!token) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     const decoded = await adminAuth.verifyIdToken(token);
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ url: session.url });
     }
 
-    // PAID TIERS: Charge immediately, no trial
+    // PAID TIERS: With or without trial
     const prices = TIER_PRICES[tier];
     if (!prices) return NextResponse.json({ error: "Invalid tier" }, { status: 400 });
     const priceId = period === "yearly" ? prices.yearly : prices.monthly;
@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
       customer_email: customerId ? undefined : decoded.email!,
       line_items: [{ price: priceId, quantity: 1 }],
       subscription_data: {
+        trial_period_days: trial ? 14 : undefined,
         metadata: {
           firebase_uid: decoded.uid,
           tier,
@@ -63,8 +64,15 @@ export async function POST(req: NextRequest) {
         period: period || "monthly",
       },
       success_url: `${req.nextUrl.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.nextUrl.origin}/pricing`,
+      cancel_url: `${req.nextUrl.origin}/select-plan`,
       allow_promotion_codes: true,
+      ...(trial ? {
+        custom_text: {
+          submit: {
+            message: `Your 14-day free trial starts now. You will NOT be charged until the trial ends. Cancel anytime.`,
+          },
+        },
+      } : {}),
     });
 
     return NextResponse.json({ url: session.url });
