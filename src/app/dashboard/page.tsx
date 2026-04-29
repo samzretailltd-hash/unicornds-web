@@ -61,6 +61,12 @@ export default function DashboardPage() {
       const tier = (raw.tier || "trial").toLowerCase();
       const tc = TIER_CONFIG[tier] || TIER_CONFIG.trial;
 
+      // Gate: If user hasn't selected a plan and verified card, redirect to select-plan
+      if (!raw.card_verified && !raw.stripe_subscription_id && tier !== "starter" && tier !== "growth" && tier !== "empire") {
+        router.push("/select-plan");
+        return;
+      }
+
       setProfile({
         tier,
         tierName: tc.name,
@@ -133,7 +139,7 @@ export default function DashboardPage() {
           <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-5 mb-6 text-center">
             <p className="text-lg font-bold text-red-400 mb-2">Your trial has ended</p>
             <p className="text-sm text-[#a5a0cc] mb-4">Upgrade to a paid plan to continue listing products and growing your eBay business.</p>
-            <Link href="/pricing" className="btn-primary px-8 py-3 rounded-xl text-sm font-bold inline-block">Choose Your Plan — from £29.99/mo</Link>
+            <Link href="/pricing" className="btn-primary px-8 py-3 rounded-xl text-sm font-bold inline-block">Start Your 14-Day Free Trial</Link>
           </div>
         )}
 

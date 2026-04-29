@@ -10,10 +10,10 @@ ABOUT UNICORNDS:
 
 PRICING PLANS:
 - Free: £0/mo, 10 listings/month, basic features
-- Starter: £29.99/mo (annual £287.88), 500 listings/month, Product Hunter unlimited, Competitor Scanner 5/day, Stock Checker 20/day, Bulk Lister 1 tab
-- Growth: £59.99/mo (annual £575.88), 1,500 listings/month, AI titles GPT-4o, unlimited Competitor Scanner & Stock Checker, Image Designer, Tracker, Send Offers, 5 bulk tabs
-- Empire: £99.99/mo (annual £959.88), 3,000 listings/month, 10 bulk tabs, 5 hunt tabs, MSKU builder, purchase history, auto-order, priority support
-- 7-day money-back guarantee, payment via Revolut
+- Starter: £23.99/mo (14-day free trial, then £23.99/mo), 500 listings/month, Product Hunter unlimited, Competitor Scanner 5/day, Stock Checker 20/day, Bulk Lister 1 tab
+- Growth: £47.99/mo (14-day free trial, then £47.99/mo), 1,500 listings/month, AI titles GPT-4o, unlimited Competitor Scanner & Stock Checker, Image Designer, Tracker, Send Offers, 5 bulk tabs
+- Empire: £79.99/mo (14-day free trial, then £79.99/mo), 3,000 listings/month, 10 bulk tabs, 5 hunt tabs, MSKU builder, purchase history, auto-order, priority support
+- 14-day free trial on all plans, payment via Revolut
 
 KEY FEATURES:
 1. Product Hunter: Search Amazon by keyword, sort by reviews, VERO check, stock check

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://www.unicornds.io" },
   openGraph: {
     title: "UnicornDS — Find, List & Sell on eBay Automatically",
-    description: "Amazon arbitrage + AliExpress dropshipping in one Chrome extension. AI titles, bulk listing, competitor scanning. Free plan available.",
+    description: "Amazon arbitrage + AliExpress dropshipping in one Chrome extension. AI titles, bulk listing, competitor scanning. 14-day free trial available.",
     url: "https://www.unicornds.io",
     siteName: "UnicornDS",
     locale: "en",

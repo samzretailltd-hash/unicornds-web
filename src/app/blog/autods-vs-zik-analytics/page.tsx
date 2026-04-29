@@ -53,7 +53,7 @@ export default function Article() {
 
           <h2>The Alternative: UnicornDS</h2>
           <p>UnicornDS combines product research (Product Hunter, Competitor Scanner) with listing automation (bulk lister, AI titles, image upload) in a single Chrome extension. Plus features that neither AutoDS nor ZIK offer: built-in VERO protection checking 3,357 brands, per-variant image upload, and zero API access to your eBay account.</p>
-          <p>Starting from just £29.99/month for the Starter plan, UnicornDS replaces both AutoDS and ZIK at a lower combined cost — with better privacy and exclusive features.</p>
+          <p>Starting from just £23.99/month for the Starter plan, UnicornDS replaces both AutoDS and ZIK at a lower combined cost — with better privacy and exclusive features.</p>
           <p><Link href="/pricing">Compare plans and try UnicornDS free →</Link></p>
 
           <RelatedArticles currentSlug="autods-vs-zik-analytics" tags={["comparison", "tools", "autods"]} />

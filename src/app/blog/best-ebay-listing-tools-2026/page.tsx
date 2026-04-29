@@ -56,8 +56,8 @@ export default function BestToolsArticle() {
               <div>Feature</div><div>UnicornDS</div><div>EcomSniper</div><div>AutoDS</div>
             </div>
             {[
-              ["Price (3000 listings)", "£99.99/mo", "$199/mo", "$197/mo"],
-              ["Free plan", "✓ 10/mo", "✗", "✗"],
+              ["Price (3000 listings)", "£79.99/mo", "$199/mo", "$197/mo"],
+              ["14-day free trial", "✓ 10/mo", "✗", "✗"],
               ["Product Hunter", "✓", "✓", "✓"],
               ["Competitor Scanner", "✓", "✗", "Limited"],
               ["Stock Checker", "✓", "✗", "✓"],
@@ -87,7 +87,7 @@ export default function BestToolsArticle() {
           <p>The most important thing is to <strong>pick a tool and start listing</strong>. Analysis paralysis kills more eBay businesses than bad tools do.</p>
 
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
-            <h3 className="text-lg font-bold text-white mb-2">Try UnicornDS free — no credit card needed</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Try UnicornDS free — card captured, not charged during trial</h3>
             <p className="text-sm text-[#a5a0cc] mb-4">10 free listings per month. Product Hunter, eBay research buttons, and VERO checking included. Upgrade when you are ready.</p>
             <Link href={SITE.chrome_store} target="_blank" className="btn-primary px-6 py-2.5 rounded-xl text-sm font-bold inline-block no-underline">Install UnicornDS Free</Link>
           </div>

@@ -62,7 +62,7 @@ export default function Article() {
           <p>With UnicornDS, experienced users list 100+ products per day. The process for each product takes approximately 20-30 seconds of active time — the extension handles the rest. Compare that to 5-10 minutes per listing manually, and you save 8+ hours per day at scale.</p>
 
           <h2>Get Started Free</h2>
-          <p>UnicornDS has a free plan that lets you try the extension with limited listings per day. No credit card required, no API key needed. Install the Chrome extension and start listing immediately.</p>
+          <p>UnicornDS has a 14-day free trial that lets you try the extension with limited listings per day. Card captured, not charged during trial, no API key needed. Install the Chrome extension and start listing immediately.</p>
           <p><Link href="/pricing">Try UnicornDS free →</Link></p>
 
           <RelatedArticles currentSlug="ebay-bulk-lister-chrome-extension" tags={["tools", "listing", "feature"]} />

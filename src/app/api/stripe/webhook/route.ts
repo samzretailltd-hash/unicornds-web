@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
             card_verified_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
           }, { merge: true });
-          console.log("[Stripe] Card verified:", session.customer_email, "-> free (100 listings)");
+          console.log("[Stripe] Card verified:", session.customer_email, "-> free (card verified)");
           // Send welcome email + admin notification
           const email = session.customer_email || "";
           sendWelcomeEmail(email, "", "free", 0).catch(() => {});

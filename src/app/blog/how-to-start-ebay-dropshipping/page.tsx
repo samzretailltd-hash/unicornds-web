@@ -63,7 +63,7 @@ export default function DropshippingArticle() {
           <h2>Step 3: Install Your Tools</h2>
           <p>Manual dropshipping is possible but extremely slow. A single listing takes 10-15 minutes to create manually. With the right tools, you can list in under 30 seconds.</p>
           <p><strong>UnicornDS</strong> is a Chrome extension built specifically for eBay dropshippers. It handles product research (finding profitable items), VERO checking (avoiding restricted brands), stock verification (confirming availability), and automated listing (creating eBay listings in one click).</p>
-          <p>The free plan gives you 10 listings per month — enough to test the business model before investing.</p>
+          <p>The 14-day free trial gives you full access to your chosen plan — enough to test the business model before investing.</p>
 
           <h2>Step 4: Find Your First Products</h2>
           <p>Start with products that have high demand and low competition. Look for items with many reviews on Amazon (proven sellers) that are not heavily listed on eBay.</p>

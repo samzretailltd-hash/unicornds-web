@@ -38,7 +38,7 @@ export default function VsAutoDS() {
         </div>
         <div className="space-y-6 text-[15px] text-[#c8c4e0] leading-relaxed [&_h2]:font-[family-name:var(--font-display)] [&_h2]:text-2xl [&_h2]:font-extrabold [&_h2]:text-white [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_strong]:text-white [&_a]:text-[#A78BFA] [&_a]:underline">
           <h2>Overview</h2>
-          <p><strong>UnicornDS</strong> is a Chrome extension that works directly inside eBay, Amazon, and AliExpress pages. It scrapes product data, generates AI titles, checks VERO brands, and creates eBay listings without leaving your browser. Pricing starts free with paid plans from £29.99 per month.</p>
+          <p><strong>UnicornDS</strong> is a Chrome extension that works directly inside eBay, Amazon, and AliExpress pages. It scrapes product data, generates AI titles, checks VERO brands, and creates eBay listings without leaving your browser. Pricing starts free with paid plans from £23.99 per month.</p>
           <p><strong>AutoDS</strong> is a web-based platform that runs from its own dashboard. It connects to your eBay account via API and manages listings, pricing, and orders from a central interface. Pricing starts at $26.90 per month for 200 products.</p>
 
           <h2>Key Differences</h2>
@@ -56,7 +56,7 @@ export default function VsAutoDS() {
           <p>UnicornDS uses GPT-4o to generate SEO-optimised 80-character eBay titles from product data. AutoDS uses its own AI title generator. Both work well, but UnicornDS gives you more control over the output.</p>
 
           <h3>Pricing</h3>
-          <p>UnicornDS offers a free plan with 10 listings per month, then £29.99 for 500 listings, £59.99 for 1,500, and £99.99 for 3,000. AutoDS starts at $26.90 per month for 200 products and goes up to $55.90 for 800 products. For high-volume sellers, UnicornDS offers significantly more listings per pound spent.</p>
+          <p>UnicornDS offers a 14-day free trial with full access for 14 days, then £23.99 for 500 listings, £47.99 for 1,500, and £79.99 for 3,000. AutoDS starts at $26.90 per month for 200 products and goes up to $55.90 for 800 products. For high-volume sellers, UnicornDS offers significantly more listings per pound spent.</p>
 
           <h3>Stock Monitoring</h3>
           <p>Both tools monitor stock levels on source platforms. AutoDS checks stock automatically on a schedule. UnicornDS Stock Checker verifies on-demand before listing and can batch-check all products.</p>
@@ -66,11 +66,11 @@ export default function VsAutoDS() {
           <p><strong>Choose AutoDS if:</strong> You prefer a central dashboard, you manage hundreds of existing products that need automatic repricing, or you primarily use suppliers other than Amazon and AliExpress.</p>
 
           <h2>Verdict</h2>
-          <p>For most eBay sellers starting out or doing Amazon to eBay arbitrage, UnicornDS provides better value with its free plan, built-in research tools, and VERO protection. AutoDS is a solid choice for established sellers who need automated inventory management across multiple suppliers.</p>
+          <p>For most eBay sellers starting out or doing Amazon to eBay arbitrage, UnicornDS provides better value with its 14-day free trial, built-in research tools, and VERO protection. AutoDS is a solid choice for established sellers who need automated inventory management across multiple suppliers.</p>
 
           <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
             <h3 className="text-white text-lg font-bold mb-2">Try UnicornDS Free</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">Start with 10 free listings per month. No credit card required. Includes Product Hunter, VERO checking, and AI titles.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">Start with 10 free listings per month. Card captured, not charged during trial. Includes Product Hunter, VERO checking, and AI titles.</p>
             <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Get Started Free &rarr;</Link>
           </div>
           <RelatedArticles currentSlug="unicornds-vs-autods" tags={["comparison", "tools", "autods"]} />

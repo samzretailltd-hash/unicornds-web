@@ -10,7 +10,7 @@ const sections = [
     icon: "🚀",
     title: "Getting Started",
     items: [
-      { title: "Create Your Account", content: "Go to unicornds.io/signup. Enter your full name, email, and password. Your 14-day free trial starts immediately with 100 listings, AI titles, Product Hunter, and VERO protection." },
+      { title: "Create Your Account", content: "Go to unicornds.io/signup. Enter your full name, email, and password. Your 14-day free trial starts immediately with full access — AI titles, Product Hunter, and VERO protection." },
       { title: "Download & Install", content: "Log in at unicornds.io/download, click the download button, unzip the file, then go to chrome://extensions, enable Developer Mode, and click 'Load unpacked' to select the folder. Works on Chrome, Edge, Brave, and Opera." },
       { title: "Log In to the Extension", content: "Click the UnicornDS icon in your toolbar. Enter the same email and password you used on the website. You'll see the Listing tab with your plan details." },
       { title: "Forgot Password?", content: "Go to unicornds.io/login, enter your email, and click 'Forgot password?' below the login button. Check your inbox for a reset link from noreply@unicorn-ds-7f831.firebaseapp.com. Check spam if you don't see it within a minute." },
@@ -140,7 +140,7 @@ const sections = [
     icon: "👑",
     title: "Plans & Billing",
     items: [
-      { title: "Free Trial", content: "14 days, 100 listings. No credit card required." },
+      { title: "Free Trial", content: "14 days, full access to your plan. Card captured, not charged during trial." },
       { title: "Starter — £23.99/mo", content: "500 listings/month, Product Hunter, AI titles, 5 competitor scans/day." },
       { title: "Growth — £47.99/mo", content: "1,500 listings, 5 bulk tabs, unlimited scanner, Image Designer, Address Helper." },
       { title: "Empire — £79.99/mo", content: "3,000 listings, 10 bulk tabs, MSKU builder, priority support. Works across multiple eBay accounts." },

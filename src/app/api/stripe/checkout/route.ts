@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
         },
         custom_text: {
           submit: {
-            message: "You will NOT be charged. We verify your card to prevent abuse. You get 100 free eBay listings — no hidden fees, cancel anytime.",
+            message: "You will NOT be charged. We verify your card to prevent abuse. Your 14-day free trial starts now. You will NOT be charged until the trial ends. Cancel anytime.",
           },
         },
         success_url: `${req.nextUrl.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,

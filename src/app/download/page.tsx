@@ -79,14 +79,14 @@ export default function DownloadPage() {
             Install UnicornDS
           </h1>
           <p className="text-[#a5a0cc] mb-8 leading-relaxed">
-            Create a free account to start your 14-day trial. No credit card required.
+            Create a free account to start your 14-day trial. Card captured, not charged during trial.
           </p>
 
           <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-8 mb-6">
             <img src="/logo.png" alt="UnicornDS" className="w-12 h-12 mx-auto mb-4 rounded-lg" />
             <h3 className="text-lg font-bold text-white mb-2">Your 14-Day Trial Includes</h3>
             <div className="text-left max-w-xs mx-auto space-y-2 text-sm text-[#a5a0cc]">
-              <p className="flex gap-2"><span className="text-[#10B981]">✓</span> 100 listings in 14 days</p>
+              <p className="flex gap-2"><span className="text-[#10B981]">✓</span> Full access for 14 days</p>
               <p className="flex gap-2"><span className="text-[#10B981]">✓</span> AI Title Builder (GPT-4o)</p>
               <p className="flex gap-2"><span className="text-[#10B981]">✓</span> Product Hunter (unlimited)</p>
               <p className="flex gap-2"><span className="text-[#10B981]">✓</span> Competitor Scanner (3/day)</p>

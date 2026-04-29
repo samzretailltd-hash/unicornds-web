@@ -78,7 +78,7 @@ export default function CompetitorResearchToolsArticle() {
                     ["VERO filtering", "✓ 3,390 brands", "✗", "✗", "Basic", "Basic", "✗"],
                     ["Export to list", "✓ One-click", "CSV only", "CSV only", "✓", "✓", "CSV only"],
                     ["Source price data", "Amazon + Ali", "eBay only", "eBay only", "Multi", "Amazon + Ali", "Active only"],
-                    ["Free plan / trial", "14-day trial", "7-day paid", "Free w/ Basic eBay", "No", "No", "No"],
+                    ["14-day free trial / trial", "14-day trial", "7-day paid", "Free w/ Basic eBay", "No", "No", "No"],
                   ].map(([feature, uni, zik, ter, auto, ecom, eb]) => (
                     <tr key={feature} className="border-t border-[#3d3580]/30">
                       <td className="p-3 text-[#a5a0cc] font-medium">{feature}</td>
@@ -95,7 +95,7 @@ export default function CompetitorResearchToolsArticle() {
             </div>
 
             <h2>1. UnicornDS Competitor Scanner — Best All-in-One</h2>
-            <p><strong>Type:</strong> Chrome extension<br/><strong>Pricing:</strong> Included in all paid plans (£29.99+/month); 14-day free trial<br/><strong>Best for:</strong> Sellers who want to research and list in the same tool</p>
+            <p><strong>Type:</strong> Chrome extension<br/><strong>Pricing:</strong> Included in all paid plans (£23.99+/month); 14-day free trial<br/><strong>Best for:</strong> Sellers who want to research and list in the same tool</p>
 
             <div className="my-6 rounded-xl overflow-hidden border border-[#3d3580]">
               <Image src="/screenshots/competitor-scanner.png" alt="UnicornDS Competitor Scanner pulling active listings from an eBay seller URL with VERO badges and margin estimates" width={1200} height={700} className="w-full h-auto" />
@@ -105,7 +105,7 @@ export default function CompetitorResearchToolsArticle() {
             <p>The Competitor Scanner in UnicornDS is the core research tool for most users. You paste any eBay seller URL — yours, a competitor, a rival dropshipper — and the tool pulls their complete active listings into a table with titles, prices, stock, sales indicators, and VERO status. You can then filter to hide VERO products, sort by price or estimated sales, and push the ones you want directly into the Bulk Lister to list on your own account.</p>
             <p><strong>What sets it apart:</strong> It is the only research tool that is also a listing tool. Most sellers research in Zik or Terapeak, export to CSV, then open a second tool to list. UnicornDS closes that loop — you go from &quot;I found a winner&quot; to &quot;it is live on my eBay&quot; in 30 seconds.</p>
             <p><strong>What it does not do:</strong> Deep historical market analysis like Zik. If you want to know the 12-month sales trend for a category, Zik is the better tool. UnicornDS is built for operational research — find products, list products, move on.</p>
-            <p><strong>Pricing:</strong> Unlimited Competitor Scanner is included in Growth (£59.99) and Empire (£99.99). Starter (£29.99) includes 5 seller scans per day, which is fine for most people.</p>
+            <p><strong>Pricing:</strong> Unlimited Competitor Scanner is included in Growth (£47.99) and Empire (£79.99). Starter (£23.99) includes 5 seller scans per day, which is fine for most people.</p>
 
             <h2>2. Zik Analytics — Best Deep Market Intelligence</h2>
             <p><strong>Type:</strong> Web platform<br/><strong>Pricing:</strong> $14.99–$44.99/month<br/><strong>Best for:</strong> Serious market analysis before entering a niche</p>
@@ -136,7 +136,7 @@ export default function CompetitorResearchToolsArticle() {
 
             <p>EcomSniper includes a Competitor Research feature that works similarly to UnicornDS Competitor Scanner. Paste a seller URL, get their listings, sort, list. It is a solid tool and has been around for years in the US seller community.</p>
             <p><strong>What sets it apart:</strong> Established user base, mature tool with reliable scraping.</p>
-            <p><strong>What it does not do:</strong> Deep VERO filtering. The pricing is the bigger issue — $199/month flat is hard to justify in 2026 when UnicornDS Empire offers the same research plus bulk listing, AI titles, and order management for £99.99 (~$127). <Link href="/blog/unicornds-vs-ecomsniper">Full EcomSniper comparison here</Link>.</p>
+            <p><strong>What it does not do:</strong> Deep VERO filtering. The pricing is the bigger issue — $199/month flat is hard to justify in 2026 when UnicornDS Empire offers the same research plus bulk listing, AI titles, and order management for £79.99 (~$102). <Link href="/blog/unicornds-vs-ecomsniper">Full EcomSniper comparison here</Link>.</p>
             <p><strong>Pricing:</strong> $199/month, no trial, no tiers.</p>
 
             <h2>6. eBextractor — Simple Seller URL Export</h2>
@@ -163,8 +163,8 @@ export default function CompetitorResearchToolsArticle() {
             <h2>Which Research Tool Fits Your Stage?</h2>
             <p>The right tool depends on your stage of the dropshipping journey.</p>
             <p><strong>Brand new, no budget:</strong> Start with eBay Hot Product Finder (free) plus Terapeak (free with eBay Store). These get you 2-3 weeks of learning before you need anything else.</p>
-            <p><strong>First 3 months, ready to invest:</strong> UnicornDS 14-day trial (free) then Starter (£29.99). You get Competitor Scanner, Product Hunter, AI titles, VERO, and listing in one tool. This is the fastest path from research to first sale.</p>
-            <p><strong>Serious dropshipper scaling past 500 listings:</strong> Zik Analytics Enterprise ($44.99) for deep market analysis plus UnicornDS Growth (£59.99) for operational research and listing. The two together are what most experienced sellers use. Combined cost around $120/month for capabilities that would cost $300+ in siloed tools.</p>
+            <p><strong>First 3 months, ready to invest:</strong> UnicornDS 14-day trial (free) then Starter (£23.99). You get Competitor Scanner, Product Hunter, AI titles, VERO, and listing in one tool. This is the fastest path from research to first sale.</p>
+            <p><strong>Serious dropshipper scaling past 500 listings:</strong> Zik Analytics Enterprise ($44.99) for deep market analysis plus UnicornDS Growth (£47.99) for operational research and listing. The two together are what most experienced sellers use. Combined cost around $120/month for capabilities that would cost $300+ in siloed tools.</p>
             <p><strong>Already locked into AutoDS or EcomSniper:</strong> Use their built-in research. Avoid adding a third tool unless you have a specific gap. <Link href="/blog/chrome-extensions-ebay-sellers">See our Chrome extension roundup for alternatives</Link>.</p>
             <p><strong>Need only CSV exports for a specific use case:</strong> eBextractor is the cheapest way to dump a competitor inventory. Not recommended as a primary workflow.</p>
 
@@ -211,7 +211,7 @@ export default function CompetitorResearchToolsArticle() {
 
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
               <h3 className="text-white text-lg font-bold mb-2">Scan any eBay competitor in seconds</h3>
-              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS Competitor Scanner pulls active listings from any eBay seller URL with VERO filtering and one-click listing. 14-day free trial, no credit card needed.</p>
+              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS Competitor Scanner pulls active listings from any eBay seller URL with VERO filtering and one-click listing. 14-day free trial, card captured, not charged during trial.</p>
               <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Start Free Trial &rarr;</Link>
             </div>
             <RelatedArticles currentSlug="best-ebay-competitor-research-tools" tags={["tools", "comparison", "listing"]} />
