@@ -365,6 +365,21 @@ export default function AdminPage() {
                           className={`px-2 py-1 rounded text-xs font-bold ${u.status === "blocked" ? "bg-green-600/20 text-green-400 hover:bg-green-600/40" : "bg-red-600/20 text-red-400 hover:bg-red-600/40"}`}>
                           {u.status === "blocked" ? "Unblock" : "Block"}
                         </button>
+                        <button onClick={async () => {
+                          if (!confirm(`Manually verify email for ${u.email}?`)) return;
+                          const token = await getToken();
+                          const res = await fetch("/api/admin/verify-email", {
+                            method: "POST",
+                            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                            body: JSON.stringify({ email: u.email }),
+                          });
+                          const data = await res.json();
+                          if (data.ok) alert(`✅ Email verified for ${u.email}`);
+                          else alert("Error: " + (data.error || "Unknown"));
+                        }}
+                          className="px-2 py-1 rounded text-xs font-bold bg-blue-600/20 text-blue-400 hover:bg-blue-600/40">
+                          ✓ Verify
+                        </button>
                         <button onClick={() => deleteUsers([u.uid])}
                           className="px-2 py-1 rounded text-xs font-bold bg-red-900/20 text-red-500 hover:bg-red-900/40">
                           Del
