@@ -254,11 +254,12 @@ export default function DashboardPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {([
-              { id: "55JYQU06leM", title: "How to Install UnicornDS", duration: "1:29", step: "1" },
-              { id: "cIcomEFnEFw", title: "Extension Walkthrough & Settings", duration: "1:28", step: "2" },
-              { id: "uEr6XeOGEII", title: "Image Designer Setup", duration: "2:29", step: "3" },
-              { id: "qRzkR1AmnLQ", title: "List from AliExpress to eBay", duration: "2:47", step: "4" },
-              { id: "9WZ7cu4-XJY", title: "Amazon to eBay Arbitrage", duration: "2:59", step: "5" },
+              { id: "0u0vlAgMG58", title: "How to Install UnicornDS", duration: "1:32", step: "1" },
+              { id: "_neMDbXWwmg", title: "Settings — Profit Margins, AI Titles", duration: "1:28", step: "2" },
+              { id: "YF4Uwc_9K90", title: "Image Designer — Trust Badges", duration: "2:30", step: "3" },
+              { id: "_SXume4vtdk", title: "AliExpress to eBay — 52% Profit", duration: "2:47", step: "4" },
+              { id: "qo9WLT6FDWg", title: "Amazon to eBay Arbitrage — 38% Profit", duration: "3:11", step: "5" },
+              { id: "65tT3HfHQbg", title: "Product Hunter — Find 45+ Products", duration: "5:45", step: "6" },
             ]).map((v) => (
               <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer"
                 className="group block rounded-lg overflow-hidden border border-[#3d3580]/50 hover:border-[#7C3AED]/50 transition-all">
