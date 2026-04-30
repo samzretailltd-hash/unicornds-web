@@ -216,6 +216,31 @@ export default function AdminPage() {
                 <div className="text-xs text-[#6b6899] mt-1">Based on active subscriptions</div>
               </div>
             </div>
+            <div className="mt-4">
+              <button
+                onClick={async () => {
+                  if (!confirm("Sync all subscription data from Stripe? This updates expiry dates and status.")) return;
+                  try {
+                    const token = await auth.currentUser?.getIdToken();
+                    const res = await fetch("/api/admin/sync-stripe", {
+                      method: "POST",
+                      headers: { Authorization: `Bearer ${token}` },
+                    });
+                    const data = await res.json();
+                    if (data.ok) {
+                      const synced = data.results.filter((r: any) => r.status.includes("synced")).length;
+                      alert(`✅ Synced ${synced} subscriptions from Stripe.\n\n${data.results.map((r: any) => `${r.email}: ${r.status}`).join("\n")}`);
+                      fetchData();
+                    } else {
+                      alert("Error: " + (data.error || "Unknown"));
+                    }
+                  } catch (e: any) { alert("Failed: " + e.message); }
+                }}
+                className="px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-lg text-xs font-bold transition-colors"
+              >
+                🔄 Sync Subscriptions from Stripe
+              </button>
+            </div>
           </div>
         )}
         {tab === "overview" && !stats && <p className="text-[#a5a0cc]">Loading stats...</p>}
