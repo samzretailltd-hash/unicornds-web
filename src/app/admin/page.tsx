@@ -194,6 +194,7 @@ export default function AdminPage() {
               {[
                 ["Total Users", stats.users.total, "#7C3AED"],
                 ["Free", stats.users.free, "#6b6899"],
+                ["Trial", (stats.users as any).trial || 0, "#F59E0B"],
                 ["Starter", stats.users.starter, "#7C3AED"],
                 ["Growth", stats.users.growth, "#10B981"],
                 ["Empire", stats.users.empire, "#F59E0B"],
@@ -204,9 +205,16 @@ export default function AdminPage() {
                 </div>
               ))}
             </div>
-            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-5">
-              <div className="text-sm text-[#a5a0cc] mb-1">Total Revenue</div>
-              <div className="text-3xl font-bold text-[#F59E0B]">£{stats.revenue.total.toFixed(2)}</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-5">
+                <div className="text-sm text-[#a5a0cc] mb-1">Total Revenue</div>
+                <div className="text-3xl font-bold text-[#F59E0B]">£{stats.revenue.total.toFixed(2)}</div>
+              </div>
+              <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-5">
+                <div className="text-sm text-[#a5a0cc] mb-1">Monthly Recurring (MRR)</div>
+                <div className="text-3xl font-bold text-[#10B981]">£{((stats.revenue as any).monthly || 0).toFixed(2)}</div>
+                <div className="text-xs text-[#6b6899] mt-1">Based on active subscriptions</div>
+              </div>
             </div>
           </div>
         )}
