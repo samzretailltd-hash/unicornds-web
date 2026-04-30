@@ -21,13 +21,13 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        const sub = await stripe.subscriptions.retrieve(subId);
+        const sub = await stripe.subscriptions.retrieve(subId) as any;
         const update: Record<string, unknown> = {
           billing_period_end: sub.current_period_end
             ? new Date(sub.current_period_end * 1000).toISOString()
             : null,
-          trial_end: (sub as any).trial_end
-            ? new Date((sub as any).trial_end * 1000).toISOString()
+          trial_end: sub.trial_end
+            ? new Date(sub.trial_end * 1000).toISOString()
             : null,
           status: sub.status === "trialing" ? "trialing" : sub.status === "active" ? "active" : data.status,
           synced_at: new Date().toISOString(),
