@@ -7,7 +7,7 @@ const ADMIN_EMAILS = ["samzretailltd@gmail.com", "zohaib219@gmail.com", "support
 const TIERS = ["trial", "expired", "free", "starter", "growth", "empire"];
 const TIER_COLORS: Record<string, string> = { trial: "#7C3AED", expired: "#EF4444", free: "#6b6899", starter: "#7C3AED", growth: "#10B981", empire: "#F59E0B" };
 
-interface UserData { uid: string; email?: string; fullName?: string; phone?: string; country?: string; tier?: string; status?: string; ref?: string; signup_ip?: string; last_ip?: string; created_at?: unknown; billing_period_end?: string; usage?: Record<string, unknown>; }
+interface UserData { uid: string; email?: string; fullName?: string; phone?: string; country?: string; tier?: string; status?: string; ref?: string; signup_ip?: string; last_ip?: string; created_at?: unknown; billing_period_end?: string; trial_end?: string; tokensUsed?: number; tokensTotal?: number; card_verified?: boolean; usage?: Record<string, unknown>; }
 interface Stats { users: { total: number; free: number; starter: number; growth: number; empire: number }; payments: unknown[]; revenue: { total: number; currency: string }; }
 
 export default function AdminPage() {
@@ -231,28 +231,49 @@ export default function AdminPage() {
                   <tr className="bg-[#2d2766] text-left">
                     <th className="p-3 text-[#a5a0cc] font-medium">Name</th>
                     <th className="p-3 text-[#a5a0cc] font-medium">Email</th>
+                    <th className="p-3 text-[#a5a0cc] font-medium">Tier</th>
+                    <th className="p-3 text-[#a5a0cc] font-medium">Usage</th>
+                    <th className="p-3 text-[#a5a0cc] font-medium">Expires</th>
                     <th className="p-3 text-[#a5a0cc] font-medium">Phone</th>
                     <th className="p-3 text-[#a5a0cc] font-medium">Country</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Tier</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Ref</th>
                     <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
                     <th className="p-3 text-[#a5a0cc] font-medium">IP</th>
                     <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map(u => (
+                  {users.map(u => {
+                    const used = u.tokensUsed || 0;
+                    const total = u.tokensTotal || 0;
+                    const usagePercent = total > 0 ? Math.round((used / total) * 100) : 0;
+                    const expiryDate = u.trial_end || u.billing_period_end;
+                    const daysLeft = expiryDate ? Math.max(0, Math.ceil((new Date(expiryDate).getTime() - Date.now()) / 86400000)) : null;
+                    return (
                     <tr key={u.uid} className="border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30">
                       <td className="p-3 text-white text-xs">{u.fullName || "—"}</td>
                       <td className="p-3 text-white text-xs">{u.email || u.uid.slice(0, 12)}</td>
-                      <td className="p-3 text-[#a5a0cc] text-xs">{u.phone || "—"}</td>
-                      <td className="p-3 text-[#a5a0cc] text-xs">{u.country || "—"}</td>
                       <td className="p-3">
                         <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: (TIER_COLORS[u.tier || "free"] || "#6b6899") + "20", color: TIER_COLORS[u.tier || "free"] }}>
                           {(u.tier || "free").toUpperCase()}
                         </span>
                       </td>
-                      <td className="p-3 text-[#a5a0cc] text-xs">{u.ref || "—"}</td>
+                      <td className="p-3 text-xs">
+                        <div className="flex items-center gap-2">
+                          <div className="w-16 h-1.5 bg-[#0f0e1a] rounded-full overflow-hidden">
+                            <div className="h-full rounded-full" style={{ width: `${Math.min(100, usagePercent)}%`, background: usagePercent > 90 ? '#EF4444' : usagePercent > 70 ? '#F59E0B' : '#10B981' }} />
+                          </div>
+                          <span className="text-[#a5a0cc]">{used}/{total}</span>
+                        </div>
+                      </td>
+                      <td className="p-3 text-xs">
+                        {daysLeft !== null ? (
+                          <span className={`${daysLeft <= 3 ? 'text-red-400' : daysLeft <= 7 ? 'text-[#F59E0B]' : 'text-[#10B981]'}`}>
+                            {daysLeft === 0 ? 'Today' : `${daysLeft}d left`}
+                          </span>
+                        ) : <span className="text-[#6b6899]">—</span>}
+                      </td>
+                      <td className="p-3 text-[#a5a0cc] text-xs">{u.phone || "—"}</td>
+                      <td className="p-3 text-[#a5a0cc] text-xs">{u.country || "—"}</td>
                       <td className="p-3">
                         <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${u.status === "blocked" ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"}`}>
                           {u.status === "blocked" ? "BLOCKED" : "ACTIVE"}
@@ -270,9 +291,10 @@ export default function AdminPage() {
                         </button>
                       </td>
                     </tr>
-                  ))}
+                    );
+                  })}
                   {users.length === 0 && (
-                    <tr><td colSpan={9} className="p-8 text-center text-[#6b6899]">No users yet</td></tr>
+                    <tr><td colSpan={10} className="p-8 text-center text-[#6b6899]">No users yet</td></tr>
                   )}
                 </tbody>
               </table>
