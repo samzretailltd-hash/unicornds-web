@@ -20,6 +20,7 @@ export default function AdminPage() {
   const [role, setRole] = useState<"owner" | "support">("support");
   const [stats, setStats] = useState<Stats | null>(null);
   const [users, setUsers] = useState<UserData[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
   const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "" });
   const [saving, setSaving] = useState(false);
   const [affiliates, setAffiliates] = useState<{id:string;name?:string;email?:string;website?:string;audience?:string;promotion_plan?:string;status?:string;applied_at?:string;ref_code?:string;ip?:string}[]>([]);
@@ -92,6 +93,23 @@ export default function AdminPage() {
       body: JSON.stringify({ uid, status: block ? "blocked" : "active" }),
     });
     fetchData();
+  };
+
+  const deleteUsers = async (uids: string[]) => {
+    if (!confirm(`Delete ${uids.length} user${uids.length > 1 ? 's' : ''}? This removes them from Firebase Auth AND Firestore. This cannot be undone.`)) return;
+    const token = await getToken();
+    const res = await fetch("/api/admin/delete-user", {
+      method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ uids }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      alert(`Deleted ${data.results.filter((r: any) => r.status === "deleted").length} users`);
+      setSelectedUsers(new Set());
+      fetchData();
+    } else {
+      alert("Error: " + (data.error || "Unknown error"));
+    }
   };
 
   const handleAffiliate = async (id: string, status: "approved" | "rejected") => {
@@ -198,37 +216,54 @@ export default function AdminPage() {
         {tab === "users" && (
           <div>
             <div className="flex items-center justify-between mb-4">
-              <p className="text-sm text-[#a5a0cc]">{users.length} users</p>
-              <button
-                onClick={async () => {
-                  if (!confirm("Send onboarding invite email to ALL users who haven't received it yet?")) return;
-                  try {
-                    const token = await auth.currentUser?.getIdToken();
-                    const res = await fetch("/api/admin/send-onboarding", {
-                      method: "POST",
-                      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-                    });
-                    const data = await res.json();
-                    if (data.ok) {
-                      const sent = data.results.filter((r: any) => r.status.includes("sent")).length;
-                      alert(`✅ Onboarding emails sent!\n\n${sent} emails sent out of ${data.total} users.\n\n${data.results.map((r: any) => `${r.email}: ${r.status}`).join("\n")}`);
-                    } else {
-                      alert("Error: " + (data.error || "Unknown error"));
+              <p className="text-sm text-[#a5a0cc]">{users.length} users {selectedUsers.size > 0 && <span className="text-[#F59E0B]">({selectedUsers.size} selected)</span>}</p>
+              <div className="flex gap-3">
+                {selectedUsers.size > 0 && (
+                  <button onClick={() => deleteUsers(Array.from(selectedUsers))}
+                    className="px-4 py-2 bg-red-600/20 hover:bg-red-600/40 text-red-400 rounded-lg text-xs font-bold transition-colors">
+                    🗑 Delete Selected ({selectedUsers.size})
+                  </button>
+                )}
+                <button
+                  onClick={async () => {
+                    if (!confirm("Send onboarding invite email to ALL users who haven't received it yet?")) return;
+                    try {
+                      const token = await auth.currentUser?.getIdToken();
+                      const res = await fetch("/api/admin/send-onboarding", {
+                        method: "POST",
+                        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                      });
+                      const data = await res.json();
+                      if (data.ok) {
+                        const sent = data.results.filter((r: any) => r.status.includes("sent")).length;
+                        alert(`✅ Onboarding emails sent!\n\n${sent} emails sent out of ${data.total} users.\n\n${data.results.map((r: any) => `${r.email}: ${r.status}`).join("\n")}`);
+                      } else {
+                        alert("Error: " + (data.error || "Unknown error"));
+                      }
+                    } catch (e: any) {
+                      alert("Failed: " + e.message);
                     }
-                  } catch (e: any) {
-                    alert("Failed: " + e.message);
-                  }
-                }}
-                className="px-4 py-2 bg-[#F59E0B] hover:bg-[#D97706] text-white rounded-lg text-xs font-bold transition-colors"
-              >
-                📧 Send Onboarding Email to All
-              </button>
+                  }}
+                  className="px-4 py-2 bg-[#F59E0B] hover:bg-[#D97706] text-white rounded-lg text-xs font-bold transition-colors"
+                >
+                  📧 Send Onboarding Email to All
+                </button>
+              </div>
             </div>
           <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-[#2d2766] text-left">
+                    <th className="p-3 w-8">
+                      <input type="checkbox"
+                        checked={selectedUsers.size === users.length && users.length > 0}
+                        onChange={e => {
+                          if (e.target.checked) setSelectedUsers(new Set(users.map(u => u.uid)));
+                          else setSelectedUsers(new Set());
+                        }}
+                        className="rounded" />
+                    </th>
                     <th className="p-3 text-[#a5a0cc] font-medium">Name</th>
                     <th className="p-3 text-[#a5a0cc] font-medium">Email</th>
                     <th className="p-3 text-[#a5a0cc] font-medium">Tier</th>
@@ -249,7 +284,15 @@ export default function AdminPage() {
                     const expiryDate = u.trial_end || u.billing_period_end;
                     const daysLeft = expiryDate ? Math.max(0, Math.ceil((new Date(expiryDate).getTime() - Date.now()) / 86400000)) : null;
                     return (
-                    <tr key={u.uid} className="border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30">
+                    <tr key={u.uid} className={`border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30 ${selectedUsers.has(u.uid) ? 'bg-[#7C3AED]/10' : ''}`}>
+                      <td className="p-3">
+                        <input type="checkbox" checked={selectedUsers.has(u.uid)}
+                          onChange={e => {
+                            const next = new Set(selectedUsers);
+                            if (e.target.checked) next.add(u.uid); else next.delete(u.uid);
+                            setSelectedUsers(next);
+                          }} className="rounded" />
+                      </td>
                       <td className="p-3 text-white text-xs">{u.fullName || "—"}</td>
                       <td className="p-3 text-white text-xs">{u.email || u.uid.slice(0, 12)}</td>
                       <td className="p-3">
@@ -289,12 +332,16 @@ export default function AdminPage() {
                           className={`px-2 py-1 rounded text-xs font-bold ${u.status === "blocked" ? "bg-green-600/20 text-green-400 hover:bg-green-600/40" : "bg-red-600/20 text-red-400 hover:bg-red-600/40"}`}>
                           {u.status === "blocked" ? "Unblock" : "Block"}
                         </button>
+                        <button onClick={() => deleteUsers([u.uid])}
+                          className="px-2 py-1 rounded text-xs font-bold bg-red-900/20 text-red-500 hover:bg-red-900/40">
+                          Del
+                        </button>
                       </td>
                     </tr>
                     );
                   })}
                   {users.length === 0 && (
-                    <tr><td colSpan={10} className="p-8 text-center text-[#6b6899]">No users yet</td></tr>
+                    <tr><td colSpan={11} className="p-8 text-center text-[#6b6899]">No users yet</td></tr>
                   )}
                 </tbody>
               </table>
@@ -324,7 +371,13 @@ export default function AdminPage() {
                       <td className="p-4 text-[#F59E0B] font-bold">£{Number(p.amount || 0).toFixed(2)}</td>
                       <td className="p-4 text-[#a5a0cc]">{p.new_tier as string || "—"}</td>
                       <td className="p-4"><span className={`px-2 py-0.5 rounded text-xs ${p.status === "completed" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{p.status as string}</span></td>
-                      <td className="p-4 text-[#a5a0cc]">{p.received_at ? new Date((p.received_at as Record<string, number>)._seconds * 1000).toLocaleDateString() : "—"}</td>
+                      <td className="p-4 text-[#a5a0cc]">{(() => {
+                        const d = p.received_at;
+                        if (!d) return "—";
+                        if (typeof d === "string") return new Date(d).toLocaleDateString();
+                        if ((d as Record<string, number>)._seconds) return new Date((d as Record<string, number>)._seconds * 1000).toLocaleDateString();
+                        return "—";
+                      })()}</td>
                     </tr>
                   ))}
                   {stats.payments.length === 0 && (
