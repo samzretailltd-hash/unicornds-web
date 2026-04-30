@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
-import { sendAdminNewSignup } from "@/lib/brevo";
+import { sendAdminNewSignup, sendTelegram } from "@/lib/brevo";
 
 export async function POST(req: NextRequest) {
   try {
@@ -38,6 +38,9 @@ export async function POST(req: NextRequest) {
       country: country || "",
       ip,
     }).catch(() => {});
+
+    // Instant Telegram alert
+    sendTelegram(`🆕 <b>New Signup!</b>\n👤 ${fullName || "—"}\n📧 ${decoded.email}\n📱 ${phone || "—"}\n🌍 ${country || "—"}\n🔗 ${ip}`).catch(() => {});
 
     return NextResponse.json({ ok: true });
   } catch (err) {

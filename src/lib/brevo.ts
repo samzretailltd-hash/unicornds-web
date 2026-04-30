@@ -200,6 +200,24 @@ export async function sendAdminPaymentFailed(email: string, tier: string) {
 }
 
 // ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// TELEGRAM INSTANT ALERTS
+// ═══════════════════════════════════════════════
+const TG_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8664996953:AAFigg2pFcV5bf9AsiwfD3s2aIDqQBNsNFk";
+const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "7666917392";
+
+export async function sendTelegram(message: string) {
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: TG_CHAT_ID, text: message, parse_mode: "HTML" }),
+    });
+  } catch (e) {
+    console.error("[Telegram] Failed:", e);
+  }
+}
+
 // 6. ONBOARDING INVITE — sent to existing users
 // ═══════════════════════════════════════════════
 export async function sendOnboardingInvite(email: string, name: string) {
