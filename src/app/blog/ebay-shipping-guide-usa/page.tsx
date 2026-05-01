@@ -61,7 +61,7 @@ export default function EbayShippingGuideArticle() {
           </div>
         </div>
 
-        <RelatedArticles current="ebay-shipping-guide-usa" />
+        <RelatedArticles currentSlug="ebay-shipping-guide-usa" tags={["ebay", "dropshipping", "guide"]} />
       </div>
       </article>
     </>

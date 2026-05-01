@@ -81,7 +81,7 @@ export default function EbayReturnPolicyArticle() {
           </div>
         </div>
 
-        <RelatedArticles current="ebay-return-policy-sellers" />
+        <RelatedArticles currentSlug="ebay-return-policy-sellers" tags={["ebay", "dropshipping", "guide"]} />
       </div>
       </article>
     </>

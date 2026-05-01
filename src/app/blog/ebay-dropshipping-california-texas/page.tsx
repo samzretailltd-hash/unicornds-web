@@ -66,7 +66,7 @@ export default function EbayDropshippingCaliforniaTexasArticle() {
           <p className="text-sm text-[#6b6899] mt-6">Disclaimer: This article is for informational purposes only and does not constitute tax or legal advice. Consult a tax professional for advice specific to your situation.</p>
         </div>
 
-        <RelatedArticles current="ebay-dropshipping-california-texas" />
+        <RelatedArticles currentSlug="ebay-dropshipping-california-texas" tags={["ebay", "dropshipping", "guide"]} />
       </div>
       </article>
     </>

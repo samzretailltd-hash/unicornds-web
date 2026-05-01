@@ -62,7 +62,7 @@ export default function EbayStoreSubscriptionArticle() {
           </div>
         </div>
 
-        <RelatedArticles current="ebay-store-subscription-guide" />
+        <RelatedArticles currentSlug="ebay-store-subscription-guide" tags={["ebay", "dropshipping", "guide"]} />
       </div>
       </article>
     </>
