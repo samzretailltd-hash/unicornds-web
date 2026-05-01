@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
           await adminDb.collection("users").doc(uid).set({
             tier: "free",
             tokensUsed: 0,
-            tokensTotal: 100,
+            tokensTotal: 0,
             status: "active",
             stripe_customer_id: (session.customer as string) || null,
             card_verified: true,
@@ -132,13 +132,13 @@ export async function POST(req: NextRequest) {
           }, { merge: true });
         }
 
-        // Reset usage on renewal or trial→active transition
+        // Only update tier/status info, NEVER reset usage here
+        // Usage reset happens ONLY in invoice.payment_succeeded (actual renewal)
         if (sub.status === "active" && !(sub as any).cancel_at_period_end) {
           await adminDb.collection("users").doc(uid).set({
-            tokensUsed: 0,
             status: "active",
           }, { merge: true });
-          console.log("[Stripe] Subscription active:", uid, "-> reset usage");
+          console.log("[Stripe] Subscription active:", uid, "-> status updated (usage NOT reset)");
         }
         break;
       }
@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
         await adminDb.collection("users").doc(uid).set({
           tier: "free",
           tokensUsed: 0,
-          tokensTotal: 100,
+          tokensTotal: 0,
           billing_period: null,
           billing_period_end: null,
           stripe_subscription_id: null,

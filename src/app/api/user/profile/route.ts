@@ -23,6 +23,8 @@ export async function POST(req: NextRequest) {
       country: country || "",
       ref: ref || null,
       tier: "free",
+      tokensUsed: 0,
+      tokensTotal: 0,
       status: "active",
       signup_ip: ip,
       last_ip: ip,

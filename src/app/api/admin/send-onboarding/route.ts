@@ -1,19 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/firebase-admin";
+import { adminAuth, adminDb, verifyAdmin, ADMIN_EMAILS } from "@/lib/firebase-admin";
 import { sendOnboardingInvite } from "@/lib/brevo";
-
-const ADMIN_EMAILS = ["samzretailltd@gmail.com"];
 
 export async function POST(req: NextRequest) {
   try {
-    // Verify admin
-    const authHeader = req.headers.get("authorization");
-    if (!authHeader?.startsWith("Bearer ")) return NextResponse.json({ error: "No token" }, { status: 401 });
-    const token = authHeader.split("Bearer ")[1];
-    const decoded = await adminAuth.verifyIdToken(token);
-    if (!ADMIN_EMAILS.includes(decoded.email || "")) {
-      return NextResponse.json({ error: "Not admin" }, { status: 403 });
-    }
+    const admin = await verifyAdmin(req.headers.get("authorization"));
+    if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     // Get all users from Firestore
     const usersSnap = await adminDb.collection("users").get();

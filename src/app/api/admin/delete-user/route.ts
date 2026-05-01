@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/firebase-admin";
-
-const ADMIN_EMAILS = ["samzretailltd@gmail.com"];
+import { adminAuth, adminDb, verifyAdmin } from "@/lib/firebase-admin";
 
 export async function POST(req: NextRequest) {
   try {
-    const authHeader = req.headers.get("authorization");
-    if (!authHeader?.startsWith("Bearer ")) return NextResponse.json({ error: "No token" }, { status: 401 });
-    const token = authHeader.split("Bearer ")[1];
-    const decoded = await adminAuth.verifyIdToken(token);
-    if (!ADMIN_EMAILS.includes(decoded.email || "")) {
-      return NextResponse.json({ error: "Not admin" }, { status: 403 });
-    }
+    const admin = await verifyAdmin(req.headers.get("authorization"));
+    if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { uids } = await req.json();
     if (!uids || !Array.isArray(uids) || uids.length === 0) {

@@ -70,13 +70,13 @@ export default function AdminPage() {
     const token = await getToken();
     const end = new Date(); end.setMonth(end.getMonth() + 1);
     const trialEnd = new Date(); trialEnd.setDate(trialEnd.getDate() + 14);
-    const tokenTotals: Record<string, number> = { trial: 100, expired: 0, free: 10, starter: 500, growth: 1500, empire: 3000 };
+    const tokenTotals: Record<string, number> = { trial: 0, expired: 0, free: 0, starter: 500, growth: 1500, empire: 3000 };
     await fetch("/api/admin/update-tier", {
       method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         uid, tier,
         tokensTotal: tokenTotals[tier] || 100,
-        tokensUsed: 0,
+        // DON'T reset tokensUsed — keep their current usage
         billing_period_end: ["starter", "growth", "empire"].includes(tier) ? end.toISOString() : null,
         trialStartDate: tier === "trial" ? new Date().toISOString() : null,
         trialEndDate: tier === "trial" ? trialEnd.toISOString() : null,

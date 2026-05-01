@@ -1,7 +1,7 @@
 // Brevo (SendinBlue) email utility
 // Sends transactional emails: welcome, admin alerts, support
 
-const BREVO_KEY = process.env.BREVO_KEY || "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";
+const BREVO_KEY = process.env.BREVO_KEY || "";
 const ADMIN_EMAIL = "samzretailltd@gmail.com";
 const FROM_EMAIL = "hello@unicornds.io";
 const FROM_NAME = "UnicornDS";
@@ -18,6 +18,7 @@ async function sendBrevoEmail({
   html: string;
 }) {
   try {
+    if (!BREVO_KEY) { console.warn("[Brevo] No API key set — skipping email"); return false; }
     const res = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
@@ -203,11 +204,12 @@ export async function sendAdminPaymentFailed(email: string, tier: string) {
 // ═══════════════════════════════════════════════
 // TELEGRAM INSTANT ALERTS
 // ═══════════════════════════════════════════════
-const TG_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8664996953:AAFigg2pFcV5bf9AsiwfD3s2aIDqQBNsNFk";
-const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "7666917392";
+const TG_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
+const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "";
 
 export async function sendTelegram(message: string) {
   try {
+    if (!TG_BOT_TOKEN || !TG_CHAT_ID) { console.warn("[Telegram] No token/chat_id — skipping"); return; }
     await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
