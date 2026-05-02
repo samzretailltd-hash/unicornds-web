@@ -180,6 +180,15 @@ export default function DashboardPage() {
           )}
         </div>
 
+                {/* Update Banner */}
+        <div className="bg-[#7C3AED]/15 border border-[#7C3AED]/30 rounded-xl px-5 py-3 flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <span>⚡</span>
+            <p className="text-sm text-[#ccc]"><span className="font-bold text-white">v7.12.1</span> — Order Manager fixed, full order sync (900+), exact earnings, CSV export/import</p>
+          </div>
+          <a href="https://www.unicornds.io/download" target="_blank" rel="noopener noreferrer" className="bg-[#F59E0B] hover:bg-[#fbbf24] text-[#1a1a2e] text-xs font-bold px-4 py-1.5 rounded-lg transition-colors shrink-0">Update</a>
+        </div>
+
         {/* Stats Grid */}
         {profile && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
