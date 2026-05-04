@@ -141,7 +141,9 @@ export function HomeContent() {
               <img src="/logos/amazon.svg" alt="Amazon" className="inline-block h-5 sm:h-6 align-middle mx-1 brightness-0 invert" />{" "}
               for fast delivery or{" "}
               <img src="/logos/aliexpress.svg" alt="AliExpress" className="inline-block h-5 sm:h-6 align-middle mx-1 brightness-0 invert" />{" "}
-              for maximum margins. List on eBay in seconds with AI-powered automation.
+              for maximum margins. List on{" "}
+              <img src="/logos/ebay.svg" alt="eBay" className="inline-block h-5 sm:h-6 align-middle mx-1" />{" "}
+              in seconds with AI-powered automation.
             </p>
           </Reveal>
 
