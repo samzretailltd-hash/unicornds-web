@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { SITE } from "@/lib/constants";
 import { PricingSection } from "@/components/PricingSection";
+import { HeroSlider } from "@/components/HeroSlider";
 import { useGeo } from "@/lib/geo";
 import { t } from "@/lib/i18n";
 
@@ -212,6 +213,10 @@ export function HomeContent() {
           </div>
         </Reveal>
       </section>
+
+      {/* ════════ TRUST SLIDER — VERO, Privacy, Data Safety ════════ */}
+      <div className="section-divider" />
+      <HeroSlider />
 
       {/* ════════ BENTO FEATURES GRID ════════ */}
       <section id="features" className="py-20">
