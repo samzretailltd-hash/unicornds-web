@@ -163,7 +163,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex gap-2">
-              {profile?.stripe_subscription_id && (
+              {(tier === "starter" || tier === "growth" || tier === "empire") && (
                 <button
                   onClick={async () => {
                     try {
@@ -177,8 +177,8 @@ export default function DashboardPage() {
                       });
                       const data = await res.json();
                       if (data.url) window.location.href = data.url;
-                      else alert(data.error || "Could not open billing portal.");
-                    } catch { alert("Something went wrong."); }
+                      else alert(data.error || "No subscription found. If you need help, email support@unicornds.io");
+                    } catch { alert("Something went wrong. Email support@unicornds.io for help."); }
                   }}
                   className="px-4 py-2.5 rounded-lg text-sm font-bold border border-[#3d3580] text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-colors"
                 >
@@ -186,7 +186,7 @@ export default function DashboardPage() {
                 </button>
               )}
               <Link href="/pricing" className="btn-primary px-5 py-2.5 rounded-lg text-sm font-bold text-center">
-                {tier === "empire" ? "Manage Plan" : "Upgrade Plan"}
+                {tier === "empire" ? "View Plans" : "Upgrade Plan"}
               </Link>
             </div>
           </div>
