@@ -134,10 +134,14 @@ export function HomeContent() {
             </h1>
           </Reveal>
 
-          {/* Subtitle */}
+          {/* Subtitle with inline logos */}
           <Reveal delay={0.2}>
             <p className="text-lg sm:text-xl text-[#8b85b1] max-w-2xl mx-auto mb-10 leading-relaxed">
-              {renderSubtitle(t('hero.subtitle', l))}
+              Source from{" "}
+              <img src="/logos/amazon.svg" alt="Amazon" className="inline-block h-5 sm:h-6 align-middle mx-1 brightness-0 invert" />{" "}
+              for fast delivery or{" "}
+              <img src="/logos/aliexpress.svg" alt="AliExpress" className="inline-block h-5 sm:h-6 align-middle mx-1 brightness-0 invert" />{" "}
+              for maximum margins. List on eBay in seconds with AI-powered automation.
             </p>
           </Reveal>
 
