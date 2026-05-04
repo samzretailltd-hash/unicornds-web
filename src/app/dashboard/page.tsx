@@ -37,6 +37,8 @@ interface UserProfile {
   tracker: boolean;
   billing_period_end: string | null;
   trialEndDate: string | null;
+  stripe_subscription_id?: string;
+  stripe_customer_id?: string;
 }
 
 export default function DashboardPage() {
@@ -84,6 +86,8 @@ export default function DashboardPage() {
         tracker: tc.tracker,
         billing_period_end: raw.renewalDate || null,
         trialEndDate: raw.trialEndDate || null,
+        stripe_subscription_id: raw.stripe_subscription_id || "",
+        stripe_customer_id: raw.stripe_customer_id || "",
       });
     } catch {
       setProfileError("Could not connect to server");
@@ -158,9 +162,33 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            <Link href="/pricing" className="btn-primary px-5 py-2.5 rounded-lg text-sm font-bold text-center">
-              {tier === "empire" ? "Manage Plan" : "Upgrade Plan"}
-            </Link>
+            <div className="flex gap-2">
+              {profile?.stripe_subscription_id && (
+                <button
+                  onClick={async () => {
+                    try {
+                      const u = auth.currentUser;
+                      if (!u) return;
+                      const token = await u.getIdToken();
+                      const res = await fetch("/api/stripe/portal", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ token }),
+                      });
+                      const data = await res.json();
+                      if (data.url) window.location.href = data.url;
+                      else alert(data.error || "Could not open billing portal.");
+                    } catch { alert("Something went wrong."); }
+                  }}
+                  className="px-4 py-2.5 rounded-lg text-sm font-bold border border-[#3d3580] text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-colors"
+                >
+                  Manage Subscription
+                </button>
+              )}
+              <Link href="/pricing" className="btn-primary px-5 py-2.5 rounded-lg text-sm font-bold text-center">
+                {tier === "empire" ? "Manage Plan" : "Upgrade Plan"}
+              </Link>
+            </div>
           </div>
 
           {/* Usage bar */}
@@ -178,15 +206,6 @@ export default function DashboardPage() {
               </div>
             </div>
           )}
-        </div>
-
-                {/* Update Banner */}
-        <div className="bg-[#7C3AED]/15 border border-[#7C3AED]/30 rounded-xl px-5 py-3 flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <span>⚡</span>
-            <p className="text-sm text-[#ccc]"><span className="font-bold text-white">v7.12.1</span> — Order Manager fixed, full order sync (900+), exact earnings, CSV export/import</p>
-          </div>
-          <a href="https://www.unicornds.io/download" target="_blank" rel="noopener noreferrer" className="bg-[#F59E0B] hover:bg-[#fbbf24] text-[#1a1a2e] text-xs font-bold px-4 py-1.5 rounded-lg transition-colors shrink-0">Update</a>
         </div>
 
         {/* Stats Grid */}
