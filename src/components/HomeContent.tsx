@@ -119,6 +119,13 @@ export function HomeContent() {
             </div>
           </Reveal>
 
+          {/* Logo */}
+          <Reveal delay={0.05}>
+            <div className="flex justify-center mb-6">
+              <img src="/logo.png" alt="UnicornDS" width={80} height={80} className="drop-shadow-[0_0_30px_rgba(245,158,11,0.3)]" />
+            </div>
+          </Reveal>
+
           {/* Headline */}
           <Reveal delay={0.1}>
             <h1 className="font-[family-name:var(--font-display)] text-[36px] sm:text-6xl lg:text-[80px] font-extrabold leading-[1.05] mb-6 tracking-[-0.02em]">
