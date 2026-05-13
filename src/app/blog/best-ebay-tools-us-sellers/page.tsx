@@ -67,7 +67,7 @@ export default function BestEbayToolsArticle() {
                 </thead>
                 <tbody>
                   {[
-                    ["Free / Trial plan", "✓ 14-day", "✗ Paid only", "✗ Paid only", "✗ Paid only", "✗ Paid only"],
+                    ["Free / Trial plan", "✓ £1 7-day", "✗ Paid only", "✗ Paid only", "✗ Paid only", "✗ Paid only"],
                     ["Product Hunter", "✓ Amazon keyword", "Limited", "✓ Research only", "✓", "✓"],
                     ["Competitor Scanner", "✓ Unlimited", "Limited", "✓", "✗", "✓"],
                     ["Bulk Lister", "✓ 10 tabs", "✓", "✗", "✓", "✓"],
@@ -107,7 +107,7 @@ export default function BestEbayToolsArticle() {
                 </thead>
                 <tbody>
                   {[
-                    ["UnicornDS", "£23.99 / ~$30", "£47.99 / ~$61", "£79.99 / ~$102", "14-day trial"],
+                    ["UnicornDS", "£23.99 / ~$30", "£47.99 / ~$61", "£79.99 / ~$102", "7-day £1 trial"],
                     ["AutoDS", "$26.90", "~$47.90", "~$99+ (add-on)", "No"],
                     ["Zik Analytics", "$14.99", "$44.99 (Enterprise)", "Research only", "7-day paid trial"],
                     ["DSM Tool", "$24.97", "$49.97 (Pro)", "Custom", "Limited trial"],
@@ -130,7 +130,7 @@ export default function BestEbayToolsArticle() {
             <p className="text-xs text-[#6b6899]">Prices in GBP and USD as listed on each tool&apos;s official pricing page, April 2026. Approximate currency conversion where shown.</p>
 
             <h2>1. UnicornDS — Best Overall for Amazon Arbitrage &amp; AliExpress</h2>
-            <p><strong>Type:</strong> Chrome extension (Manifest V3)<br/><strong>Best for:</strong> Sellers doing Amazon-to-eBay arbitrage or AliExpress dropshipping who want everything in one tool<br/><strong>Pricing:</strong> 14-day trial free, then £23.99, £47.99 or £79.99 per month</p>
+            <p><strong>Type:</strong> Chrome extension (Manifest V3)<br/><strong>Best for:</strong> Sellers doing Amazon-to-eBay arbitrage or AliExpress dropshipping who want everything in one tool<br/><strong>Pricing:</strong> 7-day £1 trial free, then £23.99, £47.99 or £79.99 per month</p>
 
             <div className="my-6 rounded-xl overflow-hidden border border-[#3d3580]">
               <Image src="/screenshots/product-hunter.png" alt="UnicornDS Product Hunter screenshot showing Amazon keyword search with VERO badges and stock verification" width={1200} height={700} className="w-full h-auto" />
@@ -140,8 +140,8 @@ export default function BestEbayToolsArticle() {
             <p><strong>What it does well:</strong> UnicornDS works directly inside the pages you already use. You are browsing Amazon, you see a product you like, you click one button and it is on eBay 45 seconds later with an AI-generated title, clean images, and VERO pre-cleared. The Product Hunter searches Amazon by any keyword and returns results with reviews, price, stock, and VERO status in one table. The Competitor Scanner lets you paste any eBay seller URL and pull their active listings. The Bulk Lister runs up to 10 tabs in parallel, so you can list 100+ products in an hour without touching your keyboard.</p>
             <p>The thing that sets it apart is the combination. Most tools are good at one thing. UnicornDS does research, listing, VERO, AI titles, bulk, stock, orders, and image design in the same extension for the same price.</p>
             <p><strong>Weaknesses:</strong> Chrome and Edge only — no mobile app, no Firefox. Newer than AutoDS so smaller community. If you already have a huge existing eBay inventory managed somewhere else, migrating listings across is manual.</p>
-            <p><strong>Real pricing:</strong> 14-day trial is actually free — card captured, not charged during trial, full access during trial. Starter at £23.99 gets you 500 listings per month. Growth at £47.99 gets you 1,500 listings plus unlimited Competitor Scanner and Image Designer. Empire at £79.99 gets you 3,000 listings, 10 concurrent bulk tabs, and auto-order pipeline.</p>
-            <p><strong>Verdict:</strong> Best overall value in the market for 2026. The free trial alone is worth testing before you pay for anything else.</p>
+            <p><strong>Real pricing:</strong> 7-day £1 trial is actually free — £1 charged today, cancel anytime, full access for 7 days. Starter at £23.99 gets you 500 listings per month. Growth at £47.99 gets you 1,500 listings plus unlimited Competitor Scanner and Image Designer. Empire at £79.99 gets you 3,000 listings, 10 concurrent bulk tabs, and auto-order pipeline.</p>
+            <p><strong>Verdict:</strong> Best overall value in the market for 2026. The £1 trial alone is worth testing before you pay for anything else.</p>
 
             <h2>2. AutoDS — Best for Automated Repricing on Large Catalogues</h2>
             <p><strong>Type:</strong> Web-based dashboard<br/><strong>Best for:</strong> Established sellers with 500+ existing listings who need hands-off inventory management<br/><strong>Pricing:</strong> $26.90/month (200 products) to $55.90/month (800 products), with add-ons for more</p>
@@ -212,12 +212,12 @@ export default function BestEbayToolsArticle() {
               <p className="text-xs text-[#6b6899] p-3 bg-[#1E1B4B]/60">AI Title Builder in action — UnicornDS uses GPT-4o to generate eBay-optimised 80-character titles from source product data.</p>
             </div>
 
-            <p><strong>You are brand new and want to test if eBay dropshipping works for you:</strong> UnicornDS 14-day trial. Zero cost during trial, full access to your chosen plan. Card captured, not charged during trial. You can see if eBay is for you before spending a single pound.</p>
+            <p><strong>You are brand new and want to test if eBay dropshipping works for you:</strong> UnicornDS 7-day £1 trial. Zero cost during trial, full access to your chosen plan. £1 charged today, cancel anytime. You can see if eBay is for you before spending a single pound.</p>
             <p><strong>You do Amazon-to-eBay arbitrage:</strong> UnicornDS Growth or Empire. The Product Hunter keyword search inside Amazon plus the Stock Checker and AI titles are built for this exact workflow. <Link href="/blog/amazon-to-ebay-arbitrage">See our full Amazon to eBay arbitrage guide</Link>.</p>
             <p><strong>You source from AliExpress primarily:</strong> UnicornDS (Growth or Empire) for the Address Helper and VERO database, or SuperDS if you want an AliExpress-only tool. <Link href="/blog/aliexpress-to-ebay-dropshipping">See our AliExpress to eBay strategy</Link>.</p>
             <p><strong>You manage 1,000+ existing listings across many suppliers:</strong> AutoDS for automated repricing, or DSM Tool for multi-supplier sourcing. If you are mostly Amazon and AliExpress, UnicornDS Empire is cheaper and has more research depth.</p>
             <p><strong>You mainly need deep research before entering a niche:</strong> Zik Analytics for the research, then UnicornDS to actually list. Many successful sellers use both.</p>
-            <p><strong>You are on the tightest possible budget:</strong> Start with the free eBay Hot Product Finder to research, then upgrade to the UnicornDS 14-day trial when you are ready to list. Skip SaleFreaks — the feature gap is too large to justify even the small price.</p>
+            <p><strong>You are on the tightest possible budget:</strong> Start with the free eBay Hot Product Finder to research, then upgrade to the UnicornDS 7-day £1 trial when you are ready to list. Skip SaleFreaks — the feature gap is too large to justify even the small price.</p>
 
             <h2>The Mistake Most Sellers Make When Choosing a Tool</h2>
             <p>The biggest mistake is picking a tool based on the cheapest sticker price and then outgrowing it within a month. SaleFreaks at $21.95 looks cheap until you realise you need to list 800 products and the plan caps at 100. Then you are paying $81.95 for something UnicornDS Growth does better at £47.99 (~$61).</p>
@@ -235,7 +235,7 @@ export default function BestEbayToolsArticle() {
             <h2>Frequently Asked Questions</h2>
 
             <h3>What is the best eBay tool for beginners in 2026?</h3>
-            <p>UnicornDS 14-day trial is the best starting point because it costs zero and gives you full Starter features including Product Hunter, AI titles, and VERO protection. You can list up to 100 products during the trial and see whether eBay works for you before you spend anything.</p>
+            <p>UnicornDS 7-day £1 trial is the best starting point because it costs zero and gives you full Starter features including Product Hunter, AI titles, and VERO protection. You can list up to 100 products during the trial and see whether eBay works for you before you spend anything.</p>
 
             <h3>Do I need a paid tool to sell on eBay?</h3>
             <p>For casual selling of personal items, no. For a dropshipping or arbitrage business with 50+ listings per month, yes. Manual listing at 10-15 minutes per product is not sustainable above 20 products per week. A tool pays for itself in the time it saves within the first 10 days.</p>
@@ -259,9 +259,9 @@ export default function BestEbayToolsArticle() {
             <p>UnicornDS, AutoDS, DSM Tool, SuperDS, and EcomSniper all support AliExpress sourcing. UnicornDS also has the Address Helper that auto-fills AliExpress checkout with eBay buyer addresses, which saves an hour per day once you hit 20+ orders per day.</p>
 
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
-              <h3 className="text-white text-lg font-bold mb-2">Try the #1 rated eBay tool free for 14 days</h3>
-              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS offers a 14-day free trial on every plan. Full access to Product Hunter, Competitor Scanner, AI titles, VERO protection, and Bulk Lister. full access during trial.</p>
-              <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Start Free Trial &rarr;</Link>
+              <h3 className="text-white text-lg font-bold mb-2">Try the #1 rated eBay tool for just £1</h3>
+              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS offers a 7-day trial for just £1 on every plan. Full access to Product Hunter, Competitor Scanner, AI titles, VERO protection, and Bulk Lister. full access for 7 days.</p>
+              <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Try 7 Days for £1 &rarr;</Link>
             </div>
             <RelatedArticles currentSlug="best-ebay-tools-us-sellers" tags={["tools", "comparison", "listing"]} />
           </div>

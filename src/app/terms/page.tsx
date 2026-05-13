@@ -17,17 +17,17 @@ export default function Terms() {
           <li>You must provide a valid email address to create an account.</li>
           <li>You are responsible for maintaining the security of your account credentials.</li>
           <li>You must be at least 18 years old to use UnicornDS.</li>
-          <li>One account per person. Creating multiple accounts to abuse free trials is prohibited and will result in account termination.</li>
+          <li>One account per person. Creating multiple accounts to abuse £1 trials is prohibited and will result in account termination.</li>
           <li>You agree to provide accurate information and to update it if it changes.</li>
         </ul>
 
-        <h2>3. Free Trial</h2>
+        <h2>3. £1 Trial</h2>
         <ul>
-          <li>New users receive a <strong>14-day free trial</strong> with full access to the features of their chosen plan.</li>
+          <li>New users receive a <strong>7-day trial for just £1</strong> with full access to the features of their chosen plan.</li>
           <li>Your card is captured for verification only — you are not charged during the trial period.</li>
-          <li>Each person is entitled to <strong>one free trial only</strong>. Attempts to create multiple trials using different email addresses or devices will be detected and blocked.</li>
+          <li>Each person is entitled to <strong>one £1 trial only</strong>. Attempts to create multiple trials using different email addresses or devices will be detected and blocked.</li>
           <li>When the trial expires, your account will be restricted. Your existing eBay listings remain live, but you cannot create new ones without upgrading to a paid plan.</li>
-          <li>We reserve the right to modify or discontinue the free trial at any time.</li>
+          <li>We reserve the right to modify or discontinue the £1 trial at any time.</li>
         </ul>
 
         <h2>4. Paid Subscriptions</h2>
@@ -41,7 +41,7 @@ export default function Terms() {
 
         <h2>5. Refund Policy</h2>
         <ul>
-          <li>We offer a <strong>14-day free trial on all plans</strong> on all paid plans.</li>
+          <li>We offer a <strong>7-day trial for just £1 on all plans</strong> on all paid plans.</li>
           <li>If you are not satisfied within 7 days of your first payment, contact us for a full refund.</li>
           <li>Refunds after the 7-day period are not available, as the service has been provided.</li>
           <li>Refunds are processed within 5-10 business days to the original payment method.</li>

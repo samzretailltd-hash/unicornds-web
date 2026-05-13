@@ -86,7 +86,7 @@ export async function sendWelcomeEmail(email: string, name: string, tier: string
   const html = wrapTemplate(`
     <h2 style="color:#1E1B4B;margin:0 0 16px;">Welcome to UnicornDS, ${name || "there"}! 🎉</h2>
     <p style="color:#333;font-size:15px;line-height:1.6;">
-      Your <strong>${tierName}</strong> plan is now active with a <strong>${trialDays}-day free trial</strong>.
+      Your <strong>${tierName}</strong> plan is now active with a <strong>${trialDays}-day £1 trial</strong>.
       Your card will not be charged until the trial ends.
     </p>
     
@@ -159,7 +159,7 @@ export async function sendAdminNewPayment(data: {
     <table style="width:100%;border-collapse:collapse;font-size:14px;">
       <tr><td style="padding:8px 0;color:#666;width:100px;">Email:</td><td style="padding:8px 0;color:#333;font-weight:bold;">${data.email}</td></tr>
       <tr><td style="padding:8px 0;color:#666;">Plan:</td><td style="padding:8px 0;color:#333;font-weight:bold;">${tierName}</td></tr>
-      <tr><td style="padding:8px 0;color:#666;">Amount:</td><td style="padding:8px 0;color:#333;">${data.isTrial ? "£0 (14-day trial)" : "£" + data.amount.toFixed(2)}</td></tr>
+      <tr><td style="padding:8px 0;color:#666;">Amount:</td><td style="padding:8px 0;color:#333;">${data.isTrial ? "£1 (7-day trial)" : "£" + data.amount.toFixed(2)}</td></tr>
       <tr><td style="padding:8px 0;color:#666;">Period:</td><td style="padding:8px 0;color:#333;">${data.period}</td></tr>
     </table>
     <div style="margin-top:16px;text-align:center;">

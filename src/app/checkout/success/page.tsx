@@ -30,7 +30,7 @@ function SuccessContent() {
         </p>
         <div className="bg-[#10B981]/10 border border-[#10B981]/30 rounded-lg p-4 mb-6">
           <p className="text-[#34D399] text-sm font-semibold">
-            ✅ Your 14-day free trial is now active<br />
+            ✅ Your 7-day trial is now active<br />
             ✅ AI titles, Product Hunter, VERO protection included<br />
             ✅ Download the extension and start listing!
           </p>

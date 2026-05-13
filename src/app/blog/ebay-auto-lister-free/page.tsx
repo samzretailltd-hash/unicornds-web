@@ -6,7 +6,7 @@ import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "eBay Auto Lister Free: List Products Automatically Without Paying | UnicornDS",
-  description: "Start listing on eBay automatically with a free auto lister. UnicornDS offers a 14-day free trial with AI titles, image upload, VERO protection, and variant support.",
+  description: "Start listing on eBay automatically with a free auto lister. UnicornDS offers a 7-day trial for just £1 with AI titles, image upload, VERO protection, and variant support.",
   keywords: ["ebay auto lister free", "free ebay listing tool", "automatic ebay listing", "free ebay listing software", "ebay lister free chrome"],
 };
 
@@ -15,7 +15,7 @@ export default function Article() {
     <>
             <BlogSchema
         title="eBay Auto Lister Free: List Products Automatically Without Paying"
-        description="Start listing on eBay automatically with a free auto lister. UnicornDS offers a 14-day free trial with AI titles, image upload, VERO protection, and variant support."
+        description="Start listing on eBay automatically with a free auto lister. UnicornDS offers a 7-day trial for just £1 with AI titles, image upload, VERO protection, and variant support."
         slug="ebay-auto-lister-free"
         publishedDate="2026-04-11"
       />
@@ -34,14 +34,14 @@ export default function Article() {
             <span className="text-xs text-[#6b6899]">6 min</span>
           </div>
           <h1 className="font-[family-name:var(--font-display)] text-4xl font-extrabold mb-4 leading-tight">eBay Auto Lister Free: List Products Automatically Without Paying</h1>
-          <p className="text-lg text-[#a5a0cc] leading-relaxed">Start listing on eBay automatically with a free auto lister. UnicornDS offers a 14-day free trial with AI titles, image upload, VERO protection, and variant support.</p>
+          <p className="text-lg text-[#a5a0cc] leading-relaxed">Start listing on eBay automatically with a free auto lister. UnicornDS offers a 7-day trial for just £1 with AI titles, image upload, VERO protection, and variant support.</p>
         </div>
 
         <div className="space-y-6 text-[15px] text-[#c8c4e0] leading-relaxed [&_h2]:font-[family-name:var(--font-display)] [&_h2]:text-2xl [&_h2]:font-extrabold [&_h2]:text-white [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_strong]:text-white [&_a]:text-[#A78BFA] [&_a]:underline">
 
           <h2>Can You Really Auto-List on eBay for Free?</h2>
-          <p>Yes. UnicornDS offers a 14-day free trial that includes automatic product listing on eBay. You can scrape products from Amazon or AliExpress, generate AI-optimised titles, upload images, check VERO brands, and create eBay listings — all without paying anything.</p>
-          <p>The 14-day free trial has a daily listing limit, but it is enough to get started and test the tool before committing to a paid plan. There is card captured, not charged during trial and no trial period — the 14-day free trial is free forever.</p>
+          <p>Yes. UnicornDS offers a 7-day trial for just £1 that includes automatic product listing on eBay. You can scrape products from Amazon or AliExpress, generate AI-optimised titles, upload images, check VERO brands, and create eBay listings — all without paying anything.</p>
+          <p>The 7-day trial for just £1 has a daily listing limit, but it is enough to get started and test the tool before committing to a paid plan. There is £1 charged today, cancel anytime and no trial period — the 7-day trial for just £1 is free forever.</p>
 
           <h2>What You Get for Free</h2>
           <p><strong>Product scraping:</strong> Extract product data, images, and prices from Amazon and AliExpress with one click.</p>
@@ -52,16 +52,16 @@ export default function Article() {
           <p><strong>Variant support:</strong> Create multi-variation listings with per-variant pricing automatically.</p>
 
           <h2>Why Free?</h2>
-          <p>We believe you should try a tool before you pay for it. The 14-day free trial lets you experience the full listing automation workflow so you can see the time savings for yourself. When you are ready to scale (more listings per day, competitor scanner, stock checker), you can upgrade to a paid plan.</p>
+          <p>We believe you should try a tool before you pay for it. The 7-day trial for just £1 lets you experience the full listing automation workflow so you can see the time savings for yourself. When you are ready to scale (more listings per day, competitor scanner, stock checker), you can upgrade to a paid plan.</p>
 
           <h2>How It Compares to Paid Tools</h2>
-          <p>AutoDS starts at $26.90 per month with no 14-day free trial. EcomSniper starts at $29.99 per month with a limited trial. ZIK Analytics starts at $29.99 per month. UnicornDS starts at free — and the 14-day free trial includes features that competitors charge for, like VERO protection and AI titles.</p>
+          <p>AutoDS starts at $26.90 per month with no 7-day trial for just £1. EcomSniper starts at $29.99 per month with a limited trial. ZIK Analytics starts at $29.99 per month. UnicornDS starts at free — and the 7-day trial for just £1 includes features that competitors charge for, like VERO protection and AI titles.</p>
 
           <h2>No API Required</h2>
           <p>Unlike most eBay listing tools, UnicornDS does not require an API connection to your eBay account. This means two things: your product data stays completely private (no one can see what you are listing), and setup takes 30 seconds (install the Chrome extension and start listing).</p>
 
           <h2>Get Started Now</h2>
-          <p>Install UnicornDS from the Chrome Web Store, navigate to any Amazon or AliExpress product, and list it on eBay with one click. Start your 14-day free trial at unicornds.io/signup.</p>
+          <p>Install UnicornDS from the Chrome Web Store, navigate to any Amazon or AliExpress product, and list it on eBay with one click. Start your 7-day trial for just £1 at unicornds.io/signup.</p>
           <p><Link href="/pricing">Install UnicornDS free →</Link></p>
 
           <RelatedArticles currentSlug="ebay-auto-lister-free" tags={["tools", "listing", "beginner"]} />

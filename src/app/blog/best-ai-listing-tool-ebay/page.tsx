@@ -95,7 +95,7 @@ export default function AiListingToolArticle() {
             </div>
 
             <h2>1. UnicornDS AI Title Builder — Best Overall AI Integration</h2>
-            <p><strong>AI Model:</strong> GPT-4o<br/><strong>Pricing:</strong> £23.99–£79.99/month (14-day free trial)<br/><strong>AI features:</strong> Titles, descriptions, bullet points, image background removal, watermark removal, category detection</p>
+            <p><strong>AI Model:</strong> GPT-4o<br/><strong>Pricing:</strong> £23.99–£79.99/month (7-day trial for just £1)<br/><strong>AI features:</strong> Titles, descriptions, bullet points, image background removal, watermark removal, category detection</p>
 
             <div className="my-6 rounded-xl overflow-hidden border border-[#3d3580]">
               <Image src="/screenshots/ai-title.png" alt="UnicornDS AI Title Builder generating an 80-character eBay title from Amazon product data using GPT-4o" width={1200} height={700} className="w-full h-auto" />
@@ -106,7 +106,7 @@ export default function AiListingToolArticle() {
             <p><strong>What makes it different:</strong> GPT-4o is explicitly named as the model, which matters because it means Anthropic or OpenAI quality rather than a small fine-tuned LLM. The prompt is tuned for eBay-specific rules: 80 character cap, brand-first, no punctuation waste, Cassini keyword order. You can regenerate titles with one click and the output varies sensibly each time.</p>
             <p><strong>Image AI:</strong> The Image Designer removes backgrounds, erases watermarks, and adds your own branding. This is vision AI, not just a filter — it handles transparent backgrounds properly for variant images. <Link href="/blog/ebay-variant-images-auto-upload">This is how per-variant image upload works</Link>.</p>
             <p><strong>Weaknesses:</strong> Chrome and Edge only. If you want AI on mobile or Firefox, UnicornDS does not run there.</p>
-            <p><strong>Pricing for the AI:</strong> GPT-4o titles are included in every paid plan and during the 14-day free trial. No extra AI token cost or add-on fee.</p>
+            <p><strong>Pricing for the AI:</strong> GPT-4o titles are included in every paid plan and during the 7-day trial for just £1. No extra AI token cost or add-on fee.</p>
 
             <h2>2. AutoDS AI — Good Enough for Dashboard Users</h2>
             <p><strong>AI Model:</strong> Not publicly specified<br/><strong>Pricing:</strong> $26.90–$55.90/month<br/><strong>AI features:</strong> Title optimization, category detection, basic description rewrite</p>
@@ -173,7 +173,7 @@ export default function AiListingToolArticle() {
             <h2>How to Evaluate an AI Listing Tool Before Buying</h2>
             <p>Before you commit to any tool, do this four-step test.</p>
             <p><strong>Step 1: Ask what model powers the AI.</strong> If the tool cannot or will not say &quot;GPT-4o&quot; or &quot;Claude&quot; or a specific other model name, assume it is rule-based or a small generic LLM. Real AI tools publish this.</p>
-            <p><strong>Step 2: Run 10 test products.</strong> Use the free trial (if available) to generate 10 titles from real Amazon URLs. Count how many fit 80 characters exactly without truncation. Count how many feel natural and click-worthy.</p>
+            <p><strong>Step 2: Run 10 test products.</strong> Use the £1 trial (if available) to generate 10 titles from real Amazon URLs. Count how many fit 80 characters exactly without truncation. Count how many feel natural and click-worthy.</p>
             <p><strong>Step 3: Check the editing flow.</strong> Can you edit the AI output inline, regenerate with one click, and save versions? Tools that make you copy-paste into another field every time slow down your workflow.</p>
             <p><strong>Step 4: Test at scale.</strong> List 20 products in a batch and see how many the AI handles without requiring manual intervention. If you are editing more than 30% of outputs, the tool is not pulling its weight.</p>
 
@@ -212,7 +212,7 @@ export default function AiListingToolArticle() {
 
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
               <h3 className="text-white text-lg font-bold mb-2">Generate eBay-optimised titles with GPT-4o</h3>
-              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS AI Title Builder fits every title to 80 characters, leads with the brand, and uses GPT-4o. Included in every plan. Start with the 14-day free trial.</p>
+              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS AI Title Builder fits every title to 80 characters, leads with the brand, and uses GPT-4o. Included in every plan. Start with the 7-day trial for just £1.</p>
               <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Try AI Titles Free &rarr;</Link>
             </div>
             <RelatedArticles currentSlug="best-ai-listing-tool-ebay" tags={["tools", "listing", "seo"]} />

@@ -375,7 +375,7 @@ export default function SellerToolsComparisonArticle() {
             </div>
 
             <h2>Best Tool By Use Case</h2>
-            <p><strong>Best overall for 90% of sellers:</strong> UnicornDS. Highest weighted score, only tool with GPT-4o AI plus 3,390 VERO brands, free 14-day trial.</p>
+            <p><strong>Best overall for 90% of sellers:</strong> UnicornDS. Highest weighted score, only tool with GPT-4o AI plus 3,390 VERO brands, free 7-day £1 trial.</p>
             <p><strong>Best for sellers with 2,000+ existing listings:</strong> AutoDS. Repricing and order automation are unmatched for inventory management at scale.</p>
             <p><strong>Best for research-first workflow:</strong> Zik Analytics paired with UnicornDS. Zik does the deep market analysis, UnicornDS does the operational research and listing.</p>
             <p><strong>Best for US Prime arbitrage:</strong> Easync for ordering plus UnicornDS for listing and VERO.</p>
@@ -393,7 +393,7 @@ export default function SellerToolsComparisonArticle() {
 
             <h2>How to Migrate From Another Tool to UnicornDS</h2>
             <p>If you are currently on AutoDS, EcomSniper, DSM Tool, or SaleFreaks and want to switch, here is the 4-step migration.</p>
-            <p><strong>Step 1: Run both tools in parallel for 30 days.</strong> Install UnicornDS (14-day trial is free) and keep your old tool active. List new products with UnicornDS while your old tool manages existing inventory.</p>
+            <p><strong>Step 1: Run both tools in parallel for 30 days.</strong> Install UnicornDS (7-day £1 trial is free) and keep your old tool active. List new products with UnicornDS while your old tool manages existing inventory.</p>
             <p><strong>Step 2: Export your active listings from the old tool.</strong> Most tools offer CSV export. You do not need to re-list — existing listings stay live on eBay regardless of which tool is connected.</p>
             <p><strong>Step 3: Cancel the old tool once renewal comes up.</strong> eBay does not care which tool you use. Cancel the old subscription and the listings remain active.</p>
             <p><strong>Step 4: Use UnicornDS for all new listings going forward.</strong> You have already paid for a few months in parallel. From month 3 onwards, you save the old tool&apos;s monthly fee.</p>
@@ -408,7 +408,7 @@ export default function SellerToolsComparisonArticle() {
             <p>Most sellers do not. UnicornDS covers research, listing, VERO, AI, and orders in one extension. Adding Zik Analytics is worthwhile if you do deep market analysis, and Easync is worthwhile if you use Amazon Prime arbitrage. Adding anything else is usually duplication.</p>
 
             <h3>Which tool is the cheapest to start with?</h3>
-            <p>UnicornDS offers a 14-day free trial (card captured, not charged). After the trial, Starter is £23.99 (~$30) per month which is the cheapest tier among serious tools. Zik Analytics Basic at $14.99 is cheaper but does research only.</p>
+            <p>UnicornDS offers a 7-day trial for just £1 (card captured, not charged). After the trial, Starter is £23.99 (~$30) per month which is the cheapest tier among serious tools. Zik Analytics Basic at $14.99 is cheaper but does research only.</p>
 
             <h3>Can I cancel and switch tools anytime?</h3>
             <p>Yes. All tools in this comparison are month-to-month subscriptions. eBay does not tie your account to any specific tool, so existing listings stay live even after you cancel. Switching is low-risk.</p>
@@ -423,12 +423,12 @@ export default function SellerToolsComparisonArticle() {
             <p>It varies by seller size. Under 1,000 listings: usually UnicornDS or DSM Tool. 1,000-5,000 listings: usually UnicornDS Empire or AutoDS. 5,000+ listings with heavy automation needs: usually AutoDS paired with Zik for research, or multiple tools in parallel.</p>
 
             <h3>Is there a truly free eBay seller tool?</h3>
-            <p>Terapeak (free with eBay Store) and eBay Hot Product Finder (built into Seller Hub) are the only genuinely free research tools. For listing, no paid feature-parity tool is free — UnicornDS 14-day trial is the closest you get with 14-day free trial with full access.</p>
+            <p>Terapeak (free with eBay Store) and eBay Hot Product Finder (built into Seller Hub) are the only genuinely free research tools. For listing, no paid feature-parity tool is free — UnicornDS 7-day £1 trial is the closest you get with 7-day trial for just £1 with full access.</p>
 
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
-              <h3 className="text-white text-lg font-bold mb-2">Try the #1 ranked eBay tool free for 14 days</h3>
-              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS ranks #1 on the weighted score across research, listing, VERO, AI, and price. 14-day free trial with full Starter features. Card captured, not charged during trial.</p>
-              <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Start Free Trial &rarr;</Link>
+              <h3 className="text-white text-lg font-bold mb-2">Try the #1 ranked eBay tool for just £1</h3>
+              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS ranks #1 on the weighted score across research, listing, VERO, AI, and price. 7-day trial for just £1 with full Starter features. £1 charged today, cancel anytime.</p>
+              <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Try 7 Days for £1 &rarr;</Link>
             </div>
             <RelatedArticles currentSlug="ebay-seller-tools-comparison" tags={["tools", "comparison", "listing"]} />
           </div>

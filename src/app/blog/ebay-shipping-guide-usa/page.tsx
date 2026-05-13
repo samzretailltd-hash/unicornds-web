@@ -56,7 +56,7 @@ export default function EbayShippingGuideArticle() {
 
           <div className="bg-[#1E1B4B]/50 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <p className="text-white font-bold mb-2">Automate Your eBay Business</p>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS handles product sourcing, AI titles, and bulk listing so you can focus on shipping and customer service. 14-day free trial on every plan.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS handles product sourcing, AI titles, and bulk listing so you can focus on shipping and customer service. 7-day trial for just £1 on every plan.</p>
             <Link href="/signup" className="btn-primary px-6 py-2.5 rounded-lg text-sm font-bold inline-block">Try UnicornDS Free</Link>
           </div>
         </div>

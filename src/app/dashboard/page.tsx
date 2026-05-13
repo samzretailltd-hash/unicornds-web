@@ -131,7 +131,7 @@ export default function DashboardPage() {
         {tier === "trial" && profile?.trialEndDate && (
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <p className="text-sm font-bold text-[#A78BFA]">🦄 Free Trial — {trialDaysLeft} days remaining</p>
+              <p className="text-sm font-bold text-[#A78BFA]">🦄 £1 Trial — {trialDaysLeft} days remaining</p>
               <p className="text-xs text-[#a5a0cc] mt-1">{profile.listings_limit - profile.listings_used} of {profile.listings_limit} listings left. Upgrade to unlock all features.</p>
             </div>
             <Link href="/pricing" className="btn-primary px-4 py-2 rounded-lg text-xs font-bold flex-shrink-0 text-center">Upgrade Now</Link>
@@ -143,7 +143,7 @@ export default function DashboardPage() {
           <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-5 mb-6 text-center">
             <p className="text-lg font-bold text-red-400 mb-2">Your trial has ended</p>
             <p className="text-sm text-[#a5a0cc] mb-4">Upgrade to a paid plan to continue listing products and growing your eBay business.</p>
-            <Link href="/pricing" className="btn-primary px-8 py-3 rounded-xl text-sm font-bold inline-block">Start Your 14-Day Free Trial</Link>
+            <Link href="/pricing" className="btn-primary px-8 py-3 rounded-xl text-sm font-bold inline-block">Start Your 7-Day Trial for £1</Link>
           </div>
         )}
 
@@ -157,7 +157,7 @@ export default function DashboardPage() {
               <div>
                 <div className="text-white font-bold">{profile?.tierName || "Trial"} Plan</div>
                 <div className="text-xs text-[#a5a0cc]">
-                  {profile?.listings_limit || 0} listings{tier === "trial" ? " in 14 days" : "/month"}
+                  {profile?.listings_limit || 0} listings{tier === "trial" ? " in 7 days" : "/month"}
                   {profile?.billing_period_end ? ` · Renews ${new Date(profile.billing_period_end).toLocaleDateString()}` : ""}
                 </div>
               </div>

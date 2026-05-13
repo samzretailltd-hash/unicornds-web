@@ -103,10 +103,10 @@ export function FeaturePageLayout({
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-white mb-4">
             {ctaText || 'Ready to try it?'}
           </h2>
-          <p className="text-[#a5a0cc] mb-8">Start your free trial — no credit card required for the first 7 days.</p>
+          <p className="text-[#a5a0cc] mb-8">Start your £1 trial — card required for £1 trial for the first 7 days.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/signup" className="px-8 py-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-xl font-semibold transition-colors">
-              Start Free Trial
+              Try 7 Days for £1
             </Link>
             <Link href="/pricing" className="px-8 py-4 border border-[#2d2860] hover:border-[#7C3AED]/50 text-white rounded-xl font-semibold transition-colors">
               View Pricing

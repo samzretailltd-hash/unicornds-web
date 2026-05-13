@@ -62,12 +62,12 @@ export default function VsEcomSniper() {
           <p><strong>EcomSniper:</strong> Does not include order management functionality.</p>
 
           <h2>Pricing Comparison</h2>
-          <p><strong>UnicornDS:</strong> 14-day free trial (10 listings), Starter £23.99 (500 listings), Growth £47.99 (1,500 listings), Empire £79.99 (3,000 listings).</p>
-          <p><strong>EcomSniper:</strong> Single plan at $199 per month for 3,000 listings. No 14-day free trial, no tiered options.</p>
+          <p><strong>UnicornDS:</strong> 7-day trial for just £1 (10 listings), Starter £23.99 (500 listings), Growth £47.99 (1,500 listings), Empire £79.99 (3,000 listings).</p>
+          <p><strong>EcomSniper:</strong> Single plan at $199 per month for 3,000 listings. No 7-day trial for just £1, no tiered options.</p>
           <p>UnicornDS Empire plan gives you the same 3,000 listings for £79.99 (approximately $127) compared to EcomSniper at $199. That is 36% cheaper for the same listing capacity, plus additional features like AI titles, Stock Checker, and Order Manager that EcomSniper does not offer.</p>
 
           <h2>Verdict</h2>
-          <p>UnicornDS offers more features at a lower price point. The 14-day free trial lets you test before committing, the tiered pricing means you only pay for what you need, and exclusive features like AI titles, Stock Checker, and Order Manager give it a clear edge. EcomSniper is a proven tool with a large user base, but its single $199 plan and lack of newer features make it harder to justify for most sellers.</p>
+          <p>UnicornDS offers more features at a lower price point. The 7-day trial for just £1 lets you test before committing, the tiered pricing means you only pay for what you need, and exclusive features like AI titles, Stock Checker, and Order Manager give it a clear edge. EcomSniper is a proven tool with a large user base, but its single $199 plan and lack of newer features make it harder to justify for most sellers.</p>
 
           <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
             <h3 className="text-white text-lg font-bold mb-2">Switch from EcomSniper and Save 36%</h3>

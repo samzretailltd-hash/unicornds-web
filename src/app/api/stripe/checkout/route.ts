@@ -4,7 +4,7 @@ import { stripe, TIER_PRICES } from "@/lib/stripe";
 
 export async function POST(req: NextRequest) {
   try {
-    const { token, tier, period, trial } = await req.json();
+    const { token, tier, period } = await req.json();
 
     if (!token) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     const decoded = await adminAuth.verifyIdToken(token);
@@ -17,41 +17,35 @@ export async function POST(req: NextRequest) {
       customerId = existing.data[0].id;
     }
 
-    // FREE TIER: Card verification only (£0 charge)
+    // FREE TIER: No card needed anymore — free tier is activated on signup
     if (tier === "free") {
-      const session = await stripe.checkout.sessions.create({
-        mode: "setup",
-        payment_method_types: ["card"],
-        customer: customerId,
-        customer_email: customerId ? undefined : decoded.email!,
-        metadata: {
-          firebase_uid: decoded.uid,
-          tier: "free",
-        },
-        custom_text: {
-          submit: {
-            message: "You will NOT be charged. We verify your card to prevent abuse. Your 14-day free trial starts now. You will NOT be charged until the trial ends. Cancel anytime.",
-          },
-        },
-        success_url: `${req.nextUrl.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${req.nextUrl.origin}/pricing`,
-      });
-      return NextResponse.json({ url: session.url });
+      return NextResponse.json({ error: "Free tier is activated automatically on signup" }, { status: 400 });
     }
 
-    // PAID TIERS: With or without trial
+    // PAID TIERS: £1 for 7-day trial, then full price
     const prices = TIER_PRICES[tier];
     if (!prices) return NextResponse.json({ error: "Invalid tier" }, { status: 400 });
     const priceId = period === "yearly" ? prices.yearly : prices.monthly;
+
+    // Build line items: subscription + optional £1 trial fee
+    const lineItems: { price: string; quantity: number }[] = [
+      { price: priceId, quantity: 1 },
+    ];
+
+    // Add £1 trial activation fee (create this one-time price in Stripe Dashboard)
+    const trialFeePrice = process.env.STRIPE_TRIAL_FEE_PRICE_ID;
+    if (trialFeePrice) {
+      lineItems.push({ price: trialFeePrice, quantity: 1 });
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
       customer: customerId,
       customer_email: customerId ? undefined : decoded.email!,
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: lineItems,
       subscription_data: {
-        trial_period_days: trial ? 14 : undefined,
+        trial_period_days: 7,
         metadata: {
           firebase_uid: decoded.uid,
           tier,
@@ -66,13 +60,11 @@ export async function POST(req: NextRequest) {
       success_url: `${req.nextUrl.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.nextUrl.origin}/select-plan`,
       allow_promotion_codes: true,
-      ...(trial ? {
-        custom_text: {
-          submit: {
-            message: `Your 14-day free trial starts now. You will NOT be charged until the trial ends. Cancel anytime.`,
-          },
+      custom_text: {
+        submit: {
+          message: `You'll be charged £1 today for your 7-day trial. If you don't cancel within 7 days, your subscription will start automatically. Cancel anytime.`,
         },
-      } : {}),
+      },
     });
 
     return NextResponse.json({ url: session.url });

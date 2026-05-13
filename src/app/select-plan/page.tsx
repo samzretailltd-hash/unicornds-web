@@ -89,7 +89,7 @@ export default function SelectPlanPage() {
             Choose Your Plan
           </h1>
           <p className="text-lg text-[#a5a0cc] mb-2">
-            Every plan includes a <span className="text-[#F59E0B] font-bold">14-day free trial</span>
+            Every plan includes a <span className="text-[#F59E0B] font-bold">7-day trial for just £1</span>
           </p>
           <p className="text-sm text-[#6b6899]">
             Your card is captured for verification only — you will NOT be charged today.
@@ -143,7 +143,7 @@ export default function SelectPlanPage() {
                   </span>
                   <span className="text-sm text-[#a5a0cc]">/mo</span>
                 </div>
-                <p className="text-xs text-[#F59E0B] font-semibold">14 days FREE — then £{period === "yearly" ? plan.yearlyPrice : plan.price}/mo</p>
+                <p className="text-xs text-[#F59E0B] font-semibold">Just £1 for 7 days — then £{period === "yearly" ? plan.yearlyPrice : plan.price}/mo</p>
               </div>
 
               <ul className="space-y-2.5 mb-6">
@@ -166,7 +166,7 @@ export default function SelectPlanPage() {
                     : "border border-[#7C3AED]/50 text-white hover:bg-[#7C3AED]/10"
                 }`}
               >
-                {processing && selectedPlan === plan.id ? "Redirecting to Stripe..." : "Start 14-Day Free Trial"}
+                {processing && selectedPlan === plan.id ? "Redirecting to Stripe..." : "Start 7-Day Trial for £1"}
               </button>
             </div>
           ))}

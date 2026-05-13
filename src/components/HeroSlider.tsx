@@ -27,7 +27,7 @@ const SLIDES = [
       { feature: "No selling your data", us: true, them: false },
       { feature: "Works offline after install", us: true, them: false },
     ],
-    cta: "Start 14-Day Free Trial",
+    cta: "Start 7-Day Trial for £1",
     ctaLink: "/signup",
     color: "#10B981",
     accentBg: "rgba(16,185,129,0.08)",

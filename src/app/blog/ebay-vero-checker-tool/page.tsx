@@ -61,7 +61,7 @@ export default function Article() {
           <p>We checked every major eBay listing tool — AutoDS, EcomSniper, ZIK Analytics, DSM Tool, and others. None of them include a built-in VERO brand checker. Some offer a separate VERO list download, but none check automatically during the listing process. UnicornDS is the only tool that protects your account at the point of listing.</p>
 
           <h2>Protect Your Account Today</h2>
-          <p>Your eBay account is your business. One VERO suspension can destroy months of work. UnicornDS VERO protection is included in all plans, including the 14-day free trial. Install the extension and list with confidence.</p>
+          <p>Your eBay account is your business. One VERO suspension can destroy months of work. UnicornDS VERO protection is included in all plans, including the 7-day trial for just £1. Install the extension and list with confidence.</p>
           <p><Link href="/pricing">Get VERO protection free — install UnicornDS →</Link></p>
 
           <RelatedArticles currentSlug="ebay-vero-checker-tool" tags={["vero", "compliance", "tools"]} />

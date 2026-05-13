@@ -20,7 +20,7 @@ export function PricingSection() {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, tier, period: annual ? "yearly" : "monthly", trial: true }),
+        body: JSON.stringify({ token, tier, period: annual ? "yearly" : "monthly" }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
@@ -52,7 +52,7 @@ export function PricingSection() {
           <span className="inline-block px-4 py-1 rounded-full bg-[#7C3AED]/12 border border-[#7C3AED]/25 text-xs text-[#A78BFA] font-semibold uppercase tracking-wider mb-4">{t('nav.pricing', geo.language)}</span>
           <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold mb-3">{t('pricing.title', geo.language)}</h2>
           <p className="text-[#a5a0cc] mb-2">{t('pricing.subtitle', geo.language)}</p>
-          <p className="text-sm text-[#F59E0B] font-semibold">Every plan includes a 14-day free trial — no charge until trial ends</p>
+          <p className="text-sm text-[#F59E0B] font-semibold">Try any plan for just £1 — full access for 7 days</p>
         </div>
         <div className="flex items-center justify-center gap-3 mb-12 text-sm">
           <span className={!annual ? "text-white font-bold" : "text-[#a5a0cc]"}>{t('pricing.monthly', geo.language)}</span>
@@ -79,7 +79,7 @@ export function PricingSection() {
                   {displayPrice}<small className="text-sm font-normal text-[#a5a0cc]">{t('pricing.perMonth', geo.language)}</small>
                 </div>
                 <div className="text-sm text-[#10B981] h-5 mb-1">{annualTotal}</div>
-                <div className="text-xs text-[#F59E0B] font-semibold mb-1">14 days FREE — then {displayPrice}/mo</div>
+                <div className="text-xs text-[#F59E0B] font-semibold mb-1">Just £1 for 7 days — then {displayPrice}/mo</div>
                 <div className="text-sm text-[#A78BFA] font-semibold mb-5">{plan.listings}</div>
                 <ul className="text-left mb-6 space-y-1.5">
                   {plan.features.map((f) => (
@@ -93,9 +93,9 @@ export function PricingSection() {
                   disabled={isLoading}
                   className={`block w-full py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-50 ${plan.id === "empire" ? "btn-gold" : "btn-primary"}`}
                 >
-                  {isLoading ? "Loading..." : "Start 14-Day Free Trial"}
+                  {isLoading ? "Loading..." : "Try 7 Days for £1"}
                 </button>
-                <p className="text-[10px] text-[#6b6899] mt-2">Cancel anytime during trial — no charge</p>
+                <p className="text-[10px] text-[#6b6899] mt-2">Cancel anytime during trial — only £1</p>
               </div>
             );
           })}

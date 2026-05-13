@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
           period: tierInfo?.period || "monthly",
           isTrial: isTrialing,
         }).catch(() => {});
-        sendTelegram(`${isTrialing ? "🎯" : "💰"} <b>${isTrialing ? "New Trial!" : "New Payment!"}</b>\n📧 ${custEmail}\n📋 ${tier.toUpperCase()} (${tierInfo?.period || "monthly"})\n💷 ${isTrialing ? "£0 (14-day trial)" : "£" + ((session.amount_total || 0) / 100).toFixed(2)}`).catch(() => {});
+        sendTelegram(`${isTrialing ? "🎯" : "💰"} <b>${isTrialing ? "New Trial!" : "New Payment!"}</b>\n📧 ${custEmail}\n📋 ${tier.toUpperCase()} (${tierInfo?.period || "monthly"})\n💷 ${isTrialing ? "£0 (7-day £1 trial)" : "£" + ((session.amount_total || 0) / 100).toFixed(2)}`).catch(() => {});
         break;
       }
 

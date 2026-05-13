@@ -91,7 +91,7 @@ export default function USDropshippingArticle() {
 
           <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
             <h3 className="text-white text-lg font-bold mb-2">Start Selling on eBay USA Today</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS connects to Amazon.com and eBay.com. Find products, list automatically, check VERO brands, and manage orders. 14-day free trial with 10 listings per month.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS connects to Amazon.com and eBay.com. Find products, list automatically, check VERO brands, and manage orders. 7-day trial for just £1 with 10 listings per month.</p>
             <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Get Started Free &rarr;</Link>
           </div>
           <RelatedArticles currentSlug="how-to-dropship-ebay-usa" tags={["usa", "beginner", "dropshipping"]} />

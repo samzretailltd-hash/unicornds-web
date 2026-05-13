@@ -78,7 +78,7 @@ export default function CompetitorResearchToolsArticle() {
                     ["VERO filtering", "✓ 3,390 brands", "✗", "✗", "Basic", "Basic", "✗"],
                     ["Export to list", "✓ One-click", "CSV only", "CSV only", "✓", "✓", "CSV only"],
                     ["Source price data", "Amazon + Ali", "eBay only", "eBay only", "Multi", "Amazon + Ali", "Active only"],
-                    ["14-day free trial / trial", "14-day trial", "7-day paid", "Free w/ Basic eBay", "No", "No", "No"],
+                    ["7-day trial for just £1 / trial", "7-day £1 trial", "7-day paid", "Free w/ Basic eBay", "No", "No", "No"],
                   ].map(([feature, uni, zik, ter, auto, ecom, eb]) => (
                     <tr key={feature} className="border-t border-[#3d3580]/30">
                       <td className="p-3 text-[#a5a0cc] font-medium">{feature}</td>
@@ -95,7 +95,7 @@ export default function CompetitorResearchToolsArticle() {
             </div>
 
             <h2>1. UnicornDS Competitor Scanner — Best All-in-One</h2>
-            <p><strong>Type:</strong> Chrome extension<br/><strong>Pricing:</strong> Included in all paid plans (£23.99+/month); 14-day free trial<br/><strong>Best for:</strong> Sellers who want to research and list in the same tool</p>
+            <p><strong>Type:</strong> Chrome extension<br/><strong>Pricing:</strong> Included in all paid plans (£23.99+/month); 7-day trial for just £1<br/><strong>Best for:</strong> Sellers who want to research and list in the same tool</p>
 
             <div className="my-6 rounded-xl overflow-hidden border border-[#3d3580]">
               <Image src="/screenshots/competitor-scanner.png" alt="UnicornDS Competitor Scanner pulling active listings from an eBay seller URL with VERO badges and margin estimates" width={1200} height={700} className="w-full h-auto" />
@@ -163,7 +163,7 @@ export default function CompetitorResearchToolsArticle() {
             <h2>Which Research Tool Fits Your Stage?</h2>
             <p>The right tool depends on your stage of the dropshipping journey.</p>
             <p><strong>Brand new, no budget:</strong> Start with eBay Hot Product Finder (free) plus Terapeak (free with eBay Store). These get you 2-3 weeks of learning before you need anything else.</p>
-            <p><strong>First 3 months, ready to invest:</strong> UnicornDS 14-day trial (free) then Starter (£23.99). You get Competitor Scanner, Product Hunter, AI titles, VERO, and listing in one tool. This is the fastest path from research to first sale.</p>
+            <p><strong>First 3 months, ready to invest:</strong> UnicornDS 7-day £1 trial (free) then Starter (£23.99). You get Competitor Scanner, Product Hunter, AI titles, VERO, and listing in one tool. This is the fastest path from research to first sale.</p>
             <p><strong>Serious dropshipper scaling past 500 listings:</strong> Zik Analytics Enterprise ($44.99) for deep market analysis plus UnicornDS Growth (£47.99) for operational research and listing. The two together are what most experienced sellers use. Combined cost around $120/month for capabilities that would cost $300+ in siloed tools.</p>
             <p><strong>Already locked into AutoDS or EcomSniper:</strong> Use their built-in research. Avoid adding a third tool unless you have a specific gap. <Link href="/blog/chrome-extensions-ebay-sellers">See our Chrome extension roundup for alternatives</Link>.</p>
             <p><strong>Need only CSV exports for a specific use case:</strong> eBextractor is the cheapest way to dump a competitor inventory. Not recommended as a primary workflow.</p>
@@ -186,7 +186,7 @@ export default function CompetitorResearchToolsArticle() {
             <h2>Frequently Asked Questions</h2>
 
             <h3>What is the best free eBay competitor research tool?</h3>
-            <p>eBay Hot Product Finder (built into Seller Hub) is the best free tool. Terapeak is also free for eBay Store subscribers. For free competitor URL scanning, no reliable free tool exists in 2026 — UnicornDS 14-day trial is the closest you can get to free serious research.</p>
+            <p>eBay Hot Product Finder (built into Seller Hub) is the best free tool. Terapeak is also free for eBay Store subscribers. For free competitor URL scanning, no reliable free tool exists in 2026 — UnicornDS 7-day £1 trial is the closest you can get to free serious research.</p>
 
             <h3>Can I research eBay competitors without paying for a tool?</h3>
             <p>Partially. You can manually click into each competitor&apos;s eBay store, scroll their listings, and write down product ideas. This works for 10 products — after that, it is too slow. A tool lets you process thousands of products in minutes.</p>
@@ -207,12 +207,12 @@ export default function CompetitorResearchToolsArticle() {
             <p>5 to 10 sellers is enough. More than that creates too much data and slows decision-making. The goal is to find 100-200 proven products per week to list, not build a perfect database.</p>
 
             <h3>Does UnicornDS have a free version of Competitor Scanner?</h3>
-            <p>The 14-day trial includes Competitor Scanner with 5 seller scans per day, which is usually enough for 70-100 product ideas during the trial. After that, all paid plans include unlimited or high-limit scanning.</p>
+            <p>The 7-day £1 trial includes Competitor Scanner with 5 seller scans per day, which is usually enough for 70-100 product ideas during the trial. After that, all paid plans include unlimited or high-limit scanning.</p>
 
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
               <h3 className="text-white text-lg font-bold mb-2">Scan any eBay competitor in seconds</h3>
-              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS Competitor Scanner pulls active listings from any eBay seller URL with VERO filtering and one-click listing. 14-day free trial, card captured, not charged during trial.</p>
-              <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Start Free Trial &rarr;</Link>
+              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS Competitor Scanner pulls active listings from any eBay seller URL with VERO filtering and one-click listing. 7-day trial for just £1, £1 charged today, cancel anytime.</p>
+              <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Try 7 Days for £1 &rarr;</Link>
             </div>
             <RelatedArticles currentSlug="best-ebay-competitor-research-tools" tags={["tools", "comparison", "listing"]} />
           </div>

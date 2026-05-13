@@ -73,20 +73,20 @@ export default function DownloadPage() {
       <div className="min-h-screen pt-24 pb-16">
         <div className="max-w-lg mx-auto px-4 text-center">
           <span className="inline-block px-4 py-1 rounded-full bg-[#7C3AED]/12 border border-[#7C3AED]/25 text-xs text-[#A78BFA] font-semibold uppercase tracking-wider mb-4">
-            14-Day Free Trial
+            7-Day Trial for £1
           </span>
           <h1 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold text-white mb-3">
             Install UnicornDS
           </h1>
           <p className="text-[#a5a0cc] mb-8 leading-relaxed">
-            Create a free account to start your 14-day trial. Card captured, not charged during trial.
+            Create a free account to start your 7-day £1 trial. £1 charged today, cancel anytime.
           </p>
 
           <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-8 mb-6">
             <img src="/logo.png" alt="UnicornDS" className="w-12 h-12 mx-auto mb-4 rounded-lg" />
             <h3 className="text-lg font-bold text-white mb-2">Your 14-Day Trial Includes</h3>
             <div className="text-left max-w-xs mx-auto space-y-2 text-sm text-[#a5a0cc]">
-              <p className="flex gap-2"><span className="text-[#10B981]">✓</span> Full access for 14 days</p>
+              <p className="flex gap-2"><span className="text-[#10B981]">✓</span> Full access for 7 days</p>
               <p className="flex gap-2"><span className="text-[#10B981]">✓</span> AI Title Builder (GPT-4o)</p>
               <p className="flex gap-2"><span className="text-[#10B981]">✓</span> Product Hunter (unlimited)</p>
               <p className="flex gap-2"><span className="text-[#10B981]">✓</span> Competitor Scanner (3/day)</p>
@@ -98,7 +98,7 @@ export default function DownloadPage() {
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/signup" className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold">
-              Start 14-Day Free Trial
+              Start 7-Day Trial for £1
             </Link>
             <Link href="/login" className="px-8 py-3.5 rounded-xl text-base font-semibold border border-[#3d3580] text-[#e0d8ff] hover:border-[#7C3AED] hover:text-white transition-all">
               Already Have an Account? Log In
