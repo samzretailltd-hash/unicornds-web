@@ -32,11 +32,9 @@ export async function POST(req: NextRequest) {
       { price: priceId, quantity: 1 },
     ];
 
-    // Add £1 trial activation fee (create this one-time price in Stripe Dashboard)
-    const trialFeePrice = process.env.STRIPE_TRIAL_FEE_PRICE_ID;
-    if (trialFeePrice) {
-      lineItems.push({ price: trialFeePrice, quantity: 1 });
-    }
+    // Add £1 trial activation fee
+    const TRIAL_FEE_PRICE = "price_1TWmGPEbEc6ySyqKS9SNPk1N";
+    lineItems.push({ price: TRIAL_FEE_PRICE, quantity: 1 });
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
