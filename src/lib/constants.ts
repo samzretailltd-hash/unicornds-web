@@ -27,7 +27,7 @@ export interface Plan {
 
 export const PLANS: Plan[] = [
   {
-    id: "starter", name: "Starter", monthly: 23.99, annual: 239.88,
+    id: "starter", name: "Starter", monthly: 29.99, annual: 287.88,
     listings: "500 listings/month",
     features: [
       { text: "500 eBay listings/month", status: "yes" },
@@ -42,7 +42,7 @@ export const PLANS: Plan[] = [
     ],
   },
   {
-    id: "growth", name: "Growth", monthly: 47.99, annual: 479.88,
+    id: "growth", name: "Growth", monthly: 59.99, annual: 575.88,
     listings: "1,500 listings/month", popular: true,
     features: [
       { text: "1,500 eBay listings/month", status: "yes" },
@@ -59,7 +59,7 @@ export const PLANS: Plan[] = [
     ],
   },
   {
-    id: "empire", name: "Empire", monthly: 79.99, annual: 799.88,
+    id: "empire", name: "Empire", monthly: 99.99, annual: 959.88,
     listings: "3,000 listings/month",
     features: [
       { text: "3,000 eBay listings/month", status: "yes" },

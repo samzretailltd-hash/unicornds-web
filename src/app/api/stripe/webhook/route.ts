@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
           await adminDb.collection("users").doc(uid).set({
             tier: "free",
             tokensUsed: 0,
-            tokensTotal: 0,
+            tokensTotal: 20,
             status: "active",
             stripe_customer_id: (session.customer as string) || null,
             card_verified: true,
@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
         await adminDb.collection("users").doc(uid).set({
           tier: "free",
           tokensUsed: 0,
-          tokensTotal: 0,
+          tokensTotal: 20,
           billing_period: null,
           billing_period_end: null,
           stripe_subscription_id: null,

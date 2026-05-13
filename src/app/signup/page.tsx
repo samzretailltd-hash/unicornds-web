@@ -76,7 +76,7 @@ export default function SignupPage() {
           ref: new URLSearchParams(window.location.search).get("ref") || null,
         }),
       });
-      router.push("/verify-email");
+      router.push("/verify-phone");
     } catch (err: unknown) {
       const msg = (err as { code?: string }).code;
       if (msg === "auth/email-already-in-use") setError("An account with this email already exists. Try signing in.");
@@ -91,7 +91,7 @@ export default function SignupPage() {
       <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-8 w-full max-w-sm">
         <div className="text-center mb-6">
           <h1 className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-white mb-1">Create Account</h1>
-          <p className="text-sm text-[#a5a0cc]">Start with 10 free listings/month</p>
+          <p className="text-sm text-[#a5a0cc]">Start with 20 free listings — AI titles included</p>
         </div>
         <form onSubmit={handleSignup} className="space-y-3.5">
           <div>
