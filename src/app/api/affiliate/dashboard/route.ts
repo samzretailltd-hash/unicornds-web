@@ -22,8 +22,9 @@ export async function GET(req: NextRequest) {
     }
 
     const affDoc = affSnap.docs[0];
-    const affiliate = { id: affDoc.id, ...affDoc.data() };
-    const refCode = affiliate.ref_code || "";
+    const affData = affDoc.data() as any;
+    const affiliate = { id: affDoc.id, ...affData };
+    const refCode = affData.ref_code || "";
 
     // Get all referrals
     const referralsSnap = await adminDb.collection("users")
@@ -129,6 +130,7 @@ export async function POST(req: NextRequest) {
     }
 
     const affDoc = affSnap.docs[0];
+    const affData = affDoc.data() as any;
 
     if (action === "save_bank") {
       // Save bank details
@@ -170,8 +172,8 @@ export async function POST(req: NextRequest) {
       // Create payout request
       await adminDb.collection("affiliate_payouts").add({
         affiliate_id: affDoc.id,
-        affiliate_email: affDoc.data().email,
-        affiliate_name: affDoc.data().name,
+        affiliate_email: affData.email,
+        affiliate_name: affData.name,
         amount: Math.round(unpaidTotal * 100) / 100,
         status: "pending",
         created_at: new Date().toISOString(),
@@ -180,7 +182,7 @@ export async function POST(req: NextRequest) {
       // Send Telegram alert
       const { sendTelegram } = await import("@/lib/brevo");
       sendTelegram(
-        `💰 <b>Payout Request!</b>\n👤 ${affDoc.data().name}\n📧 ${affDoc.data().email}\n💷 £${unpaidTotal.toFixed(2)}\n⏳ Pending admin approval`
+        `💰 <b>Payout Request!</b>\n👤 ${affData.name}\n📧 ${affData.email}\n💷 £${unpaidTotal.toFixed(2)}\n⏳ Pending admin approval`
       ).catch(() => {});
 
       return NextResponse.json({ ok: true, message: `Payout of £${unpaidTotal.toFixed(2)} requested. We'll process it within 5 business days.` });
