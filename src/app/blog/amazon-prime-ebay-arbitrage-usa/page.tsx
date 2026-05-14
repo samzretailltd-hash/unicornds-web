@@ -93,7 +93,7 @@ export default function PrimeArbitrageArticle() {
 
           <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
             <h3 className="text-white text-lg font-bold mb-2">Start Amazon to eBay Arbitrage Today</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS automates the entire process: find products on Amazon.com, list on eBay.com, verify stock, check VERO brands. Start free with 10 listings.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS automates the entire process: find products on Amazon.com, list on eBay.com, verify stock, check VERO brands. Start with 20 free listings.</p>
             <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Get Started Free &rarr;</Link>
           </div>
           <RelatedArticles currentSlug="amazon-prime-ebay-arbitrage-usa" tags={["usa", "amazon", "arbitrage"]} />

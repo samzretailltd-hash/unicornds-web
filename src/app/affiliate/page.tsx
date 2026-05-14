@@ -58,8 +58,8 @@ export default function AffiliatePage() {
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-white mb-6 text-center">What You Could Earn</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { referrals: 5, plan: "Starter", monthly: "£23.99", earning: "£35.99" },
-              { referrals: 10, plan: "Growth", monthly: "£47.99", earning: "£143.97" },
+              { referrals: 5, plan: "Starter", monthly: "£29.99", earning: "£44.99" },
+              { referrals: 10, plan: "Growth", monthly: "£59.99", earning: "£179.97" },
               { referrals: 25, plan: "Mixed", monthly: "avg £49.99", earning: "£374.93" },
             ].map(e => (
               <div key={e.referrals} className="text-center">

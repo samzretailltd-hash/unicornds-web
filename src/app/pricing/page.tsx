@@ -2,8 +2,8 @@ import { PricingSection } from "@/components/PricingSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing — UnicornDS Plans from £23.99/mo",
-  description: "Simple pricing for eBay dropshipping tools. Free trial, £23.99 Starter, £47.99 Growth, £79.99 Empire. Cancel anytime. 7-day trial for just £1 on all plans.",
+  title: "Pricing — UnicornDS Plans from £29.99/mo",
+  description: "Simple pricing for eBay dropshipping tools. £1 for 7-day trial, £29.99 Starter, £59.99 Growth, £99.99 Empire. Cancel anytime.",
   alternates: { canonical: "https://www.unicornds.io/pricing" },
 };
 
@@ -16,14 +16,13 @@ const productSchema = {
   offers: {
     "@type": "AggregateOffer",
     priceCurrency: "GBP",
-    lowPrice: "0",
-    highPrice: "79.99",
-    offerCount: 4,
+    lowPrice: "1",
+    highPrice: "99.99",
+    offerCount: 3,
     offers: [
-      
-      { "@type": "Offer", name: "Starter", price: "23.99", priceCurrency: "GBP", url: "https://www.unicornds.io/pricing" },
-      { "@type": "Offer", name: "Growth", price: "47.99", priceCurrency: "GBP", url: "https://www.unicornds.io/pricing" },
-      { "@type": "Offer", name: "Empire", price: "79.99", priceCurrency: "GBP", url: "https://www.unicornds.io/pricing" },
+      { "@type": "Offer", name: "Starter", price: "29.99", priceCurrency: "GBP", url: "https://www.unicornds.io/pricing" },
+      { "@type": "Offer", name: "Growth", price: "59.99", priceCurrency: "GBP", url: "https://www.unicornds.io/pricing" },
+      { "@type": "Offer", name: "Empire", price: "99.99", priceCurrency: "GBP", url: "https://www.unicornds.io/pricing" },
     ],
   },
 };

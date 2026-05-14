@@ -90,7 +90,7 @@ const translations: Record<string, Record<string, string>> = {
     'nav.dashboard': 'Dashboard',
     'nav.affiliate': 'Affiliate',
     'pricing.title': 'Simple, transparent pricing',
-    'pricing.subtitle': 'Start free. Upgrade when you\'re ready. Cancel anytime.',
+    'pricing.subtitle': 'Try for £1. Upgrade when you\'re ready. Cancel anytime.',
     'pricing.monthly': 'Monthly',
     'pricing.annual': 'Annual',
     'pricing.save': 'Save 20%',

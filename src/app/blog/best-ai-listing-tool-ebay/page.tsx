@@ -78,7 +78,7 @@ export default function AiListingToolArticle() {
                     ["Image AI (watermark)", "✓", "✗", "✗", "✗", "✗", "✗"],
                     ["AI bullet points", "✓", "✗", "✗", "✗", "✗", "✗"],
                     ["Edit AI output inline", "✓", "Limited", "Limited", "Limited", "Limited", "Limited"],
-                    ["Monthly cost entry", "£23.99", "$26.90", "$199 flat", "$24.97", "$21.95", "$49"],
+                    ["Monthly cost entry", "£29.99", "$26.90", "$199 flat", "$24.97", "$21.95", "$49"],
                   ].map(([feature, uni, auto, ecom, dsm, sale, zik]) => (
                     <tr key={feature} className="border-t border-[#3d3580]/30">
                       <td className="p-3 text-[#a5a0cc] font-medium">{feature}</td>
@@ -95,7 +95,7 @@ export default function AiListingToolArticle() {
             </div>
 
             <h2>1. UnicornDS AI Title Builder — Best Overall AI Integration</h2>
-            <p><strong>AI Model:</strong> GPT-4o<br/><strong>Pricing:</strong> £23.99–£79.99/month (7-day trial for just £1)<br/><strong>AI features:</strong> Titles, descriptions, bullet points, image background removal, watermark removal, category detection</p>
+            <p><strong>AI Model:</strong> GPT-4o<br/><strong>Pricing:</strong> £29.99–£99.99/month (7-day trial for just £1)<br/><strong>AI features:</strong> Titles, descriptions, bullet points, image background removal, watermark removal, category detection</p>
 
             <div className="my-6 rounded-xl overflow-hidden border border-[#3d3580]">
               <Image src="/screenshots/ai-title.png" alt="UnicornDS AI Title Builder generating an 80-character eBay title from Amazon product data using GPT-4o" width={1200} height={700} className="w-full h-auto" />
@@ -121,7 +121,7 @@ export default function AiListingToolArticle() {
 
             <p>EcomSniper added AI title generation in a 2024 update. The output is competitive with GPT-4o in our internal testing, which suggests it uses a similar-quality model. The main drawback is that the rest of EcomSniper has not kept up — no image AI, no AI bullet points, no inline editing of AI output.</p>
             <p><strong>What it does well:</strong> Title quality is genuinely good. For a Chrome extension with AI in 2026, it is one of the best.</p>
-            <p><strong>Weaknesses:</strong> $199/month flat is expensive for what you get. UnicornDS Empire at £79.99 (~$102) delivers equivalent title AI plus image AI, Competitor Scanner, and Order Manager. <Link href="/blog/unicornds-vs-ecomsniper">EcomSniper alternative comparison here</Link>.</p>
+            <p><strong>Weaknesses:</strong> $199/month flat is expensive for what you get. UnicornDS Empire at £99.99 (~$102) delivers equivalent title AI plus image AI, Competitor Scanner, and Order Manager. <Link href="/blog/unicornds-vs-ecomsniper">EcomSniper alternative comparison here</Link>.</p>
             <p><strong>Pricing:</strong> AI included in the $199/month plan — no tiers.</p>
 
             <h2>4. DSM Tool AI — Limited Template-Based AI</h2>
@@ -143,7 +143,7 @@ export default function AiListingToolArticle() {
 
             <p>ZIK Booster is a newer tool related to but separate from Zik Analytics. It adds listing and AI title generation on top of the Zik research ecosystem. The AI titles are decent quality.</p>
             <p><strong>What it does well:</strong> Tight integration with Zik research data. If you already use Zik, Booster is a natural add-on.</p>
-            <p><strong>Weaknesses:</strong> New tool, small user base, limited documentation. No image AI. Only works if you are already in the Zik ecosystem. At $49/month on top of a Zik subscription, the total monthly cost hits $94 — more than UnicornDS Growth at £47.99 (~$61) which includes more features.</p>
+            <p><strong>Weaknesses:</strong> New tool, small user base, limited documentation. No image AI. Only works if you are already in the Zik ecosystem. At $49/month on top of a Zik subscription, the total monthly cost hits $94 — more than UnicornDS Growth at £59.99 (~$61) which includes more features.</p>
             <p><strong>Pricing:</strong> $49/month. Requires Zik subscription.</p>
 
             <h2>Testing AI Title Quality — What Good Output Looks Like</h2>
@@ -205,7 +205,7 @@ export default function AiListingToolArticle() {
             <p>It already has, for high-volume sellers. If you are listing 30+ products per day, manual title writing is not a viable use of your time. AI handles 70-90% of products without editing, and you spend your hours on the ones that need a human touch.</p>
 
             <h3>How much does the AI cost per listing?</h3>
-            <p>UnicornDS includes unlimited AI in every plan — no per-listing token cost. At the £23.99 Starter tier (500 listings/month), AI works out to ~£0.06 per listing for unlimited use. AutoDS and EcomSniper bundle AI the same way.</p>
+            <p>UnicornDS includes unlimited AI in every plan — no per-listing token cost. At the £29.99 Starter tier (500 listings/month), AI works out to ~£0.06 per listing for unlimited use. AutoDS and EcomSniper bundle AI the same way.</p>
 
             <h3>Can I customise the AI prompt to my brand voice?</h3>
             <p>Not yet in most tools. UnicornDS is adding custom prompt support in a 2026 update. For now, the outputs follow fixed eBay-optimised patterns.</p>

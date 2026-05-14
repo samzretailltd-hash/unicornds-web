@@ -35,8 +35,8 @@ export async function GET(req: NextRequest) {
         const t = (d.tier || "").toLowerCase();
         if (d.status !== "blocked" && d.stripe_subscription_id) {
           if (t === "starter") monthlyRevenue += 23.99;
-          else if (t === "growth") monthlyRevenue += 47.99;
-          else if (t === "empire") monthlyRevenue += 79.99;
+          else if (t === "growth") monthlyRevenue += 59.99;
+          else if (t === "empire") monthlyRevenue += 99.99;
         }
       });
     }

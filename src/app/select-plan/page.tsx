@@ -8,8 +8,8 @@ const PLANS = [
   {
     id: "starter",
     name: "Starter",
-    price: "23.99",
-    yearlyPrice: "19.99",
+    price: "29.99",
+    yearlyPrice: "23.99",
     listings: "500",
     features: ["500 eBay listings/month", "AI Cassini SEO titles", "Bulk Lister", "Product Hunter", "VERO Protection (3,390 brands)", "Email support"],
     popular: false,
@@ -17,8 +17,8 @@ const PLANS = [
   {
     id: "growth",
     name: "Growth",
-    price: "47.99",
-    yearlyPrice: "39.99",
+    price: "59.99",
+    yearlyPrice: "47.99",
     listings: "1,500",
     features: ["1,500 eBay listings/month", "AI Cassini SEO titles", "Bulk Lister (5 concurrent)", "Product Hunter + Demand Score", "VERO Protection (3,390 brands)", "Competitor Scanner", "Priority support"],
     popular: true,
@@ -26,8 +26,8 @@ const PLANS = [
   {
     id: "empire",
     name: "Empire",
-    price: "79.99",
-    yearlyPrice: "66.99",
+    price: "99.99",
+    yearlyPrice: "79.99",
     listings: "3,000",
     features: ["3,000 eBay listings/month", "AI Cassini SEO titles", "Bulk Lister (10 concurrent)", "Product Hunter + Demand Score", "VERO Protection (3,390 brands)", "Competitor Scanner", "eBay Sold Check", "Dedicated support"],
     popular: false,
@@ -61,7 +61,7 @@ export default function SelectPlanPage() {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, tier: planId, period, trial: true }),
+        body: JSON.stringify({ token, tier: planId, period }),
       });
       const data = await res.json();
       if (data.url) {
@@ -92,8 +92,8 @@ export default function SelectPlanPage() {
             Every plan includes a <span className="text-[#F59E0B] font-bold">7-day trial for just £1</span>
           </p>
           <p className="text-sm text-[#6b6899]">
-            Your card is captured for verification only — you will NOT be charged today.
-            <br />Cancel anytime during the trial and pay nothing.
+            You&apos;ll be charged just £1 today for 7 days of full access.
+            <br />Cancel anytime during the trial — subscription starts after 7 days.
           </p>
         </div>
 

@@ -44,7 +44,7 @@ export default function Article() {
 
           <h2>1. UnicornDS — Best All-in-One Extension</h2>
           <p><strong>What it does:</strong> Product scraping from Amazon and AliExpress, AI title generation, bulk listing, per-variant image upload, VERO brand checker (3,357 brands), competitor scanner, stock checker, order manager, and profit calculator.</p>
-          <p><strong>Pricing:</strong> 7-day trial for just £1 available. Paid plans from £23.99/month.</p>
+          <p><strong>Pricing:</strong> 7-day trial for just £1 available. Paid plans from £29.99/month.</p>
           <p><strong>Unique features:</strong> Per-variant image upload (only tool with this), built-in VERO checker, no API required — data stays in your browser.</p>
 
           <h2>2. EcomSniper — Listing Automation</h2>

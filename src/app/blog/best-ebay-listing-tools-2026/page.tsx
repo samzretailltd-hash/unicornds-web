@@ -56,7 +56,7 @@ export default function BestToolsArticle() {
               <div>Feature</div><div>UnicornDS</div><div>EcomSniper</div><div>AutoDS</div>
             </div>
             {[
-              ["Price (3000 listings)", "£79.99/mo", "$199/mo", "$197/mo"],
+              ["Price (3000 listings)", "£99.99/mo", "$199/mo", "$197/mo"],
               ["7-day trial for just £1", "✓ 10/mo", "✗", "✗"],
               ["Product Hunter", "✓", "✓", "✓"],
               ["Competitor Scanner", "✓", "✗", "Limited"],

@@ -141,9 +141,9 @@ const sections = [
     title: "Plans & Billing",
     items: [
       { title: "£1 Trial", content: "7 days full access to your plan. £1 charged today, cancel anytime." },
-      { title: "Starter — £23.99/mo", content: "500 listings/month, Product Hunter, AI titles, 5 competitor scans/day." },
-      { title: "Growth — £47.99/mo", content: "1,500 listings, 5 bulk tabs, unlimited scanner, Image Designer, Address Helper." },
-      { title: "Empire — £79.99/mo", content: "3,000 listings, 10 bulk tabs, MSKU builder, priority support. Works across multiple eBay accounts." },
+      { title: "Starter — £29.99/mo", content: "500 listings/month, Product Hunter, AI titles, 5 competitor scans/day." },
+      { title: "Growth — £59.99/mo", content: "1,500 listings, 5 bulk tabs, unlimited scanner, Image Designer, Address Helper." },
+      { title: "Empire — £99.99/mo", content: "3,000 listings, 10 bulk tabs, MSKU builder, priority support. Works across multiple eBay accounts." },
     ],
   },
 ];

@@ -38,7 +38,7 @@ export default function VsAutoDS() {
         </div>
         <div className="space-y-6 text-[15px] text-[#c8c4e0] leading-relaxed [&_h2]:font-[family-name:var(--font-display)] [&_h2]:text-2xl [&_h2]:font-extrabold [&_h2]:text-white [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_strong]:text-white [&_a]:text-[#A78BFA] [&_a]:underline">
           <h2>Overview</h2>
-          <p><strong>UnicornDS</strong> is a Chrome extension that works directly inside eBay, Amazon, and AliExpress pages. It scrapes product data, generates AI titles, checks VERO brands, and creates eBay listings without leaving your browser. Pricing starts free with paid plans from £23.99 per month.</p>
+          <p><strong>UnicornDS</strong> is a Chrome extension that works directly inside eBay, Amazon, and AliExpress pages. It scrapes product data, generates AI titles, checks VERO brands, and creates eBay listings without leaving your browser. Pricing starts free with paid plans from £29.99 per month.</p>
           <p><strong>AutoDS</strong> is a web-based platform that runs from its own dashboard. It connects to your eBay account via API and manages listings, pricing, and orders from a central interface. Pricing starts at $26.90 per month for 200 products.</p>
 
           <h2>Key Differences</h2>

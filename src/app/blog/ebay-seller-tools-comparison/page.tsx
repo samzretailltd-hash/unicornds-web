@@ -308,9 +308,9 @@ export default function SellerToolsComparisonArticle() {
                 </thead>
                 <tbody>
                   {[
-                    ["UnicornDS Empire", "£79.99/mo (~$102)", "3,000", "£0.027 / ~$0.034"],
-                    ["UnicornDS Growth", "£47.99/mo (~$61)", "1,500", "£0.032 / ~$0.041"],
-                    ["UnicornDS Starter", "£23.99/mo (~$30)", "500", "£0.048 / ~$0.060"],
+                    ["UnicornDS Empire", "£99.99/mo (~$102)", "3,000", "£0.027 / ~$0.034"],
+                    ["UnicornDS Growth", "£59.99/mo (~$76)", "1,500", "£0.032 / ~$0.041"],
+                    ["UnicornDS Starter", "£29.99/mo (~$30)", "500", "£0.048 / ~$0.060"],
                     ["AutoDS Advanced", "$55.90/mo", "800", "$0.070"],
                     ["EcomSniper", "$199/mo", "3,000", "$0.066"],
                     ["DSM Tool Pro", "$49.97/mo", "~1,500", "~$0.033"],
@@ -380,13 +380,13 @@ export default function SellerToolsComparisonArticle() {
             <p><strong>Best for research-first workflow:</strong> Zik Analytics paired with UnicornDS. Zik does the deep market analysis, UnicornDS does the operational research and listing.</p>
             <p><strong>Best for US Prime arbitrage:</strong> Easync for ordering plus UnicornDS for listing and VERO.</p>
             <p><strong>Best multi-supplier tool:</strong> DSM Tool. Supports 50+ supplier sites, the widest on this list.</p>
-            <p><strong>Best budget (under $30/month):</strong> UnicornDS Starter at £23.99 (~$30) beats every competitor for included features at that price.</p>
+            <p><strong>Best budget (under $30/month):</strong> UnicornDS Starter at £29.99 (~$30) beats every competitor for included features at that price.</p>
             <p><strong>Best for pure AliExpress dropshipping:</strong> UnicornDS with Address Helper, or SuperDS if you want AliExpress-only focus.</p>
 
             <h2>The Tool You Should Not Use (Most Likely)</h2>
             <p>If you are reading this comparison, you are probably evaluating tools and considering SaleFreaks because it is cheap, or EcomSniper because it has a big brand name, or AutoDS because it is the incumbent. Here is the blunt assessment.</p>
             <p><strong>SaleFreaks</strong> is outgrown within 3 months by most serious sellers. The feature gap versus UnicornDS Starter is too wide to justify even the lower price.</p>
-            <p><strong>EcomSniper</strong> at $199/month is priced for 2020, not 2026. UnicornDS Empire delivers more features for £79.99 (~$102).</p>
+            <p><strong>EcomSniper</strong> at $199/month is priced for 2020, not 2026. UnicornDS Empire delivers more features for £99.99 (~$102).</p>
             <p><strong>AutoDS</strong> is excellent if you already have a big catalogue, but overkill for new sellers. A new seller paying for AutoDS ends up using 20% of the features.</p>
             <p><strong>Zik Analytics alone</strong> is not enough. You need a listing tool on top, which doubles your monthly cost.</p>
             <p>The tools most people under-use are UnicornDS (because it is newer) and Terapeak (because it is buried in Seller Hub). Both deliver more value per pound than their more-marketed competitors.</p>
@@ -408,7 +408,7 @@ export default function SellerToolsComparisonArticle() {
             <p>Most sellers do not. UnicornDS covers research, listing, VERO, AI, and orders in one extension. Adding Zik Analytics is worthwhile if you do deep market analysis, and Easync is worthwhile if you use Amazon Prime arbitrage. Adding anything else is usually duplication.</p>
 
             <h3>Which tool is the cheapest to start with?</h3>
-            <p>UnicornDS offers a 7-day trial for just £1 (card captured, not charged). After the trial, Starter is £23.99 (~$30) per month which is the cheapest tier among serious tools. Zik Analytics Basic at $14.99 is cheaper but does research only.</p>
+            <p>UnicornDS offers a 7-day trial for just £1 (card captured, not charged). After the trial, Starter is £29.99 (~$30) per month which is the cheapest tier among serious tools. Zik Analytics Basic at $14.99 is cheaper but does research only.</p>
 
             <h3>Can I cancel and switch tools anytime?</h3>
             <p>Yes. All tools in this comparison are month-to-month subscriptions. eBay does not tie your account to any specific tool, so existing listings stay live even after you cancel. Switching is low-risk.</p>

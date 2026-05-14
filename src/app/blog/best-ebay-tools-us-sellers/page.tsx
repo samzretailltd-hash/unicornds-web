@@ -107,7 +107,7 @@ export default function BestEbayToolsArticle() {
                 </thead>
                 <tbody>
                   {[
-                    ["UnicornDS", "£23.99 / ~$30", "£47.99 / ~$61", "£79.99 / ~$102", "7-day £1 trial"],
+                    ["UnicornDS", "£29.99 / ~$38", "£59.99 / ~$76", "£99.99 / ~$127", "7-day £1 trial"],
                     ["AutoDS", "$26.90", "~$47.90", "~$99+ (add-on)", "No"],
                     ["Zik Analytics", "$14.99", "$44.99 (Enterprise)", "Research only", "7-day paid trial"],
                     ["DSM Tool", "$24.97", "$49.97 (Pro)", "Custom", "Limited trial"],
@@ -130,7 +130,7 @@ export default function BestEbayToolsArticle() {
             <p className="text-xs text-[#6b6899]">Prices in GBP and USD as listed on each tool&apos;s official pricing page, April 2026. Approximate currency conversion where shown.</p>
 
             <h2>1. UnicornDS — Best Overall for Amazon Arbitrage &amp; AliExpress</h2>
-            <p><strong>Type:</strong> Chrome extension (Manifest V3)<br/><strong>Best for:</strong> Sellers doing Amazon-to-eBay arbitrage or AliExpress dropshipping who want everything in one tool<br/><strong>Pricing:</strong> 7-day £1 trial free, then £23.99, £47.99 or £79.99 per month</p>
+            <p><strong>Type:</strong> Chrome extension (Manifest V3)<br/><strong>Best for:</strong> Sellers doing Amazon-to-eBay arbitrage or AliExpress dropshipping who want everything in one tool<br/><strong>Pricing:</strong> 7-day £1 trial free, then £29.99, £59.99 or £99.99 per month</p>
 
             <div className="my-6 rounded-xl overflow-hidden border border-[#3d3580]">
               <Image src="/screenshots/product-hunter.png" alt="UnicornDS Product Hunter screenshot showing Amazon keyword search with VERO badges and stock verification" width={1200} height={700} className="w-full h-auto" />
@@ -140,7 +140,7 @@ export default function BestEbayToolsArticle() {
             <p><strong>What it does well:</strong> UnicornDS works directly inside the pages you already use. You are browsing Amazon, you see a product you like, you click one button and it is on eBay 45 seconds later with an AI-generated title, clean images, and VERO pre-cleared. The Product Hunter searches Amazon by any keyword and returns results with reviews, price, stock, and VERO status in one table. The Competitor Scanner lets you paste any eBay seller URL and pull their active listings. The Bulk Lister runs up to 10 tabs in parallel, so you can list 100+ products in an hour without touching your keyboard.</p>
             <p>The thing that sets it apart is the combination. Most tools are good at one thing. UnicornDS does research, listing, VERO, AI titles, bulk, stock, orders, and image design in the same extension for the same price.</p>
             <p><strong>Weaknesses:</strong> Chrome and Edge only — no mobile app, no Firefox. Newer than AutoDS so smaller community. If you already have a huge existing eBay inventory managed somewhere else, migrating listings across is manual.</p>
-            <p><strong>Real pricing:</strong> 7-day £1 trial is actually free — £1 charged today, cancel anytime, full access for 7 days. Starter at £23.99 gets you 500 listings per month. Growth at £47.99 gets you 1,500 listings plus unlimited Competitor Scanner and Image Designer. Empire at £79.99 gets you 3,000 listings, 10 concurrent bulk tabs, and auto-order pipeline.</p>
+            <p><strong>Real pricing:</strong> 7-day £1 trial is actually free — £1 charged today, cancel anytime, full access for 7 days. Starter at £29.99 gets you 500 listings per month. Growth at £59.99 gets you 1,500 listings plus unlimited Competitor Scanner and Image Designer. Empire at £99.99 gets you 3,000 listings, 10 concurrent bulk tabs, and auto-order pipeline.</p>
             <p><strong>Verdict:</strong> Best overall value in the market for 2026. The £1 trial alone is worth testing before you pay for anything else.</p>
 
             <h2>2. AutoDS — Best for Automated Repricing on Large Catalogues</h2>
@@ -185,7 +185,7 @@ export default function BestEbayToolsArticle() {
 
             <p>EcomSniper was one of the first Chrome extensions for eBay dropshipping and still has a strong reputation in Israeli and US seller communities. Architecture is similar to UnicornDS — content scripts that inject buttons on Amazon, eBay, and AliExpress.</p>
             <p><strong>What it does well:</strong> Product Finder is competent. Bulk listing works. Interface is clean. The team is experienced.</p>
-            <p><strong>Weaknesses:</strong> $199 per month flat is hard to justify in 2026 when UnicornDS Empire offers the same 3,000 listings, plus AI titles and Order Manager, for £79.99 (~$102). No tiered pricing means small sellers overpay. Basic VERO. No AI title generation of the quality you get from GPT-4o.</p>
+            <p><strong>Weaknesses:</strong> $199 per month flat is hard to justify in 2026 when UnicornDS Empire offers the same 3,000 listings, plus AI titles and Order Manager, for £99.99 (~$102). No tiered pricing means small sellers overpay. Basic VERO. No AI title generation of the quality you get from GPT-4o.</p>
             <p><strong>Verdict:</strong> Good tool, but the flat $199 pricing is 36% more expensive than UnicornDS Empire for equivalent or fewer features. <Link href="/blog/unicornds-vs-ecomsniper">See the full UnicornDS vs EcomSniper comparison</Link>.</p>
 
             <h2>7. SuperDS — Newer Chrome Extension for AliExpress Dropshipping</h2>
@@ -220,7 +220,7 @@ export default function BestEbayToolsArticle() {
             <p><strong>You are on the tightest possible budget:</strong> Start with the free eBay Hot Product Finder to research, then upgrade to the UnicornDS 7-day £1 trial when you are ready to list. Skip SaleFreaks — the feature gap is too large to justify even the small price.</p>
 
             <h2>The Mistake Most Sellers Make When Choosing a Tool</h2>
-            <p>The biggest mistake is picking a tool based on the cheapest sticker price and then outgrowing it within a month. SaleFreaks at $21.95 looks cheap until you realise you need to list 800 products and the plan caps at 100. Then you are paying $81.95 for something UnicornDS Growth does better at £47.99 (~$61).</p>
+            <p>The biggest mistake is picking a tool based on the cheapest sticker price and then outgrowing it within a month. SaleFreaks at $21.95 looks cheap until you realise you need to list 800 products and the plan caps at 100. Then you are paying $81.95 for something UnicornDS Growth does better at £59.99 (~$61).</p>
             <p>The second mistake is paying premium prices for features you will never use. EcomSniper at $199 flat makes sense if you are listing 3,000 products per month. For a seller listing 200, you are paying 7x what you need to.</p>
             <p>The third mistake is using a tool that lacks VERO protection, getting a VERO strike in your first month, and losing the account you were trying to build. <Link href="/blog/how-to-avoid-ebay-account-suspension">This is how eBay accounts get suspended</Link>, and it is preventable with the right tool.</p>
 
@@ -241,7 +241,7 @@ export default function BestEbayToolsArticle() {
             <p>For casual selling of personal items, no. For a dropshipping or arbitrage business with 50+ listings per month, yes. Manual listing at 10-15 minutes per product is not sustainable above 20 products per week. A tool pays for itself in the time it saves within the first 10 days.</p>
 
             <h3>What is the cheapest eBay tool that actually works?</h3>
-            <p>UnicornDS Starter at £23.99 per month (~$30) for 500 listings is the cheapest tool that includes AI titles, VERO protection, Product Hunter, and Competitor Scanner. Zik Analytics at $14.99 is cheaper but does research only — you still need a listing tool on top.</p>
+            <p>UnicornDS Starter at £29.99 per month (~$30) for 500 listings is the cheapest tool that includes AI titles, VERO protection, Product Hunter, and Competitor Scanner. Zik Analytics at $14.99 is cheaper but does research only — you still need a listing tool on top.</p>
 
             <h3>Is AutoDS better than UnicornDS?</h3>
             <p>It depends on your stage. AutoDS is better for sellers with 500+ existing listings who need automated repricing across many suppliers. UnicornDS is better for research, fast listing, VERO protection, AI titles, and value per pound. Most sellers under 1,000 listings find UnicornDS more useful.</p>
