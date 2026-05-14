@@ -5,9 +5,49 @@ import { RecaptchaVerifier, linkWithPhoneNumber, ConfirmationResult } from "fire
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+const COUNTRY_CODES = [
+  { code: "+44", flag: "🇬🇧", name: "UK" },
+  { code: "+1", flag: "🇺🇸", name: "US" },
+  { code: "+1", flag: "🇨🇦", name: "Canada" },
+  { code: "+61", flag: "🇦🇺", name: "Australia" },
+  { code: "+49", flag: "🇩🇪", name: "Germany" },
+  { code: "+33", flag: "🇫🇷", name: "France" },
+  { code: "+92", flag: "🇵🇰", name: "Pakistan" },
+  { code: "+91", flag: "🇮🇳", name: "India" },
+  { code: "+90", flag: "🇹🇷", name: "Turkey" },
+  { code: "+971", flag: "🇦🇪", name: "UAE" },
+  { code: "+966", flag: "🇸🇦", name: "Saudi" },
+  { code: "+27", flag: "🇿🇦", name: "S. Africa" },
+  { code: "+234", flag: "🇳🇬", name: "Nigeria" },
+  { code: "+254", flag: "🇰🇪", name: "Kenya" },
+  { code: "+353", flag: "🇮🇪", name: "Ireland" },
+  { code: "+31", flag: "🇳🇱", name: "Netherlands" },
+  { code: "+34", flag: "🇪🇸", name: "Spain" },
+  { code: "+39", flag: "🇮🇹", name: "Italy" },
+  { code: "+48", flag: "🇵🇱", name: "Poland" },
+  { code: "+46", flag: "🇸🇪", name: "Sweden" },
+  { code: "+47", flag: "🇳🇴", name: "Norway" },
+  { code: "+45", flag: "🇩🇰", name: "Denmark" },
+  { code: "+358", flag: "🇫🇮", name: "Finland" },
+  { code: "+55", flag: "🇧🇷", name: "Brazil" },
+  { code: "+52", flag: "🇲🇽", name: "Mexico" },
+  { code: "+86", flag: "🇨🇳", name: "China" },
+  { code: "+81", flag: "🇯🇵", name: "Japan" },
+  { code: "+82", flag: "🇰🇷", name: "S. Korea" },
+  { code: "+60", flag: "🇲🇾", name: "Malaysia" },
+  { code: "+63", flag: "🇵🇭", name: "Philippines" },
+  { code: "+65", flag: "🇸🇬", name: "Singapore" },
+  { code: "+20", flag: "🇪🇬", name: "Egypt" },
+  { code: "+212", flag: "🇲🇦", name: "Morocco" },
+  { code: "+962", flag: "🇯🇴", name: "Jordan" },
+  { code: "+964", flag: "🇮🇶", name: "Iraq" },
+  { code: "+880", flag: "🇧🇩", name: "Bangladesh" },
+];
+
 export default function VerifyPhonePage() {
   const [phone, setPhone] = useState("");
   const [phoneInput, setPhoneInput] = useState("");
+  const [countryCode, setCountryCode] = useState("+44");
   const [step, setStep] = useState<"loading" | "ready" | "code" | "verified">("loading");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
@@ -172,24 +212,36 @@ export default function VerifyPhonePage() {
             {!phone ? (
               <>
                 <div>
-                  <label className="text-xs text-[#a5a0cc] mb-1 block">Enter your mobile number</label>
-                  <input
-                    type="tel"
-                    value={phoneInput}
-                    onChange={(e) => setPhoneInput(e.target.value)}
-                    placeholder="+44 7700 900000"
-                    autoFocus
-                    className="w-full px-4 py-3 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-lg focus:border-[#7C3AED] outline-none"
-                  />
-                  <p className="text-xs text-[#6b6899] mt-1">Include country code (e.g. +44 for UK, +1 for US)</p>
+                  <label className="text-xs text-[#a5a0cc] mb-1 block">Select your country &amp; enter mobile number</label>
+                  <div className="flex gap-2">
+                    <select
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      className="w-[130px] px-2 py-3 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-sm focus:border-[#7C3AED] outline-none appearance-none cursor-pointer"
+                    >
+                      {COUNTRY_CODES.map((c, i) => (
+                        <option key={`${c.code}-${c.name}-${i}`} value={c.code}>
+                          {c.flag} {c.code} {c.name}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="tel"
+                      value={phoneInput}
+                      onChange={(e) => setPhoneInput(e.target.value.replace(/[^\d]/g, ""))}
+                      placeholder="7700900000"
+                      autoFocus
+                      maxLength={12}
+                      className="flex-1 px-4 py-3 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-lg focus:border-[#7C3AED] outline-none"
+                    />
+                  </div>
+                  <p className="text-xs text-[#6b6899] mt-1">Enter number without leading 0 (e.g. 7700900000 not 07700900000)</p>
                 </div>
                 {error && <p className="text-red-400 text-sm text-center">{error}</p>}
                 <button
                   onClick={async () => {
-                    if (!phoneInput || phoneInput.length < 8) { setError("Please enter a valid phone number with country code"); return; }
-                    // Format: ensure it starts with +
-                    let formatted = phoneInput.trim();
-                    if (!formatted.startsWith("+")) formatted = "+" + formatted;
+                    if (!phoneInput || phoneInput.length < 7) { setError("Please enter a valid mobile number"); return; }
+                    const formatted = `${countryCode}${phoneInput}`;
                     setPhone(formatted);
                     // Save phone to profile
                     try {
@@ -204,7 +256,7 @@ export default function VerifyPhonePage() {
                       }
                     } catch { /* continue */ }
                   }}
-                  disabled={!phoneInput || phoneInput.length < 8}
+                  disabled={!phoneInput || phoneInput.length < 7}
                   className="w-full btn-primary py-3 rounded-lg font-bold text-sm disabled:opacity-50"
                 >
                   Continue
