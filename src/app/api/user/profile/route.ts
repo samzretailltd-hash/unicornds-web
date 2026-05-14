@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       phone: data.phone || "",
       phone_verified: data.phone_verified || false,
+      call_booked: data.call_booked || false,
       fullName: data.fullName || "",
       country: data.country || "",
       tier: data.tier || "free",

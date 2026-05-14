@@ -4,6 +4,7 @@
 const BREVO_KEY = process.env.BREVO_KEY || "";
 const ADMIN_EMAIL = "samzretailltd@gmail.com";
 const FROM_EMAIL = "hello@unicornds.io";
+const REPLY_EMAIL = "samzretailltd@gmail.com";
 const FROM_NAME = "UnicornDS";
 
 async function sendBrevoEmail({
@@ -18,7 +19,11 @@ async function sendBrevoEmail({
   html: string;
 }) {
   try {
-    if (!BREVO_KEY) { console.warn("[Brevo] No API key set — skipping email"); return false; }
+    if (!BREVO_KEY) {
+      console.warn("[Brevo] No API key set — skipping email");
+      sendTelegram(`⚠️ <b>Email NOT sent</b> (no API key)\n📧 To: ${to}\n📝 ${subject}`).catch(() => {});
+      return false;
+    }
     const res = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
@@ -30,16 +35,21 @@ async function sendBrevoEmail({
         to: [{ email: to, name: toName || to }],
         subject,
         htmlContent: html,
+        replyTo: { email: REPLY_EMAIL, name: FROM_NAME },
       }),
     });
     if (!res.ok) {
-      console.error("[Brevo] Email failed:", res.status, await res.text());
+      const errText = await res.text();
+      console.error("[Brevo] Email failed:", res.status, errText);
+      sendTelegram(`❌ <b>Email FAILED</b>\n📧 To: ${to}\n📝 ${subject}\n🔴 ${res.status}: ${errText.slice(0, 200)}`).catch(() => {});
       return false;
     }
     console.log("[Brevo] Email sent:", subject, "→", to);
+    sendTelegram(`✅ <b>Email sent</b>\n📧 To: ${to}\n📝 ${subject}`).catch(() => {});
     return true;
   } catch (e) {
     console.error("[Brevo] Email error:", e);
+    sendTelegram(`❌ <b>Email ERROR</b>\n📧 To: ${to}\n📝 ${subject}\n🔴 ${String(e).slice(0, 200)}`).catch(() => {});
     return false;
   }
 }
@@ -81,38 +91,41 @@ function wrapTemplate(content: string) {
 // ═══════════════════════════════════════════════
 // 1. WELCOME EMAIL — sent to customer after signup + card capture
 // ═══════════════════════════════════════════════
-export async function sendWelcomeEmail(email: string, name: string, tier: string, trialDays: number = 14) {
+export async function sendWelcomeEmail(email: string, name: string, tier: string, trialDays: number = 7) {
   const tierName = tier.charAt(0).toUpperCase() + tier.slice(1);
+  const firstName = name ? name.split(' ')[0] : 'there';
   const html = wrapTemplate(`
-    <h2 style="color:#1E1B4B;margin:0 0 16px;">Welcome to UnicornDS, ${name || "there"}! 🎉</h2>
+    <h2 style="color:#1E1B4B;margin:0 0 16px;">Welcome to UnicornDS, ${firstName}! 🎉</h2>
     <p style="color:#333;font-size:15px;line-height:1.6;">
-      Your <strong>${tierName}</strong> plan is now active with a <strong>${trialDays}-day £1 trial</strong>.
-      Your card will not be charged until the trial ends.
+      Your <strong>${tierName}</strong> plan is now active with a <strong>7-day trial for just £1</strong>.
     </p>
+
+    <div style="background:#FFF7ED;border:2px solid #F59E0B;border-radius:12px;padding:24px;margin:20px 0;text-align:center;">
+      <h3 style="color:#92400E;margin:0 0 8px;font-size:18px;">⚡ REQUIRED: Book Your Free Setup Call</h3>
+      <p style="color:#78350F;font-size:14px;margin:0 0 16px;line-height:1.5;">
+        Every new user gets a <strong>free 1-on-1 onboarding call</strong> with me (Zohaib, the founder).<br/>
+        I will personally set up everything for you — your first listings, settings, and strategy.<br/>
+        <strong>You must book this call to activate full access.</strong>
+      </p>
+      <a href="https://calendly.com/1stunicornltd/30min" style="background:#F59E0B;color:#fff;padding:14px 36px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px;display:inline-block;">📞 Book Your Free Setup Call Now</a>
+      <p style="color:#92400E;font-size:12px;margin:10px 0 0;">30 minutes · Google Meet · Weekdays 9am–5pm UK time</p>
+    </div>
     
     <div style="background:#f8f5ff;border:1px solid #e8e0ff;border-radius:8px;padding:16px;margin:20px 0;">
-      <h3 style="color:#7C3AED;margin:0 0 12px;font-size:14px;">🚀 Get Started in 3 Steps:</h3>
+      <h3 style="color:#7C3AED;margin:0 0 12px;font-size:14px;">🚀 While you wait for your call:</h3>
       <p style="color:#333;font-size:14px;margin:4px 0;"><strong>1.</strong> <a href="https://www.unicornds.io/download" style="color:#7C3AED;">Download the Chrome extension</a></p>
-      <p style="color:#333;font-size:14px;margin:4px 0;"><strong>2.</strong> Open Product Hunter and search for winning products</p>
-      <p style="color:#333;font-size:14px;margin:4px 0;"><strong>3.</strong> Transfer to Bulk Lister and watch them list automatically</p>
+      <p style="color:#333;font-size:14px;margin:4px 0;"><strong>2.</strong> Log in with the same email you signed up with</p>
+      <p style="color:#333;font-size:14px;margin:4px 0;"><strong>3.</strong> Explore Product Hunter — search any keyword on Amazon</p>
     </div>
 
     <p style="color:#333;font-size:14px;line-height:1.6;">
-      Need help? Reply to this email or visit our <a href="https://www.unicornds.io/support" style="color:#7C3AED;">support page</a>.
+      Questions? Just reply to this email — it comes straight to me.<br/><br/>
+      <strong>Zohaib Hassan</strong><br/>
+      <span style="color:#666;font-size:13px;">Founder, UnicornDS</span>
     </p>
-
-    <div style="text-align:center;margin:24px 0 8px;">
-      <a href="https://www.unicornds.io/download" style="background:#7C3AED;color:#fff;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;">Download Extension</a>
-    </div>
-
-    <div style="background:#FFF7ED;border:1px solid #F59E0B;border-radius:8px;padding:16px;margin:20px 0;text-align:center;">
-      <h3 style="color:#92400E;margin:0 0 8px;font-size:15px;">🎯 Book Your Free 1-on-1 Onboarding Call</h3>
-      <p style="color:#78350F;font-size:13px;margin:0 0 12px;">Get a personal walkthrough with our founder. We will set up everything together — your settings, first listings, and answer all your questions.</p>
-      <a href="https://calendly.com/1stunicornltd/30min" style="background:#F59E0B;color:#fff;padding:10px 28px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:13px;">Book 30-Min Call (Free)</a>
-    </div>
   `);
 
-  return sendBrevoEmail({ to: email, toName: name, subject: `Welcome to UnicornDS — Your ${tierName} trial is active!`, html });
+  return sendBrevoEmail({ to: email, toName: name, subject: `⚡ ${firstName}, book your free setup call — your ${tierName} trial is active!`, html });
 }
 
 // ═══════════════════════════════════════════════
@@ -260,4 +273,72 @@ export async function sendOnboardingInvite(email: string, name: string) {
   `);
 
   return sendBrevoEmail({ to: email, toName: name, subject: `🎯 ${firstName}, let's set up your UnicornDS together — book your free call`, html });
+}
+
+// ═══════════════════════════════════════════════
+// 7. TRIAL ENDING REMINDER — sent on day 5 of 7
+// ═══════════════════════════════════════════════
+export async function sendTrialEndingReminder(email: string, name: string, tier: string) {
+  const firstName = name ? name.split(' ')[0] : 'there';
+  const tierName = tier.charAt(0).toUpperCase() + tier.slice(1);
+  const html = wrapTemplate(`
+    <h2 style="color:#1E1B4B;margin:0 0 16px;">⏰ ${firstName}, your trial ends in 2 days</h2>
+    <p style="color:#333;font-size:15px;line-height:1.6;">
+      Your <strong>${tierName}</strong> 7-day trial is almost over. After it ends, your subscription will start automatically.
+    </p>
+
+    <div style="background:#f8f5ff;border:1px solid #e8e0ff;border-radius:8px;padding:16px;margin:20px 0;">
+      <h3 style="color:#7C3AED;margin:0 0 8px;font-size:14px;">What happens next?</h3>
+      <p style="color:#333;font-size:14px;margin:4px 0;">✅ Your ${tierName} plan continues — no action needed</p>
+      <p style="color:#333;font-size:14px;margin:4px 0;">💳 Your card will be charged the ${tierName} rate</p>
+      <p style="color:#333;font-size:14px;margin:4px 0;">❌ Want to cancel? Go to your <a href="https://www.unicornds.io/dashboard" style="color:#7C3AED;">dashboard</a> → Manage Subscription</p>
+    </div>
+
+    <div style="background:#FFF7ED;border:2px solid #F59E0B;border-radius:12px;padding:20px;margin:20px 0;text-align:center;">
+      <h3 style="color:#92400E;margin:0 0 8px;font-size:16px;">📞 Haven't booked your setup call yet?</h3>
+      <p style="color:#78350F;font-size:13px;margin:0 0 12px;">Get more out of your subscription — I'll set everything up for you personally.</p>
+      <a href="https://calendly.com/1stunicornltd/30min" style="background:#F59E0B;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;">Book Call Before Trial Ends</a>
+    </div>
+
+    <p style="color:#333;font-size:14px;">
+      Questions? Reply to this email.<br/>
+      <strong>Zohaib</strong>, Founder
+    </p>
+  `);
+
+  return sendBrevoEmail({ to: email, toName: name, subject: `⏰ ${firstName}, your UnicornDS trial ends in 2 days`, html });
+}
+
+// ═══════════════════════════════════════════════
+// 8. CALL REMINDER — sent day 2 if no call booked
+// ═══════════════════════════════════════════════
+export async function sendCallReminder(email: string, name: string) {
+  const firstName = name ? name.split(' ')[0] : 'there';
+  const html = wrapTemplate(`
+    <h2 style="color:#1E1B4B;margin:0 0 16px;">Hey ${firstName}! Quick reminder 👋</h2>
+    <p style="color:#333;font-size:15px;line-height:1.6;">
+      You signed up for UnicornDS but haven't booked your <strong>free setup call</strong> yet.
+    </p>
+    <p style="color:#333;font-size:15px;line-height:1.6;">
+      I want to make sure you get the most out of your trial. On the call, I'll:
+    </p>
+    <ul style="color:#333;font-size:14px;line-height:1.8;padding-left:20px;">
+      <li>Set up your extension settings and pricing rules</li>
+      <li>Find your first winning products together</li>
+      <li>Create your first eBay listings live</li>
+      <li>Answer all your questions</li>
+    </ul>
+
+    <div style="text-align:center;margin:24px 0;">
+      <a href="https://calendly.com/1stunicornltd/30min" style="background:#F59E0B;color:#fff;padding:14px 36px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px;display:inline-block;">📞 Book Your Free Call Now</a>
+      <p style="color:#92400E;font-size:12px;margin:8px 0 0;">30 minutes · Google Meet · Free</p>
+    </div>
+
+    <p style="color:#333;font-size:14px;">
+      <strong>Zohaib Hassan</strong><br/>
+      <span style="color:#666;font-size:13px;">Founder, UnicornDS</span>
+    </p>
+  `);
+
+  return sendBrevoEmail({ to: email, toName: name, subject: `📞 ${firstName}, your free setup call is waiting — let's get you selling!`, html });
 }

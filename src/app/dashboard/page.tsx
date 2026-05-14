@@ -10,9 +10,9 @@ const CF_BASE = "https://us-central1-unicorn-ds-7f831.cloudfunctions.net";
 
 // Canonical tier configs — dashboard uses these, NOT stale Firestore data
 const TIER_CONFIG: Record<string, { name: string; color: string; listings: number; hunter: number; scanner: number; stock: number; bulk: number; ai: boolean; image: boolean; tracker: boolean }> = {
-  trial:    { name: "14-Day Trial", color: "#7C3AED", listings: 100,  hunter: 9999, scanner: 3,    stock: 10,   bulk: 1,  ai: true,  image: false, tracker: false },
+  trial:    { name: "7-Day Trial", color: "#7C3AED", listings: 100,  hunter: 9999, scanner: 3,    stock: 10,   bulk: 1,  ai: true,  image: false, tracker: false },
   expired:  { name: "Expired",     color: "#EF4444", listings: 0,    hunter: 1,    scanner: 0,    stock: 0,    bulk: 0,  ai: false, image: false, tracker: false },
-  free:     { name: "Free",        color: "#6b6899", listings: 10,   hunter: 3,    scanner: 0,    stock: 0,    bulk: 0,  ai: false, image: false, tracker: false },
+  free:     { name: "Free",        color: "#6b6899", listings: 20,   hunter: 3,    scanner: 0,    stock: 0,    bulk: 0,  ai: true,  image: false, tracker: false },
   starter:  { name: "Starter",     color: "#7C3AED", listings: 500,  hunter: 9999, scanner: 5,    stock: 20,   bulk: 1,  ai: true, image: false, tracker: false },
   growth:   { name: "Growth",      color: "#10B981", listings: 1500, hunter: 9999, scanner: 9999, stock: 9999, bulk: 5,  ai: true,  image: true,  tracker: true },
   empire:   { name: "Empire",      color: "#F59E0B", listings: 3000, hunter: 9999, scanner: 9999, stock: 9999, bulk: 10, ai: true,  image: true,  tracker: true },
@@ -67,6 +67,20 @@ export default function DashboardPage() {
       if (!raw.card_verified && !raw.stripe_subscription_id && tier !== "starter" && tier !== "growth" && tier !== "empire") {
         router.push("/select-plan");
         return;
+      }
+
+      // Gate: If user hasn't booked their setup call, redirect to book-call
+      if (!raw.call_booked) {
+        try {
+          const profileRes = await fetch("/api/user/profile", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const profileData = await profileRes.json();
+          if (!profileData.call_booked) {
+            router.push("/book-call");
+            return;
+          }
+        } catch { /* continue if API fails */ }
       }
 
       setProfile({
