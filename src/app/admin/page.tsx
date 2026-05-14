@@ -7,7 +7,7 @@ const ADMIN_EMAILS = ["1stunicorndistribution@gmail.com", "zohaib219@gmail.com",
 const TIERS = ["free", "starter", "growth", "empire"];
 const TIER_COLORS: Record<string, string> = { free: "#6b6899", starter: "#7C3AED", growth: "#10B981", empire: "#F59E0B" };
 
-interface UserData { uid: string; email?: string; fullName?: string; phone?: string; country?: string; tier?: string; status?: string; ref?: string; signup_ip?: string; last_ip?: string; created_at?: unknown; billing_period_end?: string; trial_end?: string; tokensUsed?: number; tokensTotal?: number; card_verified?: boolean; usage?: Record<string, unknown>; }
+interface UserData { uid: string; email?: string; fullName?: string; phone?: string; country?: string; ip_country?: string; ip_city?: string; tier?: string; status?: string; ref?: string; signup_ip?: string; last_ip?: string; created_at?: unknown; billing_period_end?: string; trial_end?: string; tokensUsed?: number; tokensTotal?: number; card_verified?: boolean; usage?: Record<string, unknown>; }
 interface Stats { users: { total: number; free: number; starter: number; growth: number; empire: number }; payments: unknown[]; revenue: { total: number; currency: string }; }
 
 export default function AdminPage() {
@@ -349,7 +349,13 @@ export default function AdminPage() {
                         ) : <span className="text-[#6b6899]">—</span>}
                       </td>
                       <td className="p-3 text-[#a5a0cc] text-xs">{u.phone || "—"}</td>
-                      <td className="p-3 text-[#a5a0cc] text-xs">{u.country || "—"}</td>
+                      <td className="p-3 text-[#a5a0cc] text-xs">
+                        {u.country || "—"}
+                        {u.ip_country && u.country && u.ip_country.toLowerCase() !== u.country.toLowerCase() && (
+                          <span className="text-[#EF4444] ml-1" title={`IP: ${u.ip_country}`}>⚠️{u.ip_country}</span>
+                        )}
+                        {!u.country && u.ip_country && <span className="text-[#6b6899]">{u.ip_country}</span>}
+                      </td>
                       <td className="p-3">
                         <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${u.status === "blocked" ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"}`}>
                           {u.status === "blocked" ? "BLOCKED" : "ACTIVE"}

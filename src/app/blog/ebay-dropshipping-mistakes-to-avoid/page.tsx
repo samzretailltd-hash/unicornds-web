@@ -104,7 +104,7 @@ export default function MistakesArticle() {
 
           <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
             <h3 className="text-white text-lg font-bold mb-2">Avoid All 15 Mistakes Automatically</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS checks VERO brands, calculates margins, verifies stock, and optimises titles before you list. Start with 20 free listings per month.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS checks VERO brands, calculates margins, verifies stock, and optimises titles before you list. Try any plan for just £1 — 7-day full access.</p>
             <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Install UnicornDS Free &rarr;</Link>
           </div>
           <RelatedArticles currentSlug="ebay-dropshipping-mistakes-to-avoid" tags={["mistakes", "beginner", "account"]} />

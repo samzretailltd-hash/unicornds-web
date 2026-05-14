@@ -96,7 +96,7 @@ export default function DropshippingArticle() {
 
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <h3 className="text-lg font-bold text-white mb-2">Start Your eBay Dropshipping Business Today</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS gives you everything you need: product research, VERO checking, stock verification, AI listing creation, and bulk listing. Start with 20 free listings per month.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS gives you everything you need: product research, VERO checking, stock verification, AI listing creation, and bulk listing. Try any plan for just £1 — 7-day full access.</p>
             <Link href={SITE.chrome_store} target="_blank" className="btn-primary px-6 py-2.5 rounded-xl text-sm font-bold inline-block no-underline">Install UnicornDS Free</Link>
           </div>
           <RelatedArticles currentSlug="how-to-start-ebay-dropshipping" tags={["beginner", "getting-started", "dropshipping"]} />

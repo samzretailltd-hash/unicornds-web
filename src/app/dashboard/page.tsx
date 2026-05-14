@@ -12,7 +12,7 @@ const CF_BASE = "https://us-central1-unicorn-ds-7f831.cloudfunctions.net";
 const TIER_CONFIG: Record<string, { name: string; color: string; listings: number; hunter: number; scanner: number; stock: number; bulk: number; ai: boolean; image: boolean; tracker: boolean }> = {
   trial:    { name: "7-Day Trial", color: "#7C3AED", listings: 100,  hunter: 9999, scanner: 3,    stock: 10,   bulk: 1,  ai: true,  image: false, tracker: false },
   expired:  { name: "Expired",     color: "#EF4444", listings: 0,    hunter: 1,    scanner: 0,    stock: 0,    bulk: 0,  ai: false, image: false, tracker: false },
-  free:     { name: "Free",        color: "#6b6899", listings: 20,   hunter: 3,    scanner: 0,    stock: 0,    bulk: 0,  ai: true,  image: false, tracker: false },
+  free:     { name: "Free",        color: "#6b6899", listings: 0,    hunter: 0,    scanner: 0,    stock: 0,    bulk: 0,  ai: false, image: false, tracker: false },
   starter:  { name: "Starter",     color: "#7C3AED", listings: 500,  hunter: 9999, scanner: 5,    stock: 20,   bulk: 1,  ai: true, image: false, tracker: false },
   growth:   { name: "Growth",      color: "#10B981", listings: 1500, hunter: 9999, scanner: 9999, stock: 9999, bulk: 5,  ai: true,  image: true,  tracker: true },
   empire:   { name: "Empire",      color: "#F59E0B", listings: 3000, hunter: 9999, scanner: 9999, stock: 9999, bulk: 10, ai: true,  image: true,  tracker: true },
@@ -60,30 +60,51 @@ export default function DashboardPage() {
 
       const json = await res.json();
       const raw = json.result || json;
-      const tier = (raw.tier || "trial").toLowerCase();
-      const tc = TIER_CONFIG[tier] || TIER_CONFIG.trial;
+      const tier = (raw.tier || "free").toLowerCase();
+      const tc = TIER_CONFIG[tier] || TIER_CONFIG.free;
 
-      // Gate: If user hasn't selected a plan and verified card, redirect to select-plan
-      if (!raw.card_verified && !raw.stripe_subscription_id && tier !== "starter" && tier !== "growth" && tier !== "empire") {
-        router.push("/select-plan");
+      // ═══════════════════════════════════════════════
+      // SECURITY GATES — must pass ALL checks in order
+      // ═══════════════════════════════════════════════
+
+      // Gate 1: Email must be verified
+      if (!u.emailVerified) {
+        router.push("/verify-email");
         return;
       }
 
-      // Gate: If NEW user hasn't booked their setup call, redirect to book-call
-      // Only applies to users created after May 14, 2026 (existing users are exempt)
-      const CALL_REQUIRED_AFTER = new Date("2026-05-14T00:00:00Z").getTime();
-      const userCreatedAt = raw.created_at ? new Date(raw.created_at).getTime() : 0;
-      if (!raw.call_booked && userCreatedAt >= CALL_REQUIRED_AFTER) {
-        try {
-          const profileRes = await fetch("/api/user/profile", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const profileData = await profileRes.json();
-          if (!profileData.call_booked) {
-            router.push("/book-call");
-            return;
-          }
-        } catch { /* continue if API fails */ }
+      // Gate 2: Phone must be verified (new users only)
+      try {
+        const profileRes = await fetch("/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const profileData = await profileRes.json();
+
+        // Phone verification check
+        if (!profileData.phone_verified) {
+          router.push("/verify-phone");
+          return;
+        }
+
+        // Gate 3: Must have a paid plan (no free access without payment)
+        if (!raw.card_verified && !raw.stripe_subscription_id && tier !== "starter" && tier !== "growth" && tier !== "empire") {
+          router.push("/select-plan");
+          return;
+        }
+
+        // Gate 4: Must book setup call (new users created after May 14, 2026)
+        const CALL_REQUIRED_AFTER = new Date("2026-05-14T00:00:00Z").getTime();
+        const userCreatedAt = profileData.created_at ? new Date(profileData.created_at).getTime() : (raw.created_at ? new Date(raw.created_at).getTime() : 0);
+        if (!profileData.call_booked && userCreatedAt >= CALL_REQUIRED_AFTER) {
+          router.push("/book-call");
+          return;
+        }
+      } catch {
+        // If profile API fails, still enforce basic checks
+        if (!raw.card_verified && !raw.stripe_subscription_id && tier !== "starter" && tier !== "growth" && tier !== "empire") {
+          router.push("/select-plan");
+          return;
+        }
       }
 
       setProfile({
@@ -122,7 +143,7 @@ export default function DashboardPage() {
 
   if (loading) return <div className="min-h-screen flex items-center justify-center pt-20"><p className="text-[#a5a0cc]">Loading...</p></div>;
 
-  const tier = profile?.tier || "trial";
+  const tier = profile?.tier || "free";
   const usagePercent = profile ? Math.min(100, profile.listings_limit > 0 ? (profile.listings_used / profile.listings_limit) * 100 : 0) : 0;
   const trialDaysLeft = profile?.trialEndDate ? Math.max(0, Math.ceil((new Date(profile.trialEndDate).getTime() - Date.now()) / 86400000)) : 0;
   const fmt = (n: number) => n >= 9999 ? "unlimited" : String(n);
@@ -144,22 +165,11 @@ export default function DashboardPage() {
 
         {profileError && <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-6 text-sm text-red-400">{profileError}</div>}
 
-        {/* Trial countdown banner */}
-        {tier === "trial" && profile?.trialEndDate && (
-          <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <p className="text-sm font-bold text-[#A78BFA]">🦄 £1 Trial — {trialDaysLeft} days remaining</p>
-              <p className="text-xs text-[#a5a0cc] mt-1">{profile.listings_limit - profile.listings_used} of {profile.listings_limit} listings left. Upgrade to unlock all features.</p>
-            </div>
-            <Link href="/pricing" className="btn-primary px-4 py-2 rounded-lg text-xs font-bold flex-shrink-0 text-center">Upgrade Now</Link>
-          </div>
-        )}
-
-        {/* Expired trial banner */}
-        {tier === "expired" && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-5 mb-6 text-center">
-            <p className="text-lg font-bold text-red-400 mb-2">Your trial has ended</p>
-            <p className="text-sm text-[#a5a0cc] mb-4">Upgrade to a paid plan to continue listing products and growing your eBay business.</p>
+        {/* Expired/free banner */}
+        {(tier === "expired" || tier === "free") && (
+          <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 rounded-xl p-5 mb-6 text-center">
+            <p className="text-lg font-bold text-[#F59E0B] mb-2">Choose a plan to get started</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">Select a plan and try it for 7 days for just £1. Full access to all features.</p>
             <Link href="/pricing" className="btn-primary px-8 py-3 rounded-xl text-sm font-bold inline-block">Start Your 7-Day Trial for £1</Link>
           </div>
         )}
@@ -174,7 +184,7 @@ export default function DashboardPage() {
               <div>
                 <div className="text-white font-bold">{profile?.tierName || "Trial"} Plan</div>
                 <div className="text-xs text-[#a5a0cc]">
-                  {profile?.listings_limit || 0} listings{tier === "trial" ? " in 7 days" : "/month"}
+                  {profile?.listings_limit || 0} listings{"/month"}
                   {profile?.billing_period_end ? ` · Renews ${new Date(profile.billing_period_end).toLocaleDateString()}` : ""}
                 </div>
               </div>
@@ -212,7 +222,7 @@ export default function DashboardPage() {
           {profile && profile.listings_limit > 0 && (
             <div className="mt-5">
               <div className="flex justify-between text-xs text-[#a5a0cc] mb-1.5">
-                <span>Listings {tier === "trial" ? "this trial" : "this month"}</span>
+                <span>Listings {"this month"}</span>
                 <span className="font-bold text-white">{profile.listings_used} / {profile.listings_limit}</span>
               </div>
               <div className="h-2.5 bg-[#0f0e1a] rounded-full overflow-hidden">
@@ -231,7 +241,7 @@ export default function DashboardPage() {
             <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-4">
               <div className="text-xs text-[#a5a0cc] mb-1">Listings Used</div>
               <div className="text-2xl font-bold text-white">{profile.listings_used}</div>
-              <div className="text-xs text-[#6b6899]">of {profile.listings_limit}{tier === "trial" ? " trial" : "/month"}</div>
+              <div className="text-xs text-[#6b6899]">of {profile.listings_limit}{"/month"}</div>
             </div>
             <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-4">
               <div className="text-xs text-[#a5a0cc] mb-1">Searches Today</div>

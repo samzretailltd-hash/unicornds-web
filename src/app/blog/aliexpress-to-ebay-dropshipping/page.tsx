@@ -79,7 +79,7 @@ export default function AliExpressArticle() {
 
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <h3 className="text-lg font-bold text-white mb-2">List AliExpress products on eBay in seconds</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS scrapes AliExpress products with one click — title, images, variants, pricing. Start with 20 free listings per month.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS scrapes AliExpress products with one click — title, images, variants, pricing. Try any plan for just £1 — 7-day full access.</p>
             <Link href={SITE.chrome_store} target="_blank" className="btn-primary px-6 py-2.5 rounded-xl text-sm font-bold inline-block no-underline">Install UnicornDS Free</Link>
           </div>
           <RelatedArticles currentSlug="aliexpress-to-ebay-dropshipping" tags={["aliexpress", "sourcing", "dropshipping"]} />

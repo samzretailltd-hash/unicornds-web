@@ -21,8 +21,10 @@ export async function GET(req: NextRequest) {
       call_booked: data.call_booked || false,
       fullName: data.fullName || "",
       country: data.country || "",
+      ip_country: data.ip_country || "",
       tier: data.tier || "free",
       status: data.status || "active",
+      created_at: data.created_at || "",
     });
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 });
@@ -57,7 +59,7 @@ export async function POST(req: NextRequest) {
       ref: ref || null,
       tier: "free",
       tokensUsed: 0,
-      tokensTotal: 20,
+      tokensTotal: 0,
       status: "pending_phone_verification",
       phone_verified: false,
       signup_ip: ip,
@@ -66,6 +68,31 @@ export async function POST(req: NextRequest) {
       created_at: new Date().toISOString(),
       last_login: new Date().toISOString(),
     }, { merge: true });
+
+    // Detect real country from IP (don't trust user input)
+    try {
+      const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=country,countryCode,city,isp,proxy,hosting`, {
+        signal: AbortSignal.timeout(3000),
+      });
+      if (geoRes.ok) {
+        const geo = await geoRes.json();
+        await adminDb.collection("users").doc(decoded.uid).set({
+          ip_country: geo.country || "",
+          ip_country_code: geo.countryCode || "",
+          ip_city: geo.city || "",
+          ip_isp: geo.isp || "",
+          ip_is_proxy: geo.proxy || false,
+          ip_is_hosting: geo.hosting || false,
+        }, { merge: true });
+
+        // Alert if claimed country differs from IP country
+        if (country && geo.country && country.toLowerCase() !== geo.country.toLowerCase()) {
+          sendTelegram(
+            `🚩 <b>Country mismatch!</b>\n👤 ${fullName || "—"}\n📧 ${decoded.email}\n🌐 Claims: ${country}\n📍 IP says: ${geo.country} (${geo.city})\n🏢 ISP: ${geo.isp}${geo.proxy ? "\n⚠️ PROXY/VPN" : ""}${geo.hosting ? "\n⚠️ DATACENTER" : ""}`
+          ).catch(() => {});
+        }
+      }
+    } catch { /* geo lookup failed — continue */ }
 
     // Run abuse checks (duplicate IP, phone, suspicious name) — async, don't block signup
     runSignupAbuseChecks(decoded.uid, decoded.email || "", phone || "", ip, fullName || "").catch(() => {});
