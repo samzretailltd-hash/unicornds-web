@@ -6,7 +6,7 @@ import { join } from "path";
 const CF_BASE = "https://us-central1-unicorn-ds-7f831.cloudfunctions.net";
 const BREVO_KEY = process.env.BREVO_KEY || "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";
 
-const ADMIN_EMAILS = ["samzretailltd@gmail.com", "zohaib219@gmail.com", "support@unicornds.io"];
+const ADMIN_EMAILS = ["1stunicorndistribution@gmail.com", "zohaib219@gmail.com", "support@unicornds.io"];
 
 interface CheckResult {
   name: string;

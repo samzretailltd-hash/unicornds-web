@@ -2,9 +2,9 @@
 // Sends transactional emails: welcome, admin alerts, support
 
 const BREVO_KEY = process.env.BREVO_KEY || "";
-const ADMIN_EMAIL = "samzretailltd@gmail.com";
+const ADMIN_EMAIL = "1stunicorndistribution@gmail.com";
 const FROM_EMAIL = "hello@unicornds.io";
-const REPLY_EMAIL = "samzretailltd@gmail.com";
+const REPLY_EMAIL = "1stunicorndistribution@gmail.com";
 const FROM_NAME = "UnicornDS";
 
 async function sendBrevoEmail({

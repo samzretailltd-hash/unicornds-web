@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from "firebase/auth";
 
-const ADMIN_EMAILS = ["samzretailltd@gmail.com", "zohaib219@gmail.com", "support@unicornds.io"];
+const ADMIN_EMAILS = ["1stunicorndistribution@gmail.com", "zohaib219@gmail.com", "support@unicornds.io"];
 const TIERS = ["trial", "expired", "free", "starter", "growth", "empire"];
 const TIER_COLORS: Record<string, string> = { trial: "#7C3AED", expired: "#EF4444", free: "#6b6899", starter: "#7C3AED", growth: "#10B981", empire: "#F59E0B" };
 

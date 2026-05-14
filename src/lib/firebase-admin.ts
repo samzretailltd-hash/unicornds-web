@@ -11,7 +11,7 @@ interface AdminUser {
 }
 
 const ADMIN_USERS: AdminUser[] = [
-  { email: "samzretailltd@gmail.com", role: "owner", name: "Zohaib (Owner)" },
+  { email: "1stunicorndistribution@gmail.com", role: "owner", name: "Zohaib (Owner)" },
   { email: "zohaib219@gmail.com", role: "owner", name: "Zohaib (Personal)" },
   { email: "support@unicornds.io", role: "owner", name: "Business Account" },
   // Add junior staff here — they can see users and settings but NOT payments or revenue
