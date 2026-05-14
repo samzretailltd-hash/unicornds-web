@@ -24,6 +24,7 @@ export default function AdminPage() {
   const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "" });
   const [saving, setSaving] = useState(false);
   const [affiliates, setAffiliates] = useState<{id:string;name?:string;email?:string;website?:string;audience?:string;promotion_plan?:string;status?:string;applied_at?:string;ref_code?:string;ip?:string}[]>([]);
+  const [affPayouts, setAffPayouts] = useState<any[]>([]);
   const [health, setHealth] = useState<any>(null);
   const [healthLoading, setHealthLoading] = useState(false);
 
@@ -438,60 +439,129 @@ export default function AdminPage() {
 
         {/* Affiliates Tab */}
         {tab === "affiliates" && (
-          <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
-            <div className="p-4 border-b border-[#3d3580]/30">
-              <h3 className="text-white font-bold">Affiliate Applications ({affiliates.length})</h3>
-              <p className="text-xs text-[#6b6899]">Pending: {affiliates.filter(a => a.status === "pending").length} | Approved: {affiliates.filter(a => a.status === "approved").length}</p>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-[#2d2766] text-left">
-                    <th className="p-3 text-[#a5a0cc] font-medium">Name</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Email</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Website</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Audience</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Method</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Ref Code</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {affiliates.map(a => (
-                    <tr key={a.id} className="border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30">
-                      <td className="p-3 text-white text-xs">{a.name || "—"}</td>
-                      <td className="p-3 text-white text-xs">{a.email || "—"}</td>
-                      <td className="p-3 text-[#a5a0cc] text-xs max-w-[150px] truncate">{a.website || "—"}</td>
-                      <td className="p-3 text-[#a5a0cc] text-xs">{a.audience || "—"}</td>
-                      <td className="p-3 text-[#a5a0cc] text-xs">{a.promotion_plan || "—"}</td>
-                      <td className="p-3">
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                          a.status === "approved" ? "bg-green-500/20 text-green-400" :
-                          a.status === "rejected" ? "bg-red-500/20 text-red-400" :
-                          "bg-yellow-500/20 text-yellow-400"
-                        }`}>{(a.status || "pending").toUpperCase()}</span>
-                      </td>
-                      <td className="p-3 text-[#F59E0B] text-xs font-mono">{a.ref_code || "—"}</td>
-                      <td className="p-3 flex gap-2">
-                        {a.status === "pending" && (
-                          <>
-                            <button onClick={() => handleAffiliate(a.id, "approved")}
-                              className="px-2 py-1 rounded text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40">Approve</button>
-                            <button onClick={() => handleAffiliate(a.id, "rejected")}
-                              className="px-2 py-1 rounded text-xs font-bold bg-red-600/20 text-red-400 hover:bg-red-600/40">Reject</button>
-                          </>
-                        )}
-                        {a.status === "approved" && <span className="text-xs text-green-400">✓ Active</span>}
-                        {a.status === "rejected" && <span className="text-xs text-red-400">✕ Rejected</span>}
-                      </td>
+          <div className="space-y-6">
+            {/* Applications Table */}
+            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
+              <div className="p-4 border-b border-[#3d3580]/30">
+                <h3 className="text-white font-bold">Affiliate Applications ({affiliates.length})</h3>
+                <p className="text-xs text-[#6b6899]">Pending: {affiliates.filter(a => a.status === "pending").length} | Approved: {affiliates.filter(a => a.status === "approved").length}</p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-[#2d2766] text-left">
+                      <th className="p-3 text-[#a5a0cc] font-medium">Name</th>
+                      <th className="p-3 text-[#a5a0cc] font-medium">Email</th>
+                      <th className="p-3 text-[#a5a0cc] font-medium">Website</th>
+                      <th className="p-3 text-[#a5a0cc] font-medium">Method</th>
+                      <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
+                      <th className="p-3 text-[#a5a0cc] font-medium">Ref Code</th>
+                      <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
                     </tr>
-                  ))}
-                  {affiliates.length === 0 && (
-                    <tr><td colSpan={8} className="p-8 text-center text-[#6b6899]">No affiliate applications yet</td></tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {affiliates.map(a => (
+                      <tr key={a.id} className="border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30">
+                        <td className="p-3 text-white text-xs">{a.name || "—"}</td>
+                        <td className="p-3 text-white text-xs">{a.email || "—"}</td>
+                        <td className="p-3 text-[#a5a0cc] text-xs max-w-[150px] truncate">{a.website || "—"}</td>
+                        <td className="p-3 text-[#a5a0cc] text-xs">{a.promotion_plan || "—"}</td>
+                        <td className="p-3">
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                            a.status === "approved" ? "bg-green-500/20 text-green-400" :
+                            a.status === "rejected" ? "bg-red-500/20 text-red-400" :
+                            "bg-yellow-500/20 text-yellow-400"
+                          }`}>{(a.status || "pending").toUpperCase()}</span>
+                        </td>
+                        <td className="p-3 text-[#F59E0B] text-xs font-mono">{a.ref_code || "—"}</td>
+                        <td className="p-3 flex gap-2">
+                          {a.status === "pending" && (
+                            <>
+                              <button onClick={() => handleAffiliate(a.id, "approved")}
+                                className="px-2 py-1 rounded text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40">Approve</button>
+                              <button onClick={() => handleAffiliate(a.id, "rejected")}
+                                className="px-2 py-1 rounded text-xs font-bold bg-red-600/20 text-red-400 hover:bg-red-600/40">Reject</button>
+                            </>
+                          )}
+                          {a.status === "approved" && <span className="text-xs text-green-400">✓ Active</span>}
+                          {a.status === "rejected" && <span className="text-xs text-red-400">✕ Rejected</span>}
+                        </td>
+                      </tr>
+                    ))}
+                    {affiliates.length === 0 && (
+                      <tr><td colSpan={7} className="p-8 text-center text-[#6b6899]">No affiliate applications yet</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Pending Payouts */}
+            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
+              <div className="p-4 border-b border-[#3d3580]/30 flex items-center justify-between">
+                <h3 className="text-white font-bold">💰 Pending Payouts</h3>
+                <button onClick={async () => {
+                  try {
+                    const token = await getToken();
+                    const res = await fetch("/api/admin/affiliate-payouts", { headers: { Authorization: `Bearer ${token}` } });
+                    if (res.ok) {
+                      const d = await res.json();
+                      setAffPayouts(d.payouts || []);
+                    }
+                  } catch { /* */ }
+                }} className="px-3 py-1 text-xs text-[#a5a0cc] border border-[#3d3580] rounded hover:text-white">Load Payouts</button>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead><tr className="bg-[#2d2766] text-left">
+                    <th className="p-3 text-[#a5a0cc] font-medium">Affiliate</th>
+                    <th className="p-3 text-[#a5a0cc] font-medium">Amount</th>
+                    <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
+                    <th className="p-3 text-[#a5a0cc] font-medium">Requested</th>
+                    <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
+                  </tr></thead>
+                  <tbody>
+                    {(affPayouts || []).map((p: any) => (
+                      <tr key={p.id} className="border-t border-[#3d3580]/20">
+                        <td className="p-3 text-white text-xs">{p.affiliate_name} ({p.affiliate_email})</td>
+                        <td className="p-3 text-[#F59E0B] font-bold text-xs">£{(p.amount || 0).toFixed(2)}</td>
+                        <td className="p-3"><span className={`px-2 py-0.5 rounded text-xs font-bold ${p.status === "paid" ? "bg-green-500/20 text-green-400" : p.status === "rejected" ? "bg-red-500/20 text-red-400" : "bg-yellow-500/20 text-yellow-400"}`}>{(p.status || "pending").toUpperCase()}</span></td>
+                        <td className="p-3 text-[#6b6899] text-xs">{p.created_at ? new Date(p.created_at).toLocaleDateString() : "—"}</td>
+                        <td className="p-3 flex gap-2">
+                          {p.status === "pending" && (
+                            <>
+                              <button onClick={async () => {
+                                const ref = prompt("Bank transfer reference (optional):");
+                                const token = await getToken();
+                                await fetch("/api/affiliate/payout", {
+                                  method: "POST",
+                                  headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                                  body: JSON.stringify({ payout_id: p.id, action: "approve", reference: ref || "" }),
+                                });
+                                alert("✅ Payout marked as paid");
+                              }} className="px-2 py-1 rounded text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40">Mark Paid</button>
+                              <button onClick={async () => {
+                                const reason = prompt("Reject reason:");
+                                const token = await getToken();
+                                await fetch("/api/affiliate/payout", {
+                                  method: "POST",
+                                  headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                                  body: JSON.stringify({ payout_id: p.id, action: "reject", reference: reason || "" }),
+                                });
+                                alert("Payout rejected");
+                              }} className="px-2 py-1 rounded text-xs font-bold bg-red-600/20 text-red-400 hover:bg-red-600/40">Reject</button>
+                            </>
+                          )}
+                          {p.status === "paid" && <span className="text-xs text-green-400">✓ Paid</span>}
+                        </td>
+                      </tr>
+                    ))}
+                    {(!affPayouts || affPayouts.length === 0) && (
+                      <tr><td colSpan={5} className="p-6 text-center text-[#6b6899] text-xs">Click &quot;Load Payouts&quot; to see payout requests</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}
