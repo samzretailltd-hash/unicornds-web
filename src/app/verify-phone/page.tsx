@@ -241,7 +241,9 @@ export default function VerifyPhonePage() {
                 <button
                   onClick={async () => {
                     if (!phoneInput || phoneInput.length < 7) { setError("Please enter a valid mobile number"); return; }
-                    const formatted = `${countryCode}${phoneInput}`;
+                    // Strip leading 0 (users type 07xxx instead of 7xxx)
+                    const cleanNumber = phoneInput.replace(/^0+/, "");
+                    const formatted = `${countryCode}${cleanNumber}`;
                     setPhone(formatted);
                     // Save phone to profile
                     try {
