@@ -69,8 +69,11 @@ export default function DashboardPage() {
         return;
       }
 
-      // Gate: If user hasn't booked their setup call, redirect to book-call
-      if (!raw.call_booked) {
+      // Gate: If NEW user hasn't booked their setup call, redirect to book-call
+      // Only applies to users created after May 14, 2026 (existing users are exempt)
+      const CALL_REQUIRED_AFTER = new Date("2026-05-14T00:00:00Z").getTime();
+      const userCreatedAt = raw.created_at ? new Date(raw.created_at).getTime() : 0;
+      if (!raw.call_booked && userCreatedAt >= CALL_REQUIRED_AFTER) {
         try {
           const profileRes = await fetch("/api/user/profile", {
             headers: { Authorization: `Bearer ${token}` },
