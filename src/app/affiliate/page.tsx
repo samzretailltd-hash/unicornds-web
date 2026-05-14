@@ -34,8 +34,8 @@ export default function AffiliatePage() {
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-14">
           <span className="inline-block px-4 py-1 rounded-full bg-[#F59E0B]/12 border border-[#F59E0B]/25 text-xs text-[#F59E0B] font-semibold uppercase tracking-wider mb-4">Affiliate Program</span>
-          <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl font-extrabold mb-4">Earn 30% Recurring Commission</h1>
-          <p className="text-lg text-[#a5a0cc] max-w-2xl mx-auto">Recommend UnicornDS to other eBay sellers and earn 30% of their subscription — every month, for as long as they stay subscribed.</p>
+          <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl font-extrabold mb-4">Earn 30% Commission Per Referral</h1>
+          <p className="text-lg text-[#a5a0cc] max-w-2xl mx-auto">Recommend UnicornDS to other eBay sellers and earn 30% of their first subscription payment — paid straight to your bank.</p>
         </div>
 
         {/* How it works */}
@@ -43,7 +43,7 @@ export default function AffiliatePage() {
           {[
             { step: "1", title: "Apply", desc: "Fill out the application form below. We review and approve within 24 hours." },
             { step: "2", title: "Share", desc: "Get your unique referral link. Share it on YouTube, social media, blog — anywhere." },
-            { step: "3", title: "Earn", desc: "Earn 30% of every subscription payment from your referrals. Paid monthly." },
+            { step: "3", title: "Earn", desc: "Earn 30% of their first subscription payment. Paid via bank transfer." },
           ].map(s => (
             <div key={s.step} className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-6 text-center">
               <div className="w-10 h-10 rounded-full bg-[#7C3AED] text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">{s.step}</div>
@@ -58,9 +58,9 @@ export default function AffiliatePage() {
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-white mb-6 text-center">What You Could Earn</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { referrals: 5, plan: "Starter", monthly: "£29.99", earning: "£44.99" },
-              { referrals: 10, plan: "Growth", monthly: "£59.99", earning: "£179.97" },
-              { referrals: 25, plan: "Mixed", monthly: "avg £49.99", earning: "£374.93" },
+              { referrals: 5, plan: "Starter", monthly: "£29.99", earning: "£45.00" },
+              { referrals: 10, plan: "Growth", monthly: "£59.99", earning: "£180.00" },
+              { referrals: 25, plan: "Mixed", monthly: "avg £49.99", earning: "£375.00" },
             ].map(e => (
               <div key={e.referrals} className="text-center">
                 <div className="text-3xl font-extrabold text-[#F59E0B] mb-1">{e.earning}<span className="text-sm text-[#a5a0cc]">/mo</span></div>
@@ -75,9 +75,9 @@ export default function AffiliatePage() {
         <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-8 mb-16">
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-white mb-4">Programme Details</h2>
           <div className="space-y-3 text-sm text-[#c8c4e0]">
-            <p><strong className="text-white">Commission:</strong> 30% recurring on all subscription payments from your referrals</p>
+            <p><strong className="text-white">Commission:</strong> 30% one-time on every referral&apos;s first subscription payment</p>
             <p><strong className="text-white">Cookie duration:</strong> 90 days — if someone clicks your link and signs up within 90 days, you get credit</p>
-            <p><strong className="text-white">Payment:</strong> Monthly via bank transfer, minimum payout £50</p>
+            <p><strong className="text-white">Payment:</strong> Bank transfer, minimum payout £25, processed within 5 business days</p>
             <p><strong className="text-white">Tracking:</strong> Unique referral link with monthly performance reports</p>
             <p><strong className="text-white">Who can join:</strong> Anyone — eBay sellers, YouTubers, bloggers, social media influencers</p>
             <p><strong className="text-white">Restrictions:</strong> No self-referrals, no paid ads bidding on UnicornDS brand terms, no spam</p>
