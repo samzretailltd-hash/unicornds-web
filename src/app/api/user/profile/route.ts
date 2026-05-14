@@ -51,6 +51,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Please use a real email address. Temporary/disposable emails are not allowed." }, { status: 400 });
     }
 
+    // Check if user already exists
+    const existingDoc = await adminDb.collection("users").doc(decoded.uid).get();
+    
+    if (existingDoc.exists) {
+      // Existing user — only update provided fields, don't reset tier/tokens
+      const updates: Record<string, unknown> = {
+        last_ip: ip,
+        last_login: new Date().toISOString(),
+      };
+      if (phone) updates.phone = phone;
+      if (fullName) updates.fullName = fullName;
+      if (country) updates.country = country;
+      if (ref) updates.ref = ref;
+
+      await adminDb.collection("users").doc(decoded.uid).set(updates, { merge: true });
+
+      return NextResponse.json({ ok: true, message: "Profile updated" });
+    }
+
+    // New user — full signup flow
     await adminDb.collection("users").doc(decoded.uid).set({
       email: decoded.email,
       fullName: fullName || "",

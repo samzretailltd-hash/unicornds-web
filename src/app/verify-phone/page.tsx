@@ -7,6 +7,7 @@ import Link from "next/link";
 
 export default function VerifyPhonePage() {
   const [phone, setPhone] = useState("");
+  const [phoneInput, setPhoneInput] = useState("");
   const [step, setStep] = useState<"loading" | "ready" | "code" | "verified">("loading");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
@@ -168,24 +169,69 @@ export default function VerifyPhonePage() {
 
         {step === "ready" && (
           <div className="space-y-4">
-            <div className="bg-[#0f0e1a] border border-[#3d3580] rounded-lg p-4 text-center">
-              <div className="text-xs text-[#a5a0cc] mb-1">Sending code to</div>
-              <div className="text-white font-bold text-lg">{phone || "No phone number"}</div>
-            </div>
-            <p className="text-xs text-[#6b6899] text-center">
-              Standard SMS rates may apply. We&apos;ll send a 6-digit code to verify this number.
-            </p>
-            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-            <button
-              onClick={sendCode}
-              disabled={sending || !phone}
-              className="w-full btn-primary py-3 rounded-lg font-bold text-sm disabled:opacity-50"
-            >
-              {sending ? "Sending..." : "Send Verification Code"}
-            </button>
-            <p className="text-center text-xs text-[#6b6899]">
-              Wrong number? <Link href="/signup" className="text-[#A78BFA] hover:underline">Go back to signup</Link>
-            </p>
+            {!phone ? (
+              <>
+                <div>
+                  <label className="text-xs text-[#a5a0cc] mb-1 block">Enter your mobile number</label>
+                  <input
+                    type="tel"
+                    value={phoneInput}
+                    onChange={(e) => setPhoneInput(e.target.value)}
+                    placeholder="+44 7700 900000"
+                    autoFocus
+                    className="w-full px-4 py-3 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-lg focus:border-[#7C3AED] outline-none"
+                  />
+                  <p className="text-xs text-[#6b6899] mt-1">Include country code (e.g. +44 for UK, +1 for US)</p>
+                </div>
+                {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+                <button
+                  onClick={async () => {
+                    if (!phoneInput || phoneInput.length < 8) { setError("Please enter a valid phone number with country code"); return; }
+                    // Format: ensure it starts with +
+                    let formatted = phoneInput.trim();
+                    if (!formatted.startsWith("+")) formatted = "+" + formatted;
+                    setPhone(formatted);
+                    // Save phone to profile
+                    try {
+                      const user = auth.currentUser;
+                      if (user) {
+                        const token = await user.getIdToken();
+                        await fetch("/api/user/profile", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                          body: JSON.stringify({ phone: formatted, fullName: "", country: "", ref: "" }),
+                        });
+                      }
+                    } catch { /* continue */ }
+                  }}
+                  disabled={!phoneInput || phoneInput.length < 8}
+                  className="w-full btn-primary py-3 rounded-lg font-bold text-sm disabled:opacity-50"
+                >
+                  Continue
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="bg-[#0f0e1a] border border-[#3d3580] rounded-lg p-4 text-center">
+                  <div className="text-xs text-[#a5a0cc] mb-1">Sending code to</div>
+                  <div className="text-white font-bold text-lg">{phone}</div>
+                </div>
+                <p className="text-xs text-[#6b6899] text-center">
+                  Standard SMS rates may apply. We&apos;ll send a 6-digit code to verify this number.
+                </p>
+                {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+                <button
+                  onClick={sendCode}
+                  disabled={sending || !phone}
+                  className="w-full btn-primary py-3 rounded-lg font-bold text-sm disabled:opacity-50"
+                >
+                  {sending ? "Sending..." : "Send Verification Code"}
+                </button>
+                <p className="text-center text-xs text-[#6b6899]">
+                  Wrong number? <button onClick={() => { setPhone(""); setPhoneInput(""); }} className="text-[#A78BFA] hover:underline">Change number</button>
+                </p>
+              </>
+            )}
           </div>
         )}
 
