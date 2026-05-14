@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
         const d = doc.data();
         const t = (d.tier || "").toLowerCase();
         if (d.status !== "blocked" && d.stripe_subscription_id) {
-          if (t === "starter") monthlyRevenue += 23.99;
+          if (t === "starter") monthlyRevenue += 29.99;
           else if (t === "growth") monthlyRevenue += 59.99;
           else if (t === "empire") monthlyRevenue += 99.99;
         }

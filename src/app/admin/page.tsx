@@ -4,8 +4,8 @@ import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from "firebase/auth";
 
 const ADMIN_EMAILS = ["1stunicorndistribution@gmail.com", "zohaib219@gmail.com", "support@unicornds.io"];
-const TIERS = ["trial", "expired", "free", "starter", "growth", "empire"];
-const TIER_COLORS: Record<string, string> = { trial: "#7C3AED", expired: "#EF4444", free: "#6b6899", starter: "#7C3AED", growth: "#10B981", empire: "#F59E0B" };
+const TIERS = ["free", "starter", "growth", "empire"];
+const TIER_COLORS: Record<string, string> = { free: "#6b6899", starter: "#7C3AED", growth: "#10B981", empire: "#F59E0B" };
 
 interface UserData { uid: string; email?: string; fullName?: string; phone?: string; country?: string; tier?: string; status?: string; ref?: string; signup_ip?: string; last_ip?: string; created_at?: unknown; billing_period_end?: string; trial_end?: string; tokensUsed?: number; tokensTotal?: number; card_verified?: boolean; usage?: Record<string, unknown>; }
 interface Stats { users: { total: number; free: number; starter: number; growth: number; empire: number }; payments: unknown[]; revenue: { total: number; currency: string }; }
@@ -69,8 +69,7 @@ export default function AdminPage() {
   const updateTier = async (uid: string, tier: string) => {
     const token = await getToken();
     const end = new Date(); end.setMonth(end.getMonth() + 1);
-    const trialEnd = new Date(); trialEnd.setDate(trialEnd.getDate() + 14);
-    const tokenTotals: Record<string, number> = { trial: 0, expired: 0, free: 0, starter: 500, growth: 1500, empire: 3000 };
+    const tokenTotals: Record<string, number> = { free: 20, starter: 500, growth: 1500, empire: 3000 };
     await fetch("/api/admin/update-tier", {
       method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -78,8 +77,8 @@ export default function AdminPage() {
         tokensTotal: tokenTotals[tier] || 100,
         // DON'T reset tokensUsed — keep their current usage
         billing_period_end: ["starter", "growth", "empire"].includes(tier) ? end.toISOString() : null,
-        trialStartDate: tier === "trial" ? new Date().toISOString() : null,
-        trialEndDate: tier === "trial" ? trialEnd.toISOString() : null,
+        trialStartDate: null,
+        trialEndDate: null,
       }),
     });
     fetchData();
@@ -194,7 +193,7 @@ export default function AdminPage() {
               {[
                 ["Total Users", stats.users.total, "#7C3AED"],
                 ["Free", stats.users.free, "#6b6899"],
-                ["Trial", (stats.users as any).trial || 0, "#F59E0B"],
+                ["Free", (stats.users as any).free || 0, "#6b6899"],
                 ["Starter", stats.users.starter, "#7C3AED"],
                 ["Growth", stats.users.growth, "#10B981"],
                 ["Empire", stats.users.empire, "#F59E0B"],
