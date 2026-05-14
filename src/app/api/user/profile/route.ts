@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
 import { sendAdminNewSignup, sendTelegram } from "@/lib/brevo";
+import { isDisposableEmail } from "@/lib/disposable-emails";
+import { runSignupAbuseChecks } from "@/lib/abuse-detection";
 
 export async function GET(req: NextRequest) {
   try {
@@ -41,6 +43,12 @@ export async function POST(req: NextRequest) {
       || req.headers.get("x-real-ip")
       || "unknown";
 
+    // BLOCK: Disposable/temp email addresses
+    if (decoded.email && isDisposableEmail(decoded.email)) {
+      sendTelegram(`🚫 <b>Blocked disposable email!</b>\n📧 ${decoded.email}\n🌐 ${ip}`).catch(() => {});
+      return NextResponse.json({ error: "Please use a real email address. Temporary/disposable emails are not allowed." }, { status: 400 });
+    }
+
     await adminDb.collection("users").doc(decoded.uid).set({
       email: decoded.email,
       fullName: fullName || "",
@@ -54,9 +62,13 @@ export async function POST(req: NextRequest) {
       phone_verified: false,
       signup_ip: ip,
       last_ip: ip,
+      login_ips: [ip],
       created_at: new Date().toISOString(),
       last_login: new Date().toISOString(),
     }, { merge: true });
+
+    // Run abuse checks (duplicate IP, phone, suspicious name) — async, don't block signup
+    runSignupAbuseChecks(decoded.uid, decoded.email || "", phone || "", ip, fullName || "").catch(() => {});
 
     // Notify admin about new signup (fire and forget)
     sendAdminNewSignup({
