@@ -80,8 +80,11 @@ export default function DashboardPage() {
         });
         const profileData = await profileRes.json();
 
-        // Phone verification check
-        if (!profileData.phone_verified) {
+        const CALL_REQUIRED_AFTER = new Date("2026-05-14T00:00:00Z").getTime();
+
+        // Phone verification check — only for users created after May 14, 2026
+        const userCreatedAt = profileData.created_at ? new Date(profileData.created_at).getTime() : 0;
+        if (!profileData.phone_verified && userCreatedAt >= CALL_REQUIRED_AFTER) {
           router.push("/verify-phone");
           return;
         }
@@ -92,9 +95,7 @@ export default function DashboardPage() {
           return;
         }
 
-        // Gate 4: Must book setup call (new users created after May 14, 2026)
-        const CALL_REQUIRED_AFTER = new Date("2026-05-14T00:00:00Z").getTime();
-        const userCreatedAt = profileData.created_at ? new Date(profileData.created_at).getTime() : (raw.created_at ? new Date(raw.created_at).getTime() : 0);
+        // Gate 4: Must book setup call (new users only)
         if (!profileData.call_booked && userCreatedAt >= CALL_REQUIRED_AFTER) {
           router.push("/book-call");
           return;
