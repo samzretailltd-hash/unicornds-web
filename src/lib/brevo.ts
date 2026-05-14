@@ -220,16 +220,23 @@ export async function sendAdminPaymentFailed(email: string, tier: string) {
 const TG_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
 const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "";
 
-export async function sendTelegram(message: string) {
+export async function sendTelegram(message: string): Promise<boolean> {
   try {
-    if (!TG_BOT_TOKEN || !TG_CHAT_ID) { console.warn("[Telegram] No token/chat_id — skipping"); return; }
-    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+    if (!TG_BOT_TOKEN || !TG_CHAT_ID) { console.warn("[Telegram] No token/chat_id — skipping"); return false; }
+    const res = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: TG_CHAT_ID, text: message, parse_mode: "HTML" }),
     });
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error("[Telegram] Send failed:", res.status, errText);
+      return false;
+    }
+    return true;
   } catch (e) {
     console.error("[Telegram] Failed:", e);
+    return false;
   }
 }
 
