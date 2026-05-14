@@ -5,6 +5,7 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { SITE } from "@/lib/constants";
 import { PricingSection } from "@/components/PricingSection";
 import { HeroSlider } from "@/components/HeroSlider";
+import { ParticleField } from "@/components/ParticleField";
 import { useGeo } from "@/lib/geo";
 import { t } from "@/lib/i18n";
 
@@ -110,8 +111,9 @@ export function HomeContent() {
       {/* ════════ HERO ════════ */}
       <section ref={heroRef} className="relative pt-36 sm:pt-44 pb-8 text-center overflow-hidden grid-bg">
         <div className="hero-glow" />
+        <ParticleField />
 
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="max-w-5xl mx-auto px-6 relative">
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="max-w-5xl mx-auto px-6 relative z-10">
           {/* Badge */}
           <Reveal>
             <div className="inline-block px-5 py-1.5 rounded-full bg-[#7C3AED]/10 border border-[#7C3AED]/20 text-sm text-[#A78BFA] font-medium mb-8 hero-badge">
