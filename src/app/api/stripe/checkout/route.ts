@@ -140,16 +140,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Mark trial as used
-    if (trialAllowed) {
-      await adminDb.collection("users").doc(decoded.uid).set({
-        trial_used: true,
-        trial_started_at: new Date().toISOString(),
-        trial_tier: tier,
-        trial_listings: trialFee?.listings || 25,
-      }, { merge: true });
-    }
-
     return NextResponse.json({ url: session.url });
   } catch (err: any) {
     console.error("Stripe checkout error:", err);

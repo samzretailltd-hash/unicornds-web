@@ -79,6 +79,10 @@ export async function POST(req: NextRequest) {
             ? new Date((sub as any).current_period_end * 1000).toISOString()
             : null,
           trial_end: trialEnd,
+          trial_used: isTrialing ? true : undefined,
+          trial_started_at: isTrialing ? new Date().toISOString() : undefined,
+          trial_tier: isTrialing ? tier : undefined,
+          trial_listings: isTrialing ? tokensTotal : undefined,
           updated_at: new Date().toISOString(),
         }, { merge: true });
 
