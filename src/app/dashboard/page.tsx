@@ -170,7 +170,7 @@ export default function DashboardPage() {
         {(tier === "expired" || tier === "free") && (
           <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 rounded-xl p-5 mb-6 text-center">
             <p className="text-lg font-bold text-[#F59E0B] mb-2">Choose a plan to get started</p>
-            <p className="text-sm text-[#a5a0cc] mb-4">Select a plan and try it for 7 days for just £1. Full access to all features.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">Select a plan. Trial: Starter £1 (25 listings), Growth £5 (50), Empire £10 (100). Or full price for all listings.</p>
             <Link href="/pricing" className="btn-primary px-8 py-3 rounded-xl text-sm font-bold inline-block">Start Your 7-Day Trial for £1</Link>
           </div>
         )}

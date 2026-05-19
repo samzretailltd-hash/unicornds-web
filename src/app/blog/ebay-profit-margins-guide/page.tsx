@@ -98,7 +98,7 @@ export default function ProfitMarginsArticle() {
 
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <h3 className="text-lg font-bold text-white mb-2">Maximise your margins with UnicornDS</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">Product Hunter finds the highest-margin products. Competitor Scanner shows what profitable sellers are listing. AI Titles boost your search visibility. Start free.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">Product Hunter finds the highest-margin products. Competitor Scanner shows what profitable sellers are listing. AI Titles boost your search visibility. Try any plan from just £1.</p>
             <Link href={SITE.chrome_store} target="_blank" className="btn-primary px-6 py-2.5 rounded-xl text-sm font-bold inline-block no-underline">Install UnicornDS Free</Link>
           </div>
           <RelatedArticles currentSlug="ebay-profit-margins-guide" tags={["profits", "pricing", "margins"]} />

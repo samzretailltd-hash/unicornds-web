@@ -23,7 +23,7 @@ export default function Terms() {
 
         <h2>3. £1 Trial</h2>
         <ul>
-          <li>New users receive a <strong>7-day trial for just £1</strong> with full access to the features of their chosen plan.</li>
+          <li>New users receive a <strong>7-day trial</strong> (Starter £1, Growth £5, Empire £10) with limited listings to the features of their chosen plan.</li>
           <li>Your card is captured for verification only — you are not charged during the trial period.</li>
           <li>Each person is entitled to <strong>one £1 trial only</strong>. Attempts to create multiple trials using different email addresses or devices will be detected and blocked.</li>
           <li>When the trial expires, your account will be restricted. Your existing eBay listings remain live, but you cannot create new ones without upgrading to a paid plan.</li>
@@ -41,7 +41,7 @@ export default function Terms() {
 
         <h2>5. Refund Policy</h2>
         <ul>
-          <li>We offer a <strong>7-day trial for just £1 on all plans</strong> on all paid plans.</li>
+          <li>We offer a <strong>7-day trial</strong> on all plans: Starter £1 (25 listings), Growth £5 (50 listings), Empire £10 (100 listings).</li>
           <li>If you are not satisfied within 7 days of your first payment, contact us for a full refund.</li>
           <li>Refunds after the 7-day period are not available, as the service has been provided.</li>
           <li>Refunds are processed within 5-10 business days to the original payment method.</li>

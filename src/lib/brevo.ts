@@ -97,7 +97,7 @@ export async function sendWelcomeEmail(email: string, name: string, tier: string
   const html = wrapTemplate(`
     <h2 style="color:#1E1B4B;margin:0 0 16px;">Welcome to UnicornDS, ${firstName}! 🎉</h2>
     <p style="color:#333;font-size:15px;line-height:1.6;">
-      Your <strong>${tierName}</strong> plan is now active with a <strong>7-day trial for just £1</strong>.
+      Your <strong>${tierName}</strong> plan is now active with a <strong>7-day trial</strong>.
     </p>
 
     <div style="background:#FFF7ED;border:2px solid #F59E0B;border-radius:12px;padding:24px;margin:20px 0;text-align:center;">

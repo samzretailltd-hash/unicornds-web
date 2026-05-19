@@ -78,7 +78,7 @@ export default function CompetitorResearchToolsArticle() {
                     ["VERO filtering", "✓ 3,390 brands", "✗", "✗", "Basic", "Basic", "✗"],
                     ["Export to list", "✓ One-click", "CSV only", "CSV only", "✓", "✓", "CSV only"],
                     ["Source price data", "Amazon + Ali", "eBay only", "eBay only", "Multi", "Amazon + Ali", "Active only"],
-                    ["7-day trial for just £1 / trial", "7-day £1 trial", "7-day paid", "Free w/ Basic eBay", "No", "No", "No"],
+                    ["7-day trial from £1 / trial", "7-day £1 trial", "7-day paid", "Free w/ Basic eBay", "No", "No", "No"],
                   ].map(([feature, uni, zik, ter, auto, ecom, eb]) => (
                     <tr key={feature} className="border-t border-[#3d3580]/30">
                       <td className="p-3 text-[#a5a0cc] font-medium">{feature}</td>
@@ -95,7 +95,7 @@ export default function CompetitorResearchToolsArticle() {
             </div>
 
             <h2>1. UnicornDS Competitor Scanner — Best All-in-One</h2>
-            <p><strong>Type:</strong> Chrome extension<br/><strong>Pricing:</strong> Included in all paid plans (£29.99+/month); 7-day trial for just £1<br/><strong>Best for:</strong> Sellers who want to research and list in the same tool</p>
+            <p><strong>Type:</strong> Chrome extension<br/><strong>Pricing:</strong> Included in all paid plans (£29.99+/month); 7-day trial from £1<br/><strong>Best for:</strong> Sellers who want to research and list in the same tool</p>
 
             <div className="my-6 rounded-xl overflow-hidden border border-[#3d3580]">
               <Image src="/screenshots/competitor-scanner.png" alt="UnicornDS Competitor Scanner pulling active listings from an eBay seller URL with VERO badges and margin estimates" width={1200} height={700} className="w-full h-auto" />
@@ -211,7 +211,7 @@ export default function CompetitorResearchToolsArticle() {
 
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
               <h3 className="text-white text-lg font-bold mb-2">Scan any eBay competitor in seconds</h3>
-              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS Competitor Scanner pulls active listings from any eBay seller URL with VERO filtering and one-click listing. 7-day trial for just £1, £1 charged today, cancel anytime.</p>
+              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS Competitor Scanner pulls active listings from any eBay seller URL with VERO filtering and one-click listing. 7-day trial from £1, £1 charged today, cancel anytime.</p>
               <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Try 7 Days for £1 &rarr;</Link>
             </div>
             <RelatedArticles currentSlug="best-ebay-competitor-research-tools" tags={["tools", "comparison", "listing"]} />

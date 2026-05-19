@@ -57,7 +57,7 @@ export default function BestToolsArticle() {
             </div>
             {[
               ["Price (3000 listings)", "£99.99/mo", "$199/mo", "$197/mo"],
-              ["7-day trial for just £1", "✓ 10/mo", "✗", "✗"],
+              ["7-day trial from £1", "✓ 10/mo", "✗", "✗"],
               ["Product Hunter", "✓", "✓", "✓"],
               ["Competitor Scanner", "✓", "✗", "Limited"],
               ["Stock Checker", "✓", "✗", "✓"],

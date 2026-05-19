@@ -408,7 +408,7 @@ export default function SellerToolsComparisonArticle() {
             <p>Most sellers do not. UnicornDS covers research, listing, VERO, AI, and orders in one extension. Adding Zik Analytics is worthwhile if you do deep market analysis, and Easync is worthwhile if you use Amazon Prime arbitrage. Adding anything else is usually duplication.</p>
 
             <h3>Which tool is the cheapest to start with?</h3>
-            <p>UnicornDS offers a 7-day trial for just £1 (card captured, not charged). After the trial, Starter is £29.99 (~$30) per month which is the cheapest tier among serious tools. Zik Analytics Basic at $14.99 is cheaper but does research only.</p>
+            <p>UnicornDS offers a 7-day trial from £1 (card captured, not charged). After the trial, Starter is £29.99 (~$30) per month which is the cheapest tier among serious tools. Zik Analytics Basic at $14.99 is cheaper but does research only.</p>
 
             <h3>Can I cancel and switch tools anytime?</h3>
             <p>Yes. All tools in this comparison are month-to-month subscriptions. eBay does not tie your account to any specific tool, so existing listings stay live even after you cancel. Switching is low-risk.</p>
@@ -423,11 +423,11 @@ export default function SellerToolsComparisonArticle() {
             <p>It varies by seller size. Under 1,000 listings: usually UnicornDS or DSM Tool. 1,000-5,000 listings: usually UnicornDS Empire or AutoDS. 5,000+ listings with heavy automation needs: usually AutoDS paired with Zik for research, or multiple tools in parallel.</p>
 
             <h3>Is there a truly free eBay seller tool?</h3>
-            <p>Terapeak (free with eBay Store) and eBay Hot Product Finder (built into Seller Hub) are the only genuinely free research tools. For listing, no paid feature-parity tool is free — UnicornDS 7-day £1 trial is the closest you get with 7-day trial for just £1 with full access.</p>
+            <p>Terapeak (free with eBay Store) and eBay Hot Product Finder (built into Seller Hub) are the only genuinely free research tools. For listing, no paid feature-parity tool is free — UnicornDS 7-day £1 trial is the closest you get with 7-day trial from £1 with full access.</p>
 
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
-              <h3 className="text-white text-lg font-bold mb-2">Try the #1 ranked eBay tool for just £1</h3>
-              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS ranks #1 on the weighted score across research, listing, VERO, AI, and price. 7-day trial for just £1 with full Starter features. £1 charged today, cancel anytime.</p>
+              <h3 className="text-white text-lg font-bold mb-2">Try the #1 ranked eBay tool from just £1</h3>
+              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS ranks #1 on the weighted score across research, listing, VERO, AI, and price. 7-day trial from £1 with full Starter features. £1 charged today, cancel anytime.</p>
               <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Try 7 Days for £1 &rarr;</Link>
             </div>
             <RelatedArticles currentSlug="ebay-seller-tools-comparison" tags={["tools", "comparison", "listing"]} />

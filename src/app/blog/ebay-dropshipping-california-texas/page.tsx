@@ -59,7 +59,7 @@ export default function EbayDropshippingCaliforniaTexasArticle() {
 
           <div className="bg-[#1E1B4B]/50 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <p className="text-white font-bold mb-2">Start Dropshipping from the US</p>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS works on all eBay marketplaces including eBay.com. Find products, list automatically, and scale your business. 7-day trial for just £1 on every plan.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS works on all eBay marketplaces including eBay.com. Find products, list automatically, and scale your business. 7-day trial from £1 on every plan.</p>
             <Link href="/signup" className="btn-primary px-6 py-2.5 rounded-lg text-sm font-bold inline-block">Try UnicornDS Free</Link>
           </div>
 

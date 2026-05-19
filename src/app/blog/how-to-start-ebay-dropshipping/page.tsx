@@ -63,7 +63,7 @@ export default function DropshippingArticle() {
           <h2>Step 3: Install Your Tools</h2>
           <p>Manual dropshipping is possible but extremely slow. A single listing takes 10-15 minutes to create manually. With the right tools, you can list in under 30 seconds.</p>
           <p><strong>UnicornDS</strong> is a Chrome extension built specifically for eBay dropshippers. It handles product research (finding profitable items), VERO checking (avoiding restricted brands), stock verification (confirming availability), and automated listing (creating eBay listings in one click).</p>
-          <p>The 7-day trial for just £1 gives you full access to your chosen plan — enough to test the business model before investing.</p>
+          <p>The 7-day trial from £1 gives you full access to your chosen plan — enough to test the business model before investing.</p>
 
           <h2>Step 4: Find Your First Products</h2>
           <p>Start with products that have high demand and low competition. Look for items with many reviews on Amazon (proven sellers) that are not heavily listed on eBay.</p>
@@ -96,7 +96,7 @@ export default function DropshippingArticle() {
 
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <h3 className="text-lg font-bold text-white mb-2">Start Your eBay Dropshipping Business Today</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS gives you everything you need: product research, VERO checking, stock verification, AI listing creation, and bulk listing. Try any plan for just £1 — 7-day full access.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS gives you everything you need: product research, VERO checking, stock verification, AI listing creation, and bulk listing. Try any plan from just £1 — 7-day full access.</p>
             <Link href={SITE.chrome_store} target="_blank" className="btn-primary px-6 py-2.5 rounded-xl text-sm font-bold inline-block no-underline">Install UnicornDS Free</Link>
           </div>
           <RelatedArticles currentSlug="how-to-start-ebay-dropshipping" tags={["beginner", "getting-started", "dropshipping"]} />

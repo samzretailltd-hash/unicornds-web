@@ -95,7 +95,7 @@ export default function VeroListArticle() {
 
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <h3 className="text-lg font-bold text-white mb-2">Protect your eBay account today</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS automatically checks every product against 3,357 VERO brands before you list. 7-day trial for just £1 available — £1 charged today, cancel anytime.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS automatically checks every product against 3,357 VERO brands before you list. 7-day trial from £1 available — £1 charged today, cancel anytime.</p>
             <Link href={SITE.chrome_store} target="_blank" className="btn-primary px-6 py-2.5 rounded-xl text-sm font-bold inline-block no-underline">Install UnicornDS Free</Link>
           </div>
           <RelatedArticles currentSlug="ebay-vero-list-2026" tags={["vero", "compliance", "brands"]} />

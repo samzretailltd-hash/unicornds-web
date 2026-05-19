@@ -84,7 +84,7 @@ export default function DownloadPage() {
 
           <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-8 mb-6">
             <img src="/logo.png" alt="UnicornDS" className="w-12 h-12 mx-auto mb-4 rounded-lg" />
-            <h3 className="text-lg font-bold text-white mb-2">Your 14-Day Trial Includes</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Your Plan Includes</h3>
             <div className="text-left max-w-xs mx-auto space-y-2 text-sm text-[#a5a0cc]">
               <p className="flex gap-2"><span className="text-[#10B981]">✓</span> Full access for 7 days</p>
               <p className="flex gap-2"><span className="text-[#10B981]">✓</span> AI Title Builder (GPT-4o)</p>

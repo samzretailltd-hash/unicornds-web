@@ -6,7 +6,7 @@ const translations: Record<string, Record<string, string>> = {
     'hero.subtitle': 'Source from **Amazon** for fast delivery or **AliExpress** for maximum margins. List on eBay in seconds with AI-powered automation.',
     'hero.cta': 'Start 7-Day Trial for £1',
     'hero.cta2': 'See Features ↓',
-    'hero.free': '7-day trial for just £1. 100 listings. AI titles. Card required for £1 trial.',
+    'hero.free': '7-day trial from £1. Limited trial listings. AI titles. Full access.',
     'stats.listed': 'Listed on eBay',
     'stats.researched': 'Products researched daily',
     'stats.sellers': 'Sellers worldwide',

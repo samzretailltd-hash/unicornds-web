@@ -133,7 +133,7 @@ export default function AccountLevelsArticle() {
 
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <h3 className="text-lg font-bold text-white mb-2">Start building your eBay account today</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS helps you list consistently with Product Hunter, Bulk Lister, VERO protection, and AI titles. 7-day trial for just £1 — 10 listings/month to get started.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS helps you list consistently with Product Hunter, Bulk Lister, VERO protection, and AI titles. 7-day trial from £1 — 10 listings/month to get started.</p>
             <Link href={SITE.chrome_store} target="_blank" className="btn-primary px-6 py-2.5 rounded-xl text-sm font-bold inline-block no-underline">Install UnicornDS Free</Link>
           </div>
           <RelatedArticles currentSlug="ebay-account-levels-selling-limits" tags={["account", "limits", "growth"]} />
