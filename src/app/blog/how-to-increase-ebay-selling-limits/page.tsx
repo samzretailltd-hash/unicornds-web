@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "How to Increase eBay Selling Limits: From 10 Items to 10,000+ | UnicornDS",
+  title: "How to Increase eBay Selling Limits: From 10 Items to 10,000+",
   description: "Step-by-step guide to increasing your eBay selling limits fast. How to request limit increases, what eBay looks for, and the timeline from new seller to unlimited.",
   keywords: ["increase ebay selling limits", "ebay selling limits", "ebay limit increase", "how to get higher ebay limits", "ebay monthly selling limit"],
 };

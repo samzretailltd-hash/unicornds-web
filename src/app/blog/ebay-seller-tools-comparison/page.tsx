@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Seller Tools Comparison 2026: 10 Tools Ranked by Category | UnicornDS",
+  title: "eBay Seller Tools Comparison 2026: 10 Tools Ranked by Category",
   description: "Complete eBay seller tools comparison for 2026. 10 tools ranked across research, listing, VERO, orders, AI, and pricing. UnicornDS, AutoDS, Zik, DSM Tool, SaleFreaks, EcomSniper, SuperDS, Easync, eBextractor, ZIK Booster.",
   keywords: ["ebay seller tools comparison", "ebay tools comparison 2026", "best ebay tools compared", "ebay software comparison", "ebay dropshipping tools ranked", "ebay listing software comparison", "compare ebay seller tools", "ebay automation comparison"],
 };

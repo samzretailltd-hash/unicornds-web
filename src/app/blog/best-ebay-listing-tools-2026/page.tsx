@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Best eBay Listing Tools 2026: Complete Comparison Guide | UnicornDS",
+  title: "Best eBay Listing Tools 2026: Complete Comparison Guide",
   description: "Compare the best eBay listing and dropshipping tools in 2026. Features, pricing, and honest reviews of UnicornDS, EcomSniper, AutoDS, and more.",
   keywords: ["best eBay listing tools", "eBay listing software 2026", "eBay dropshipping tools", "eBay automation software", "EcomSniper alternative", "AutoDS alternative"],
 };

@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "AutoDS vs ZIK Analytics 2026: Which eBay Tool Should You Choose? | UnicornDS",
+  title: "AutoDS vs ZIK Analytics 2026: Which eBay Tool Should You Choose?",
   description: "Detailed comparison of AutoDS and ZIK Analytics for eBay sellers. Features, pricing, strengths, and which tool is right for your business — plus a better alternative.",
   keywords: ["autods vs zik analytics", "autods or zik", "zik analytics vs autods", "best ebay dropshipping tool comparison"],
 };

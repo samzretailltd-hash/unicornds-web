@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "How Many eBay Listings Per Day Do You Need? The Volume Formula | UnicornDS",
+  title: "How Many eBay Listings Per Day Do You Need? The Volume Formula",
   description: "The number of daily eBay listings directly determines your sales. Learn the exact listing volume needed for 5, 10, 20, and 50+ sales per day. Real numbers from real sellers.",
   keywords: ["eBay listings per day", "how many listings eBay", "eBay listing volume", "eBay sales formula", "daily eBay listings", "eBay dropshipping volume"],
 };

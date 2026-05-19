@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Fees Calculator 2026: Know Your True Profit Before Listing | UnicornDS",
+  title: "eBay Fees Calculator 2026: Know Your True Profit Before Listing",
   description: "Complete breakdown of eBay fees in 2026. Final value fees, promoted listing costs, payment processing, and how to calculate your real profit per sale.",
   keywords: ["ebay fees calculator", "ebay fees 2026", "ebay final value fee", "ebay selling fees", "ebay fee calculator uk"],
 };

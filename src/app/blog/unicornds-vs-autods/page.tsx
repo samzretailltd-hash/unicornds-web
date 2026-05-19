@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "UnicornDS vs AutoDS: Honest Comparison for eBay Sellers 2026 | UnicornDS",
+  title: "UnicornDS vs AutoDS: Honest Comparison for eBay Sellers 2026",
   description: "Detailed comparison of UnicornDS vs AutoDS for eBay dropshipping. Features, pricing, ease of use, and which tool is better for Amazon arbitrage and AliExpress sourcing.",
   keywords: ["UnicornDS vs AutoDS", "AutoDS alternative", "best eBay dropshipping tool", "AutoDS review", "eBay listing tool comparison", "dropshipping software comparison"],
 };

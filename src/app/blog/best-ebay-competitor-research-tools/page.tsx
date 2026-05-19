@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Best eBay Competitor Research Tools 2026: 7 Tools Compared | UnicornDS",
+  title: "Best eBay Competitor Research Tools 2026: 7 Tools Compared",
   description: "The best eBay competitor research tools in 2026. Compare UnicornDS Competitor Scanner, Zik Analytics, Terapeak, AutoDS Finder, EcomSniper, eBextractor, and eBay Hot Product Finder with pricing and honest reviews.",
   keywords: ["best ebay competitor research tools", "ebay competitor research tool", "ebay competitor scanner", "how to research ebay competitors", "ebay spy tool", "ebay seller research", "terapeak vs zik", "competitor research software ebay", "ebay product research tools 2026"],
 };

@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Dropshipping Spain & Italy: Guide to ebay.es and ebay.it in 2026 | UnicornDS",
+  title: "eBay Dropshipping Spain & Italy: Guide to ebay.es and ebay.it in 2026",
   description: "How to dropship on eBay Spain (ebay.es) and eBay Italy (ebay.it). Two growing European markets with low competition and high profit potential.",
   keywords: ["ebay dropshipping spain", "ebay dropshipping italy", "ebay.es dropshipping", "ebay.it dropshipping", "dropshipping spain italy"],
 };

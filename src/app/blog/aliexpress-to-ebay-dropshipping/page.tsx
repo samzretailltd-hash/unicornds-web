@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "AliExpress to eBay Dropshipping: Higher Margins, Step-by-Step Guide | UnicornDS",
+  title: "AliExpress to eBay Dropshipping: Higher Margins, Step-by-Step Guide",
   description: "How to dropship from AliExpress to eBay for 40-60% profit margins. Product selection, shipping times, customer service, and scaling strategies.",
   keywords: ["AliExpress to eBay", "AliExpress dropshipping eBay", "AliExpress eBay guide", "dropship AliExpress", "high margin dropshipping", "AliExpress sourcing"],
 };

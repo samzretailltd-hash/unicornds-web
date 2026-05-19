@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Return Policy for Sellers: Complete Guide 2026 | UnicornDS",
+  title: "eBay Return Policy for Sellers: Complete Guide 2026",
   description: "Learn how to set up the best eBay return policy for your store. Covers 30-day returns, free returns, restocking fees, and how returns affect your seller rating and search ranking.",
   keywords: ["eBay return policy", "eBay seller returns", "eBay return policy for sellers", "eBay free returns", "eBay restocking fee", "eBay return shipping"],
 };

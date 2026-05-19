@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "How to Dropship on eBay in the USA: Complete 2026 Guide | UnicornDS",
+  title: "How to Dropship on eBay in the USA: Complete 2026 Guide",
   description: "Step-by-step guide to starting an eBay dropshipping business in the United States. Covers Amazon.com sourcing, US tax obligations, shipping with USPS and UPS, and automation tools.",
   keywords: ["eBay dropshipping USA", "how to dropship on eBay US", "eBay dropshipping United States", "US eBay seller guide", "dropshipping from Amazon to eBay USA", "eBay business USA"],
 };

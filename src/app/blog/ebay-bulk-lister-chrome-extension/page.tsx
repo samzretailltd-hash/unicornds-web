@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Bulk Lister Chrome Extension: List 100+ Products Per Day | UnicornDS",
+  title: "eBay Bulk Lister Chrome Extension: List 100+ Products Per Day",
   description: "The best Chrome extension for bulk listing on eBay. List products from Amazon and AliExpress to eBay automatically with AI titles, VERO protection, and variant images.",
   keywords: ["ebay bulk lister chrome extension", "ebay listing extension", "bulk list ebay products", "chrome extension ebay seller"],
 };

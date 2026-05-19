@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Pricing Strategy: How to Price Products for Maximum Profit in 2026 | UnicornDS",
+  title: "eBay Pricing Strategy: How to Price Products for Maximum Profit in 2026",
   description: "Learn the exact eBay pricing formula that accounts for fees, shipping, ads, and profit margin. Stop losing money on every sale with this complete pricing guide.",
   keywords: ["eBay pricing strategy", "how to price products on eBay", "eBay fees calculator", "eBay profit calculator", "eBay pricing formula", "dropshipping pricing"],
 };

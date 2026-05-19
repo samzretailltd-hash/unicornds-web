@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Best Chrome Extensions for eBay Sellers 2026: Top 7 Compared | UnicornDS",
+  title: "Best Chrome Extensions for eBay Sellers 2026: Top 7 Compared",
   description: "The best Chrome extensions for eBay sellers in 2026. Product research, listing automation, repricing, and analytics — compared with features and pricing.",
   keywords: ["chrome extensions ebay sellers", "best ebay chrome extension", "ebay seller chrome extension", "ebay tools chrome"],
 };

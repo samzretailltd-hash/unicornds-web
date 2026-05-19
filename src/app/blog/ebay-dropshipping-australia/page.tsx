@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Dropshipping Australia: Complete Guide for ebay.com.au Sellers in 2026 | UnicornDS",
+  title: "eBay Dropshipping Australia: Complete Guide for ebay.com.au Sellers in 2026",
   description: "How to start dropshipping on eBay Australia. Product research, Australian buyer expectations, shipping, GST, and the best automation tools for ebay.com.au.",
   keywords: ["ebay dropshipping australia", "ebay.com.au dropshipping", "dropshipping australia 2026", "ebay australia selling guide"],
 };

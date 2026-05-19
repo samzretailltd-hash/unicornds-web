@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Auto-Upload Variant Images to eBay — Only UnicornDS Does This | UnicornDS",
+  title: "Auto-Upload Variant Images to eBay — Only UnicornDS Does This",
   description: "UnicornDS automatically uploads the correct product photo for each colour variant on eBay. No other dropshipping tool offers per-variant image upload from AliExpress.",
   keywords: ["eBay variant images", "eBay MSKU photos", "per-variant images eBay", "AliExpress variant photos", "eBay listing automation", "UnicornDS variant images"],
 };

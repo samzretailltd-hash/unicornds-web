@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Dropshipping France: Guide Complet pour ebay.fr en 2026 | UnicornDS",
+  title: "eBay Dropshipping France: Guide Complet pour ebay.fr en 2026",
   description: "How to start dropshipping on eBay France (ebay.fr). Product research, French buyer expectations, VAT, shipping from UK and China, and automation tools.",
   keywords: ["ebay dropshipping france", "ebay.fr dropshipping", "dropshipping france 2026", "vendre sur ebay france"],
 };

@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Store Subscription Guide: Which Plan is Right for You? 2026 | UnicornDS",
+  title: "eBay Store Subscription Guide: Which Plan is Right for You? 2026",
   description: "Compare eBay Store subscription tiers: Starter, Basic, Premium, Anchor, Enterprise. Learn which plan saves you the most on fees and how many listings you need to justify each tier.",
   keywords: ["eBay store subscription", "eBay store plans", "eBay store fees", "eBay Starter store", "eBay Premium store", "eBay Anchor store", "eBay store cost"],
 };

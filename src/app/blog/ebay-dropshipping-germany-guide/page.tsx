@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Dropshipping Germany: How to Sell on ebay.de in 2026 | UnicornDS",
+  title: "eBay Dropshipping Germany: How to Sell on ebay.de in 2026",
   description: "Complete guide to dropshipping on eBay Germany (ebay.de). Product research, German buyer expectations, VAT, shipping, and the best tools for the German market.",
   keywords: ["ebay dropshipping germany", "ebay.de dropshipping", "dropshipping germany 2026", "ebay germany selling guide"],
 };

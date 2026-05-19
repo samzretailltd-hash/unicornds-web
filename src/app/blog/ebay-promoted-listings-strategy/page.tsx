@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Promoted Listings Strategy 2026: The Complete Guide | UnicornDS",
+  title: "eBay Promoted Listings Strategy 2026: The Complete Guide",
   description: "How to use eBay promoted listings to boost sales. The right ad rate, when to use standard vs advanced, and how to calculate your true profit after ad costs.",
   keywords: ["ebay promoted listings strategy", "ebay promoted listings", "ebay advertising strategy", "ebay promoted listings cost", "ebay ad rate"],
 };

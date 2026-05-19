@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Title Optimization: How to Write Titles That Rank #1 in 2026 | UnicornDS",
+  title: "eBay Title Optimization: How to Write Titles That Rank #1 in 2026",
   description: "Master eBay SEO with optimised titles that rank higher and convert more buyers. Learn the 80-character formula used by top sellers, with real examples and data.",
   keywords: ["eBay title optimization", "eBay SEO", "eBay listing title", "how to write eBay titles", "eBay search ranking", "eBay keywords"],
 };

@@ -2,8 +2,11 @@ import { HomeContent } from "@/components/HomeContent";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "UnicornDS — eBay Dropshipping & Amazon Arbitrage Automation Tool",
-  description: "The #1 Chrome extension for eBay sellers worldwide. Find profitable products on Amazon & AliExpress, list them on eBay in seconds with AI titles, bulk listing, competitor scanning, and stock checking.",
+  title:
+    "eBay Dropshipping Chrome Extension — Amazon to eBay Arbitrage Tool | UnicornDS",
+  description:
+    "The #1 Chrome extension for eBay sellers. Source from Amazon & AliExpress, list on eBay in seconds with AI titles, VERO protection & bulk listing. 7-day trial from £1.",
+  alternates: { canonical: "https://www.unicornds.io" },
 };
 
 export default function Home() {

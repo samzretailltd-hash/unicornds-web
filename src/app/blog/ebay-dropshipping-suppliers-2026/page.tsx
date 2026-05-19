@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Dropshipping Suppliers 2026: Amazon, AliExpress, and Beyond | UnicornDS",
+  title: "eBay Dropshipping Suppliers 2026: Amazon, AliExpress, and Beyond",
   description: "The best suppliers for eBay dropshipping in 2026. Compare Amazon, AliExpress, CJ Dropshipping, Walmart, and wholesale suppliers with pros, cons, and profit margins.",
   keywords: ["ebay dropshipping suppliers", "best suppliers ebay dropshipping", "ebay dropshipping suppliers 2026", "where to source products ebay"],
 };

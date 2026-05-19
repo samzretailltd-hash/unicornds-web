@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Profit Margins: From 20% to 60% — How to Scale Your Margins | UnicornDS",
+  title: "eBay Profit Margins: From 20% to 60% — How to Scale Your Margins",
   description: "Learn how eBay profit margins work and how to grow from 20% beginner margins to 60%+ as your account matures. Real strategies for Amazon arbitrage and AliExpress dropshipping.",
   keywords: ["eBay profit margins", "eBay dropshipping profit", "how much profit eBay", "eBay arbitrage margins", "eBay dropshipping income", "increase eBay profits"],
 };

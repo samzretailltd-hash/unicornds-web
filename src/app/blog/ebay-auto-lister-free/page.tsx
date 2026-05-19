@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Auto Lister Free: List Products Automatically Without Paying | UnicornDS",
+  title: "eBay Auto Lister Free: List Products Automatically Without Paying",
   description: "Start listing on eBay automatically with a free auto lister. UnicornDS offers a 7-day trial from £1 with AI titles, image upload, VERO protection, and variant support.",
   keywords: ["ebay auto lister free", "free ebay listing tool", "automatic ebay listing", "free ebay listing software", "ebay lister free chrome"],
 };

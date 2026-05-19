@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay VERO List 2026: 3,357 Brands You Cannot Sell | UnicornDS",
+  title: "eBay VERO List 2026: 3,357 Brands You Cannot Sell",
   description: "Complete eBay VERO brand list for 2026. 3,357 restricted brands that will get your eBay account suspended if you list their products. Check before listing.",
   keywords: ["eBay VERO list", "VERO brands 2026", "eBay restricted brands", "eBay account suspension", "VERO programme", "eBay banned brands"],
 };

@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Account Levels & Selling Limits: How Seniority Affects Your Income | UnicornDS",
+  title: "eBay Account Levels & Selling Limits: How Seniority Affects Your Income",
   description: "Your eBay account age directly impacts your selling limits, search ranking, and profit potential. Learn how to progress from new seller to Top Rated Seller and maximize your income.",
   keywords: ["eBay selling limits", "eBay account levels", "eBay Top Rated Seller", "eBay seller status", "increase eBay selling limits", "eBay account seniority"],
 };

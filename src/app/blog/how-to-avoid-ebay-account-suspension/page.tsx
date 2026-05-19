@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "How to Avoid eBay Account Suspension: 10 Rules Every Seller Must Follow | UnicornDS",
+  title: "How to Avoid eBay Account Suspension: 10 Rules Every Seller Must Follow",
   description: "Protect your eBay account from suspension. The 10 most common causes of eBay bans and how to avoid them, including VERO strikes, late shipments, and policy violations.",
   keywords: ["avoid ebay account suspension", "ebay account suspended", "ebay ban reasons", "ebay account restricted", "how to not get banned ebay"],
 };

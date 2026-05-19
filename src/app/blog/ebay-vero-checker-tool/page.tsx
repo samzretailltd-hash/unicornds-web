@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay VERO Checker Tool: Check 3,357 Restricted Brands Instantly | UnicornDS",
+  title: "eBay VERO Checker Tool: Check 3,357 Restricted Brands Instantly",
   description: "Free VERO brand checker built into UnicornDS. Check if a brand is on eBay's restricted list before listing. Avoid account suspension with automatic VERO protection.",
   keywords: ["ebay vero checker", "vero brand checker tool", "ebay restricted brands checker", "ebay vero list checker", "check vero brands ebay"],
 };

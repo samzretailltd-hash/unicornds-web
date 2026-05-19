@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay vs Amazon: Which Platform is Better for Sellers in 2026? | UnicornDS",
+  title: "eBay vs Amazon: Which Platform is Better for Sellers in 2026?",
   description: "Honest comparison of selling on eBay vs Amazon in 2026. Fees, competition, ease of entry, profit margins, and which platform suits different seller types.",
   keywords: ["eBay vs Amazon", "selling on eBay vs Amazon", "eBay or Amazon 2026", "which is better eBay or Amazon", "Amazon FBA vs eBay dropshipping", "eBay seller vs Amazon seller"],
 };

@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "15 eBay Dropshipping Mistakes That Kill Your Account in 2026 | UnicornDS",
+  title: "15 eBay Dropshipping Mistakes That Kill Your Account in 2026",
   description: "Avoid the most common eBay dropshipping mistakes that lead to account suspension, lost profits, and wasted time. Learn from sellers who failed so you don't have to.",
   keywords: ["eBay dropshipping mistakes", "eBay account suspended", "dropshipping errors", "eBay seller mistakes", "eBay policy violations", "eBay dropshipping tips"],
 };

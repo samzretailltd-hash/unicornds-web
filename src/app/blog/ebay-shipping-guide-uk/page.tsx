@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Shipping Guide 2026: Best Carriers, Costs & Settings for UK Sellers | UnicornDS",
+  title: "eBay Shipping Guide 2026: Best Carriers, Costs & Settings for UK Sellers",
   description: "Complete UK eBay shipping guide covering Royal Mail, Evri, DPD costs, handling times for dropshipping, tracked vs untracked, and how to set up shipping policies correctly.",
   keywords: ["eBay shipping guide", "eBay shipping UK", "eBay shipping settings", "dropshipping shipping times", "eBay Royal Mail", "eBay tracked shipping"],
 };

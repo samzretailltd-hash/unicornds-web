@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "How to Start eBay Dropshipping in 2026: Complete Beginner's Guide | UnicornDS",
+  title: "How to Start eBay Dropshipping in 2026: Complete Beginner's Guide",
   description: "Step-by-step guide to starting an eBay dropshipping business in 2026. Covers Amazon arbitrage, AliExpress sourcing, account setup, product research, and automation tools.",
   keywords: ["eBay dropshipping", "how to dropship on eBay", "eBay dropshipping 2026", "start dropshipping", "eBay dropshipping guide", "dropshipping for beginners"],
 };

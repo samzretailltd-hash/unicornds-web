@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog — eBay Dropshipping & Amazon Arbitrage Tips | UnicornDS",
+  title: "Blog — eBay Dropshipping & Amazon Arbitrage Tips",
   description: "Learn how to start and scale your eBay dropshipping business. Guides on Amazon arbitrage, AliExpress sourcing, VERO compliance, listing volume, profit margins, and account growth.",
 };
 

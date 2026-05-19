@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Dropshipping Netherlands: How to Sell on ebay.nl in 2026 | UnicornDS",
+  title: "eBay Dropshipping Netherlands: How to Sell on ebay.nl in 2026",
   description: "Guide to dropshipping on eBay Netherlands (ebay.nl). A small but profitable European market with very low competition for English-speaking sellers.",
   keywords: ["ebay dropshipping netherlands", "ebay.nl dropshipping", "dropshipping netherlands", "ebay nederland"],
 };

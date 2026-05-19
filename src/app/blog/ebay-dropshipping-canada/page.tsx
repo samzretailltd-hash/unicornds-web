@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Dropshipping Canada: How to Sell on ebay.ca in 2026 | UnicornDS",
+  title: "eBay Dropshipping Canada: How to Sell on ebay.ca in 2026",
   description: "Complete guide to dropshipping on eBay Canada. Product sourcing from Amazon.ca, shipping within Canada, taxes, and the best tools for Canadian eBay sellers.",
   keywords: ["ebay dropshipping canada", "ebay.ca dropshipping", "dropshipping canada 2026", "ebay canada selling"],
 };

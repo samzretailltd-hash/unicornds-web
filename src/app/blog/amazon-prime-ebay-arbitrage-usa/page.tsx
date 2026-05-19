@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Amazon Prime to eBay Arbitrage USA: How to Make $3,000/Month in 2026 | UnicornDS",
+  title: "Amazon Prime to eBay Arbitrage USA: How to Make $3,000/Month in 2026",
   description: "Complete guide to Amazon Prime arbitrage on eBay in the United States. Find profitable products, list automatically, fulfill with Prime shipping. Real numbers and strategies.",
   keywords: ["Amazon Prime eBay arbitrage", "Amazon to eBay USA", "Amazon arbitrage United States", "eBay arbitrage with Prime", "make money eBay Amazon", "Amazon eBay flipping USA"],
 };

@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Amazon to eBay Arbitrage: Complete Step-by-Step Guide 2026 | UnicornDS",
+  title: "Amazon to eBay Arbitrage: Complete Step-by-Step Guide 2026",
   description: "Learn how to buy products from Amazon and sell them on eBay for profit. Step-by-step guide covering product research, pricing, listing, and scaling your arbitrage business.",
   keywords: ["Amazon to eBay arbitrage", "Amazon arbitrage", "eBay arbitrage", "retail arbitrage", "buy on Amazon sell on eBay", "online arbitrage"],
 };

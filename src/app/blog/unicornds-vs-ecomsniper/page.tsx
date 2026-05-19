@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "UnicornDS vs EcomSniper: Which eBay Tool Wins in 2026? | UnicornDS",
+  title: "UnicornDS vs EcomSniper: Which eBay Tool Wins in 2026?",
   description: "Head-to-head comparison of UnicornDS and EcomSniper for eBay dropshipping. Compare features, pricing, competitor scanning, and which offers better value for sellers.",
   keywords: ["UnicornDS vs EcomSniper", "EcomSniper alternative", "EcomSniper review", "best eBay Chrome extension", "eBay dropshipping tool comparison"],
 };

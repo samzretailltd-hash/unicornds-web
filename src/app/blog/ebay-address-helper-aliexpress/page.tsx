@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Address Helper: Auto-Fill AliExpress Checkout in Seconds | UnicornDS",
+  title: "eBay Address Helper: Auto-Fill AliExpress Checkout in Seconds",
   description: "UnicornDS Address Helper captures shipping addresses from eBay, Amazon, and TikTok orders and auto-fills them on AliExpress checkout. Save minutes per order.",
   keywords: ["ebay address helper", "aliexpress auto fill address", "ebay order address copy", "dropshipping address tool", "aliexpress checkout helper"],
 };

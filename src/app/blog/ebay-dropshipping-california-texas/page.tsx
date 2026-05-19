@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Dropshipping in California & Texas: State Rules, Tax & Tips 2026 | UnicornDS",
+  title: "eBay Dropshipping in California & Texas: State Rules, Tax & Tips 2026",
   description: "Guide to eBay dropshipping from California and Texas. Covers sales tax rules, business registration, state-specific regulations, and tips for US-based eBay dropshippers.",
   keywords: ["eBay dropshipping California", "eBay dropshipping Texas", "eBay sales tax California", "dropshipping US", "eBay seller California", "eBay seller Texas", "dropshipping sales tax"],
 };

@@ -5,7 +5,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "eBay Shipping Guide for US Sellers: Rates, Carriers & Tips 2026 | UnicornDS",
+  title: "eBay Shipping Guide for US Sellers: Rates, Carriers & Tips 2026",
   description: "Complete eBay shipping guide for US sellers. Compare USPS, UPS, FedEx rates. Learn about calculated vs flat rate shipping, free shipping strategy, and how to ship eBay orders efficiently.",
   keywords: ["eBay shipping guide", "eBay shipping USA", "eBay shipping rates", "USPS eBay", "eBay free shipping", "eBay shipping tips", "eBay calculated shipping"],
 };

@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Best eBay Seller Tools 2026: Top 8 Compared for Listing, Research & Dropshipping | UnicornDS",
+  title: "Best eBay Seller Tools 2026: Top 8 Compared for Listing, Research & Dropshipping",
   description: "The best eBay seller tools in 2026, ranked and compared. UnicornDS, AutoDS, Zik Analytics, DSM Tool, SaleFreaks, EcomSniper, SuperDS and eBay Hot Product Finder reviewed with honest pros, cons, pricing and feature tables.",
   keywords: ["best ebay seller tools", "ebay tools for sellers", "best tools for ebay sellers", "ebay seller tools comparison", "best ebay selling tools", "selling tools for ebay", "listing tool for ebay", "ebay lister tools", "ebay dropshipping software", "ebay automation tools 2026"],
 };

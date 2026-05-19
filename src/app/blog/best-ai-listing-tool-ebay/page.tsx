@@ -6,7 +6,7 @@ import { BlogSchema } from "@/components/BlogSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Best AI Listing Tool for eBay 2026: GPT-4o Title Generators Compared | UnicornDS",
+  title: "Best AI Listing Tool for eBay 2026: GPT-4o Title Generators Compared",
   description: "The best AI listing tools for eBay in 2026. Compare GPT-4o title generators, AI image editors, and AI-powered category detection in UnicornDS, AutoDS, EcomSniper, DSM Tool and SaleFreaks.",
   keywords: ["best ai listing tool for ebay", "ebay ai title generator", "ai ebay listing software", "gpt ebay titles", "ai ebay listing tool", "best ai tool ebay sellers", "ebay automation ai", "ai bulk lister ebay", "ebay title ai 2026"],
 };
