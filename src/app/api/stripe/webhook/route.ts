@@ -55,8 +55,13 @@ export async function POST(req: NextRequest) {
         const priceId = sub.items.data[0]?.price?.id;
         const tierInfo = priceId ? PRICE_TO_TIER[priceId] : null;
         const tier = tierInfo?.tier || session.metadata?.tier || "starter";
-        const tokensTotal = tierInfo?.tokensTotal || 500;
         const isTrialing = sub.status === "trialing";
+        const checkoutMode = session.metadata?.mode || (isTrialing ? "trial" : "full");
+
+        // Trial mode: limited listings. Full mode: full listings.
+        const TRIAL_TOKENS: Record<string, number> = { starter: 25, growth: 50, empire: 100 };
+        const FULL_TOKENS: Record<string, number> = { starter: 500, growth: 1500, empire: 3000 };
+        const tokensTotal = checkoutMode === "trial" ? (TRIAL_TOKENS[tier] || 25) : (FULL_TOKENS[tier] || tierInfo?.tokensTotal || 500);
         const trialEnd = (sub as any).trial_end
           ? new Date((sub as any).trial_end * 1000).toISOString()
           : null;

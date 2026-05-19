@@ -41,8 +41,10 @@ export async function POST(req: NextRequest) {
     const { fullName, phone, country, ref } = await req.json();
 
     // Capture IP address
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    const ip = req.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim()
+      || req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
       || req.headers.get("x-real-ip")
+      || req.headers.get("cf-connecting-ip")
       || "unknown";
 
     // BLOCK: Disposable/temp email addresses
