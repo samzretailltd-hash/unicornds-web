@@ -10,8 +10,14 @@ export function PricingSection() {
   const [loading, setLoading] = useState<string | null>(null);
   const geo = useGeo();
 
-  const handleCheckout = async (tier: string) => {
-    setLoading(tier);
+  const TRIAL_FEES: Record<string, { amount: string; listings: string }> = {
+    starter: { amount: "1", listings: "25" },
+    growth: { amount: "5", listings: "50" },
+    empire: { amount: "10", listings: "100" },
+  };
+
+  const handleCheckout = async (tier: string, mode: "trial" | "full") => {
+    setLoading(tier + "-" + mode);
     try {
       const user = auth.currentUser;
       if (!user) { window.location.href = "/signup"; return; }
@@ -20,7 +26,7 @@ export function PricingSection() {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, tier, period: annual ? "yearly" : "monthly" }),
+        body: JSON.stringify({ token, tier, period: annual ? "yearly" : "monthly", mode }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
@@ -52,7 +58,7 @@ export function PricingSection() {
           <span className="inline-block px-4 py-1 rounded-full bg-[#7C3AED]/12 border border-[#7C3AED]/25 text-xs text-[#A78BFA] font-semibold uppercase tracking-wider mb-4">{t('nav.pricing', geo.language)}</span>
           <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold mb-3">{t('pricing.title', geo.language)}</h2>
           <p className="text-[#a5a0cc] mb-2">{t('pricing.subtitle', geo.language)}</p>
-          <p className="text-sm text-[#F59E0B] font-semibold">Try any plan — 7-day trial from just £1</p>
+          <p className="text-sm text-[#F59E0B] font-semibold">7-day trial: Starter £1 · Growth £5 · Empire £10 — or subscribe at full price</p>
         </div>
         <div className="flex items-center justify-center gap-3 mb-12 text-sm">
           <span className={!annual ? "text-white font-bold" : "text-[#a5a0cc]"}>{t('pricing.monthly', geo.language)}</span>
@@ -70,7 +76,6 @@ export function PricingSection() {
             const annualTotal = annual && plan.annual > 0 ? `${formatPrice(plan.annual, geo)}${t('pricing.perYear', geo.language)}` : "";
             const icons = { yes: "\u2713", no: "\u2717", ltd: "~" };
             const colors = { yes: "text-[#10B981]", no: "text-[#6b6899]", ltd: "text-[#F59E0B]" };
-            const isLoading = loading === plan.id;
             return (
               <div key={plan.id} className={`bg-[#1E1B4B]/50 border rounded-xl p-7 text-center relative card-hover ${plan.popular ? "border-[#7C3AED] border-2 scale-[1.02]" : "border-[#3d3580]"}`}>
                 {plan.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#7C3AED] text-white text-[10px] font-extrabold px-4 py-1 rounded-full tracking-wider">{t('pricing.bestValue', geo.language)}</span>}
@@ -88,14 +93,23 @@ export function PricingSection() {
                     </li>
                   ))}
                 </ul>
-                <button
-                  onClick={() => handleCheckout(plan.id)}
-                  disabled={isLoading}
-                  className={`block w-full py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-50 ${plan.id === "empire" ? "btn-gold" : "btn-primary"}`}
-                >
-                  {isLoading ? "Loading..." : "Start 7-Day Trial"}
-                </button>
-                <p className="text-[10px] text-[#6b6899] mt-2">Cancel anytime during trial</p>
+                <div className="space-y-2.5">
+                  <button
+                    onClick={() => handleCheckout(plan.id, "trial")}
+                    disabled={!!loading}
+                    className={`block w-full py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-50 border ${loading === plan.id + "-trial" ? "bg-[#F59E0B]/50 text-white/50 cursor-wait border-[#F59E0B]/30" : "border-[#F59E0B]/50 text-[#F59E0B] hover:bg-[#F59E0B]/10"}`}
+                  >
+                    {loading === plan.id + "-trial" ? "Loading..." : `Try 7 Days for £${TRIAL_FEES[plan.id]?.amount || "1"} · ${TRIAL_FEES[plan.id]?.listings || "25"} listings`}
+                  </button>
+                  <button
+                    onClick={() => handleCheckout(plan.id, "full")}
+                    disabled={!!loading}
+                    className={`block w-full py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-50 ${loading === plan.id + "-full" ? "bg-[#7C3AED]/50 text-white/50 cursor-wait" : plan.id === "empire" ? "btn-gold" : "btn-primary"}`}
+                  >
+                    {loading === plan.id + "-full" ? "Loading..." : `Full Access · ${displayPrice}/mo`}
+                  </button>
+                </div>
+                <p className="text-[10px] text-[#6b6899] mt-2">Cancel anytime · Secure payment via Stripe</p>
               </div>
             );
           })}
