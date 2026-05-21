@@ -1,789 +1,375 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
-import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from "firebase/auth";
+import { useState } from "react";
 
-const ADMIN_EMAILS = ["1stunicorndistribution@gmail.com", "zohaib219@gmail.com", "support@unicornds.io"];
-const TIERS = ["free", "starter", "growth", "empire"];
-const TIER_COLORS: Record<string, string> = { free: "#6b6899", starter: "#7C3AED", growth: "#10B981", empire: "#F59E0B" };
+// ─── MOCK DATA ────────────────────────────────────────────────
+const SERVERS = [
+  { id: "srv-uk-01", name: "UK246", location: "London, UK", provider: "Binary Racks", ip: "41.215.241.30",
+    cpu: "16 cores", ramTotal: 64, ramUsed: 28, storageTotal: 480, storageUsed: 180,
+    vpsCount: 5, vpsMax: 12, status: "online", cost: 48.60, proxmox: "https://41.215.241.30:8006" },
+];
 
-interface UserData { uid: string; email?: string; fullName?: string; phone?: string; country?: string; ip_country?: string; ip_city?: string; tier?: string; status?: string; ref?: string; signup_ip?: string; last_ip?: string; created_at?: unknown; billing_period_end?: string; trial_end?: string; tokensUsed?: number; tokensTotal?: number; card_verified?: boolean; usage?: Record<string, unknown>; }
-interface Stats { users: { total: number; free: number; starter: number; growth: number; empire: number }; payments: unknown[]; revenue: { total: number; currency: string }; }
+const VPS_LIST = [
+  { id: "vps-001", customer: "Ahmed Raza", plan: "Business 8GB", ram: 8, cpu: 4, ip: "41.215.241.19", status: "running", price: 18, created: "May 17" },
+  { id: "vps-002", customer: "Sarah Khan", plan: "Starter 4GB", ram: 4, cpu: 2, ip: "41.215.241.20", status: "running", price: 10, created: "May 17" },
+  { id: "vps-003", customer: "Ali Hassan", plan: "Starter 4GB", ram: 4, cpu: 2, ip: "41.215.241.21", status: "running", price: 10, created: "May 18" },
+  { id: "vps-004", customer: "John Smith", plan: "Business 8GB", ram: 8, cpu: 4, ip: "41.215.241.22", status: "running", price: 18, created: "May 18" },
+  { id: "vps-005", customer: "Test Account", plan: "Starter 4GB", ram: 4, cpu: 2, ip: "41.215.241.23", status: "suspended", price: 10, created: "May 16" },
+];
 
-export default function AdminPage() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState("");
-  const [tab, setTab] = useState<"overview" | "users" | "payments" | "affiliates" | "settings" | "health">("overview");
-  const [role, setRole] = useState<"owner" | "support">("support");
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [users, setUsers] = useState<UserData[]>([]);
-  const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
-  const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "" });
-  const [saving, setSaving] = useState(false);
-  const [affiliates, setAffiliates] = useState<{id:string;name?:string;email?:string;website?:string;audience?:string;promotion_plan?:string;status?:string;applied_at?:string;ref_code?:string;ip?:string}[]>([]);
-  const [affPayouts, setAffPayouts] = useState<any[]>([]);
-  const [health, setHealth] = useState<any>(null);
-  const [healthLoading, setHealthLoading] = useState(false);
+const CUSTOMERS = [
+  { id: "C-01", name: "Ahmed Raza", email: "ahmed@example.com", country: "🇵🇰 PK", vps: 1, spent: 18, status: "active", joined: "May 17" },
+  { id: "C-02", name: "Sarah Khan", email: "sarah@example.com", country: "🇵🇰 PK", vps: 1, spent: 10, status: "active", joined: "May 17" },
+  { id: "C-03", name: "Ali Hassan", email: "ali@example.com", country: "🇵🇰 PK", vps: 1, spent: 10, status: "active", joined: "May 18" },
+  { id: "C-04", name: "John Smith", email: "john@example.com", country: "🇬🇧 UK", vps: 1, spent: 18, status: "active", joined: "May 18" },
+  { id: "C-05", name: "Test Account", email: "test@test.com", country: "🇬🇧 UK", vps: 1, spent: 0, status: "unpaid", joined: "May 16" },
+];
 
-  useEffect(() => {
-    return onAuthStateChanged(auth, (u) => { setUser(u); setLoading(false); });
-  }, []);
+const ORDERS = [
+  { id: "ORD-105", customer: "John Smith", plan: "Business 8GB", amount: 18, status: "paid", time: "5 min ago" },
+  { id: "ORD-104", customer: "Ali Hassan", plan: "Starter 4GB", amount: 10, status: "paid", time: "2 hours ago" },
+  { id: "ORD-103", customer: "Test Account", plan: "Starter 4GB", amount: 10, status: "pending", time: "3 hours ago" },
+  { id: "ORD-102", customer: "Sarah Khan", plan: "Starter 4GB", amount: 10, status: "paid", time: "5 hours ago" },
+  { id: "ORD-101", customer: "Ahmed Raza", plan: "Business 8GB", amount: 18, status: "paid", time: "Yesterday" },
+];
 
-  const getToken = useCallback(async () => {
-    if (!user) return "";
-    return user.getIdToken();
-  }, [user]);
+const AVAILABLE_IPS = ["41.215.241.24", "41.215.241.25", "41.215.241.26", "41.215.241.27", "41.215.241.28", "41.215.241.29"];
 
-  const fetchData = useCallback(async () => {
-    const token = await getToken();
-    if (!token) return;
-    const headers = { Authorization: `Bearer ${token}` };
-    try {
-      const [statsRes, usersRes, settingsRes, affRes] = await Promise.all([
-        fetch("/api/admin/stats", { headers }),
-        fetch("/api/admin/users", { headers }),
-        fetch("/api/admin/settings", { headers }),
-        fetch("/api/admin/affiliates", { headers }),
-      ]);
-      if (statsRes.ok) { const s = await statsRes.json(); setStats(s); if (s.role) setRole(s.role); }
-      if (usersRes.ok) { const d = await usersRes.json(); setUsers(d.users || []); }
-      if (settingsRes.ok) { const d = await settingsRes.json(); setSettings(s => ({ ...s, ...d })); }
-      if (affRes.ok) { const d = await affRes.json(); setAffiliates(d.applications || []); }
-    } catch (err) { console.error("Fetch error:", err); }
-  }, [getToken]);
+// ─── HELPERS ──────────────────────────────────────────────────
+function Dot({ s }: { s: string }) {
+  const c: Record<string, string> = { online: "#22c55e", running: "#22c55e", stopped: "#ef4444", suspended: "#eab308", active: "#22c55e", unpaid: "#ef4444", paid: "#22c55e", pending: "#eab308" };
+  return <span style={{ display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: c[s] || "#71717a", boxShadow: `0 0 8px ${c[s]}`, marginRight: 7 }} />;
+}
+function Bar({ value, max, color = "#f59e0b" }: { value: number; max: number; color?: string }) {
+  return <div style={{ height: 4, background: "rgba(255,255,255,.05)", borderRadius: 99, overflow: "hidden" }}><div style={{ width: `${(value / max) * 100}%`, height: "100%", background: color, transition: ".4s" }} /></div>;
+}
 
-  useEffect(() => {
-    if (user && ADMIN_EMAILS.includes(user.email || "")) fetchData();
-  }, [user, fetchData]);
+// ─── MAIN ─────────────────────────────────────────────────────
+export default function Admin() {
+  const [tab, setTab] = useState("dashboard");
+  const [showCreate, setShowCreate] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginError("");
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch { setLoginError("Invalid credentials"); }
-  };
+  const running = VPS_LIST.filter(v => v.status === "running");
+  const revenue = running.reduce((s, v) => s + v.price, 0);
+  const cost = SERVERS.reduce((s, srv) => s + srv.cost, 0);
+  const profit = revenue - cost;
+  const paidCustomers = CUSTOMERS.filter(c => c.status === "active").length;
 
-  const updateTier = async (uid: string, tier: string) => {
-    const token = await getToken();
-    const end = new Date(); end.setMonth(end.getMonth() + 1);
-    const tokenTotals: Record<string, number> = { free: 20, starter: 500, growth: 1500, empire: 3000 };
-    await fetch("/api/admin/update-tier", {
-      method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        uid, tier,
-        tokensTotal: tokenTotals[tier] || 100,
-        // DON'T reset tokensUsed — keep their current usage
-        billing_period_end: ["starter", "growth", "empire"].includes(tier) ? end.toISOString() : null,
-        trialStartDate: null,
-        trialEndDate: null,
-      }),
-    });
-    fetchData();
-  };
+  const navItems = [
+    { id: "dashboard", label: "Dashboard" },
+    { id: "servers", label: "Servers", badge: SERVERS.length },
+    { id: "vps", label: "VPS Instances", badge: VPS_LIST.length },
+    { id: "customers", label: "Customers", badge: CUSTOMERS.length },
+    { id: "orders", label: "Orders" },
+    { id: "finance", label: "Finance" },
+  ];
 
-  const blockUser = async (uid: string, block: boolean) => {
-    if (!confirm(block ? "Block this user? They won't be able to use the extension." : "Unblock this user?")) return;
-    const token = await getToken();
-    await fetch("/api/admin/update-tier", {
-      method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ uid, status: block ? "blocked" : "active" }),
-    });
-    fetchData();
-  };
-
-  const deleteUsers = async (uids: string[]) => {
-    if (!confirm(`Delete ${uids.length} user${uids.length > 1 ? 's' : ''}? This removes them from Firebase Auth AND Firestore. This cannot be undone.`)) return;
-    const token = await getToken();
-    const res = await fetch("/api/admin/delete-user", {
-      method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ uids }),
-    });
-    const data = await res.json();
-    if (data.ok) {
-      alert(`Deleted ${data.results.filter((r: any) => r.status === "deleted").length} users`);
-      setSelectedUsers(new Set());
-      fetchData();
-    } else {
-      alert("Error: " + (data.error || "Unknown error"));
-    }
-  };
-
-  const handleAffiliate = async (id: string, status: "approved" | "rejected") => {
-    const refCode = status === "approved" ? prompt("Enter referral code for this affiliate (e.g. 'empowerers'):") : null;
-    if (status === "approved" && !refCode) return;
-    const token = await getToken();
-    await fetch("/api/admin/affiliates", {
-      method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ id, status, refCode }),
-    });
-    fetchData();
-  };
-
-  const saveSettings = async () => {
-    setSaving(true);
-    const token = await getToken();
-    await fetch("/api/admin/settings", {
-      method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify(settings),
-    });
-    setSaving(false);
-  };
-
-  if (loading) return <div className="min-h-screen flex items-center justify-center"><p className="text-[#a5a0cc]">Loading...</p></div>;
-
-  // Login screen
-  if (!user || !ADMIN_EMAILS.includes(user.email || "")) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-20">
-        <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-8 w-full max-w-sm">
-          <h1 className="text-2xl font-bold text-white mb-1 font-[family-name:var(--font-display)]">Admin Panel</h1>
-          <p className="text-sm text-[#a5a0cc] mb-6">UnicornDS Control Centre</p>
-          {user && !ADMIN_EMAILS.includes(user.email || "") && (
-            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 mb-4 text-sm text-red-400">
-              Access denied. {user.email} is not an admin.
-              <button onClick={() => signOut(auth)} className="block mt-2 text-red-300 underline">Sign out</button>
-            </div>
-          )}
-          <form onSubmit={handleLogin} className="space-y-4">
-            <input type="email" placeholder="Admin email" value={email} onChange={e => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-sm focus:border-[#7C3AED] outline-none" />
-            <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-sm focus:border-[#7C3AED] outline-none" />
-            {loginError && <p className="text-red-400 text-sm">{loginError}</p>}
-            <button type="submit" className="w-full btn-primary py-3 rounded-lg font-bold text-sm">Sign In</button>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
-  // Dashboard
   return (
-    <div className="min-h-screen pt-20 pb-12">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+    <div style={{ display: "flex", minHeight: "100vh", background: "#08080a", color: "#ededf0", fontFamily: "'Inter',-apple-system,sans-serif" }}>
+      <style>{`
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+::selection{background:rgba(245,158,11,.3);color:#fff}
+body{background:#08080a;-webkit-font-smoothing:antialiased}
+.a-sb{width:230px;background:#0a0a0f;border-right:1px solid rgba(255,255,255,.05);padding:20px 14px;position:fixed;height:100vh;overflow-y:auto}
+.a-mn{flex:1;margin-left:230px;padding:24px 28px}
+.a-brand{display:flex;align-items:center;gap:9px;padding:0 8px 22px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:14px;text-decoration:none;color:#fff}
+.a-icon{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#08080a;box-shadow:0 2px 8px rgba(245,158,11,.3)}
+.a-title{font-weight:700;font-size:14px}.a-title span{display:block;color:#f59e0b;font-size:10px;font-weight:600;margin-top:1px;text-transform:uppercase;letter-spacing:.1em}
+.a-sec{font-size:10px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.08em;font-weight:600;padding:14px 8px 7px}
+.a-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;color:rgba(255,255,255,.55);font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit;margin-bottom:1px;transition:.2s}
+.a-item:hover{background:rgba(255,255,255,.04);color:#fff}
+.a-item.on{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+.a-badge{margin-left:auto;background:rgba(245,158,11,.15);color:#fbbf24;font-size:10px;font-weight:700;padding:1px 6px;border-radius:99px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+.pg-t{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.025em}
+.pg-s{font-size:13px;color:rgba(255,255,255,.4);margin-top:2px}
+.btn{padding:8px 14px;border-radius:7px;font-size:12.5px;font-weight:600;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;line-height:1;transition:.2s;text-decoration:none}
+.btn-gold{background:#f59e0b;color:#08080a}.btn-gold:hover{background:#fbbf24}
+.btn-g{background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.08)}.btn-g:hover{background:rgba(255,255,255,.08);color:#fff}
+.btn-r{background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2)}.btn-r:hover{background:rgba(239,68,68,.18)}
+.btn-pu{background:#8b5cf6;color:#fff}.btn-pu:hover{background:#7c3aed}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.g2{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+.st{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:11px;padding:16px}
+.st-l{font-size:10.5px;color:rgba(255,255,255,.35);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.st-v{font-size:24px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;letter-spacing:-.02em}
+.st-x{font-size:11.5px;color:rgba(255,255,255,.4);margin-top:5px}
+.st-x.green{color:#22c55e}.st-x.red{color:#ef4444}
+.cd{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:18px;margin-bottom:14px}
+.cd-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.cd-t{font-size:14px;font-weight:600;color:#fff}
+.srv{padding:18px;background:rgba(255,255,255,.015);border:1px solid rgba(255,255,255,.05);border-radius:11px;margin-bottom:10px}
+.srv-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.srv-nm{font-size:15px;font-weight:700;color:#fff;display:flex;align-items:center}
+.srv-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:11px;color:rgba(255,255,255,.6);font-weight:500}
+.tag.code{font-family:'JetBrains Mono',monospace;font-size:10.5px}
+.tag.gold{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.2);color:#fbbf24}
+.srv-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.ss-l{font-size:10px;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.ss-v{font-size:13px;color:#fff;font-weight:600;display:flex;justify-content:space-between;margin-bottom:5px;font-family:'JetBrains Mono',monospace}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:10.5px;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.06)}
+.tbl td{padding:12px 11px;font-size:12.5px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.04)}
+.tbl tr:last-child td{border:none}
+.tbl tr:hover td{background:rgba(255,255,255,.015)}
+.tbl-id{font-family:'JetBrains Mono',monospace;font-size:11px;color:#fbbf24;font-weight:600}
+.tbl-b{color:#fff;font-weight:600}
+.tbl-n{font-family:'JetBrains Mono',monospace;color:#fff;font-weight:600}
+.badge{display:inline-block;padding:2.5px 9px;border-radius:99px;font-size:10px;font-weight:700;text-transform:uppercase}
+.b-g{background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2)}
+.b-r{background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
+.b-y{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+.act{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}.act:last-child{border:none}
+.act-d{width:7px;height:7px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.act-t{font-size:12.5px;color:rgba(255,255,255,.85);font-weight:500}
+.act-s{font-size:10.5px;color:rgba(255,255,255,.35);margin-top:2px}
+.mod-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.mod{background:#0c0c14;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px;max-width:480px;width:100%}
+.mod-t{font-size:17px;font-weight:700;color:#fff;margin-bottom:6px}
+.mod-s{font-size:12.5px;color:rgba(255,255,255,.5);margin-bottom:18px}
+.fld{margin-bottom:12px}
+.fld-l{font-size:11px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block}
+.fld-i,.fld-s{width:100%;padding:9px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:7px;color:#fff;font-size:13px;font-family:inherit;outline:none}
+.fld-i:focus,.fld-s:focus{border-color:#f59e0b}
+@media(max-width:1024px){.g4{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.srv-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.a-sb{display:none}.a-mn{margin-left:0;padding:14px}}
+      `}</style>
+
+      {/* SIDEBAR */}
+      <aside className="a-sb">
+        <a href="/" className="a-brand">
+          <div className="a-icon">U</div>
+          <div className="a-title">unicornweb<span>Admin Panel</span></div>
+        </a>
+        <div className="a-sec">Overview</div>
+        {navItems.map(n => (
+          <button key={n.id} className={`a-item ${tab === n.id ? "on" : ""}`} onClick={() => setTab(n.id)}>
+            {n.label}
+            {n.badge && <span className="a-badge">{n.badge}</span>}
+          </button>
+        ))}
+        <div className="a-sec">System</div>
+        <a href="https://41.215.241.30:8006" target="_blank" className="a-item" style={{ textDecoration: "none" }}>🖥 Proxmox Panel</a>
+        <button className="a-item">⚙️ Settings</button>
+      </aside>
+
+      {/* MAIN */}
+      <main className="a-mn">
+        <div className="top">
           <div>
-            <h1 className="text-2xl font-bold text-white font-[family-name:var(--font-display)]">Admin Dashboard</h1>
-            <p className="text-sm text-[#a5a0cc]">Logged in as {user.email}</p>
+            <h1 className="pg-t">{navItems.find(n => n.id === tab)?.label || "Dashboard"}</h1>
+            <p className="pg-s">{tab === "dashboard" ? "Business overview at a glance" : tab === "servers" ? "Manage dedicated servers" : tab === "vps" ? "All customer VPS instances" : tab === "customers" ? "Manage customers" : tab === "orders" ? "Recent orders" : "Revenue & costs"}</p>
           </div>
-          <div className="flex gap-3">
-            <button onClick={fetchData} className="px-4 py-2 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white">Refresh</button>
-            <button onClick={() => signOut(auth)} className="px-4 py-2 border border-red-500/30 rounded-lg text-sm text-red-400 hover:bg-red-500/10">Sign Out</button>
+          <div style={{ display: "flex", gap: 6 }}>
+            <button className="btn btn-g">🔄 Refresh</button>
+            <button className="btn btn-gold" onClick={() => setShowCreate(true)}>+ Create VPS</button>
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-1 mb-8 bg-[#1E1B4B]/30 rounded-lg p-1 w-fit">
-          {(["overview", "users", "payments", "affiliates", "settings", "health"] as const).map(t => (
-            <button key={t} onClick={() => setTab(t)}
-              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${tab === t ? "bg-[#7C3AED] text-white" : "text-[#a5a0cc] hover:text-white"}`}>
-              {t.charAt(0).toUpperCase() + t.slice(1)}
-            </button>
-          ))}
-        </div>
+        {/* DASHBOARD */}
+        {tab === "dashboard" && <>
+          <div className="g4">
+            <div className="st"><div className="st-l">Monthly Revenue</div><div className="st-v">£{revenue}</div><div className="st-x green">From {running.length} active VPS</div></div>
+            <div className="st"><div className="st-l">Monthly Profit</div><div className="st-v" style={{ color: "#22c55e" }}>£{profit.toFixed(2)}</div><div className="st-x green">{((profit / revenue) * 100).toFixed(0)}% margin</div></div>
+            <div className="st"><div className="st-l">Active VPS</div><div className="st-v">{running.length}/{VPS_LIST.length}</div><div className="st-x">{12 - VPS_LIST.length} slots free</div></div>
+            <div className="st"><div className="st-l">Customers</div><div className="st-v">{paidCustomers}</div><div className="st-x">{CUSTOMERS.length - paidCustomers} unpaid</div></div>
+          </div>
 
-        {/* Overview Tab */}
-        {tab === "overview" && stats && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {[
-                ["Total Users", stats.users.total, "#7C3AED"],
-                ["Free", stats.users.free, "#6b6899"],
-                ["Free", (stats.users as any).free || 0, "#6b6899"],
-                ["Starter", stats.users.starter, "#7C3AED"],
-                ["Growth", stats.users.growth, "#10B981"],
-                ["Empire", stats.users.empire, "#F59E0B"],
-              ].map(([label, value, color]) => (
-                <div key={label as string} className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-5">
-                  <div className="text-sm text-[#a5a0cc] mb-1">{label as string}</div>
-                  <div className="text-3xl font-bold" style={{ color: color as string }}>{value as number}</div>
+          <div className="g2">
+            <div className="cd">
+              <div className="cd-h"><div className="cd-t">Server Capacity</div><button className="btn btn-g" onClick={() => setTab("servers")}>View →</button></div>
+              {SERVERS.map(srv => (
+                <div className="srv" key={srv.id}>
+                  <div className="srv-top">
+                    <div>
+                      <div className="srv-nm"><Dot s={srv.status} />{srv.name}</div>
+                      <div className="srv-meta">
+                        <span className="tag code">{srv.ip}</span>
+                        <span className="tag">📍 {srv.location}</span>
+                        <span className="tag gold">{srv.vpsCount}/{srv.vpsMax} VPS</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="srv-stats">
+                    <div><div className="ss-l">RAM</div><div className="ss-v"><span>{srv.ramUsed}GB</span><span style={{ color: "rgba(255,255,255,.3)" }}>{srv.ramTotal}GB</span></div><Bar value={srv.ramUsed} max={srv.ramTotal} color="#8b5cf6" /></div>
+                    <div><div className="ss-l">Storage</div><div className="ss-v"><span>{srv.storageUsed}GB</span><span style={{ color: "rgba(255,255,255,.3)" }}>{srv.storageTotal}GB</span></div><Bar value={srv.storageUsed} max={srv.storageTotal} color="#22c55e" /></div>
+                    <div><div className="ss-l">Revenue</div><div className="ss-v" style={{ color: "#22c55e" }}>£{revenue}</div></div>
+                    <div><div className="ss-l">Cost</div><div className="ss-v" style={{ color: "#ef4444" }}>£{srv.cost}</div></div>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-5">
-                <div className="text-sm text-[#a5a0cc] mb-1">Total Revenue</div>
-                <div className="text-3xl font-bold text-[#F59E0B]">£{stats.revenue.total.toFixed(2)}</div>
-              </div>
-              <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-5">
-                <div className="text-sm text-[#a5a0cc] mb-1">Monthly Recurring (MRR)</div>
-                <div className="text-3xl font-bold text-[#10B981]">£{((stats.revenue as any).monthly || 0).toFixed(2)}</div>
-                <div className="text-xs text-[#6b6899] mt-1">Based on active subscriptions</div>
-              </div>
-            </div>
-            <div className="mt-4">
-              <button
-                onClick={async () => {
-                  if (!confirm("Sync all subscription data from Stripe? This updates expiry dates and status.")) return;
-                  try {
-                    const token = await auth.currentUser?.getIdToken();
-                    const res = await fetch("/api/admin/sync-stripe", {
-                      method: "POST",
-                      headers: { Authorization: `Bearer ${token}` },
-                    });
-                    const data = await res.json();
-                    if (data.ok) {
-                      const synced = data.results.filter((r: any) => r.status.includes("synced")).length;
-                      alert(`✅ Synced ${synced} subscriptions from Stripe.\n\n${data.results.map((r: any) => `${r.email}: ${r.status}`).join("\n")}`);
-                      fetchData();
-                    } else {
-                      alert("Error: " + (data.error || "Unknown"));
-                    }
-                  } catch (e: any) { alert("Failed: " + e.message); }
-                }}
-                className="px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-lg text-xs font-bold transition-colors"
-              >
-                🔄 Sync Subscriptions from Stripe
-              </button>
+
+            <div className="cd">
+              <div className="cd-h"><div className="cd-t">Recent Orders</div><button className="btn btn-g" onClick={() => setTab("orders")}>All →</button></div>
+              {ORDERS.map((o, i) => (
+                <div className="act" key={i}>
+                  <div className="act-d" style={{ background: o.status === "paid" ? "#22c55e" : "#eab308" }} />
+                  <div style={{ flex: 1 }}>
+                    <div className="act-t">{o.customer} — {o.plan} <span style={{ color: "#fbbf24", fontFamily: "'JetBrains Mono',monospace" }}>£{o.amount}</span></div>
+                    <div className="act-s">{o.time} · <span className={`badge ${o.status === "paid" ? "b-g" : "b-y"}`}>{o.status}</span></div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        )}
-        {tab === "overview" && !stats && <p className="text-[#a5a0cc]">Loading stats...</p>}
+        </>}
 
-        {/* Users Tab */}
-        {tab === "users" && (
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-sm text-[#a5a0cc]">{users.length} users {selectedUsers.size > 0 && <span className="text-[#F59E0B]">({selectedUsers.size} selected)</span>}</p>
-              <div className="flex gap-3">
-                {selectedUsers.size > 0 && (
-                  <button onClick={() => deleteUsers(Array.from(selectedUsers))}
-                    className="px-4 py-2 bg-red-600/20 hover:bg-red-600/40 text-red-400 rounded-lg text-xs font-bold transition-colors">
-                    🗑 Delete Selected ({selectedUsers.size})
-                  </button>
-                )}
-                <button
-                  onClick={async () => {
-                    if (!confirm("Send onboarding invite email to ALL users who haven't received it yet?")) return;
-                    try {
-                      const token = await auth.currentUser?.getIdToken();
-                      const res = await fetch("/api/admin/send-onboarding", {
-                        method: "POST",
-                        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-                      });
-                      const data = await res.json();
-                      if (data.ok) {
-                        const sent = data.results.filter((r: any) => r.status.includes("sent")).length;
-                        alert(`✅ Onboarding emails sent!\n\n${sent} emails sent out of ${data.total} users.\n\n${data.results.map((r: any) => `${r.email}: ${r.status}`).join("\n")}`);
-                      } else {
-                        alert("Error: " + (data.error || "Unknown error"));
-                      }
-                    } catch (e: any) {
-                      alert("Failed: " + e.message);
-                    }
-                  }}
-                  className="px-4 py-2 bg-[#F59E0B] hover:bg-[#D97706] text-white rounded-lg text-xs font-bold transition-colors"
-                >
-                  📧 Send Onboarding Email to All
-                </button>
+        {/* SERVERS */}
+        {tab === "servers" && <div className="cd">
+          <div className="cd-h"><div className="cd-t">Dedicated Servers</div><button className="btn btn-gold">+ Add Server</button></div>
+          {SERVERS.map(srv => (
+            <div className="srv" key={srv.id}>
+              <div className="srv-top">
+                <div>
+                  <div className="srv-nm"><Dot s={srv.status} />{srv.name}</div>
+                  <div className="srv-meta">
+                    <span className="tag code">{srv.ip}</span>
+                    <span className="tag">📍 {srv.location}</span>
+                    <span className="tag">{srv.provider}</span>
+                    <span className="tag gold">{srv.vpsCount}/{srv.vpsMax} VPS</span>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <button className="btn btn-gold" onClick={() => setShowCreate(true)}>+ New VPS</button>
+                  <a href={srv.proxmox} target="_blank" className="btn btn-pu" style={{ textDecoration: "none" }}>Proxmox</a>
+                </div>
+              </div>
+              <div className="srv-stats">
+                <div><div className="ss-l">RAM</div><div className="ss-v"><span>{srv.ramUsed}/{srv.ramTotal} GB</span></div><Bar value={srv.ramUsed} max={srv.ramTotal} color="#8b5cf6" /></div>
+                <div><div className="ss-l">Storage</div><div className="ss-v"><span>{srv.storageUsed}/{srv.storageTotal} GB</span></div><Bar value={srv.storageUsed} max={srv.storageTotal} color="#22c55e" /></div>
+                <div><div className="ss-l">Cost/mo</div><div className="ss-v" style={{ color: "#ef4444" }}>£{srv.cost}</div></div>
+                <div><div className="ss-l">Revenue/mo</div><div className="ss-v" style={{ color: "#22c55e" }}>£{revenue}</div></div>
               </div>
             </div>
-          <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-[#2d2766] text-left">
-                    <th className="p-3 w-8">
-                      <input type="checkbox"
-                        checked={selectedUsers.size === users.length && users.length > 0}
-                        onChange={e => {
-                          if (e.target.checked) setSelectedUsers(new Set(users.map(u => u.uid)));
-                          else setSelectedUsers(new Set());
-                        }}
-                        className="rounded" />
-                    </th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Name</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Email</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Tier</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Usage</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Expires</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Phone</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Country</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">IP</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
-                  </tr>
-                </thead>
+          ))}
+        </div>}
+
+        {/* VPS */}
+        {tab === "vps" && <div className="cd">
+          <div className="cd-h"><div><div className="cd-t">All VPS ({VPS_LIST.length})</div></div><button className="btn btn-gold" onClick={() => setShowCreate(true)}>+ Create VPS</button></div>
+          <table className="tbl">
+            <thead><tr><th>ID</th><th>Customer</th><th>Plan</th><th>IP</th><th>RAM</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              {VPS_LIST.map(v => (
+                <tr key={v.id}>
+                  <td><span className="tbl-id">{v.id}</span></td>
+                  <td className="tbl-b">{v.customer}</td>
+                  <td>{v.plan}</td>
+                  <td style={{ fontFamily: "'JetBrains Mono',monospace", color: "#a78bfa" }}>{v.ip}</td>
+                  <td className="tbl-n">{v.ram}GB</td>
+                  <td className="tbl-n">£{v.price}</td>
+                  <td><Dot s={v.status} />{v.status}</td>
+                  <td>
+                    <div style={{ display: "flex", gap: 4 }}>
+                      <button className="btn btn-g" style={{ padding: "3px 8px", fontSize: 10 }}>Manage</button>
+                      {v.status === "running" ? <button className="btn btn-r" style={{ padding: "3px 8px", fontSize: 10 }}>Suspend</button> : <button className="btn btn-g" style={{ padding: "3px 8px", fontSize: 10 }}>Resume</button>}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>}
+
+        {/* CUSTOMERS */}
+        {tab === "customers" && <div className="cd">
+          <div className="cd-h"><div className="cd-t">All Customers ({CUSTOMERS.length})</div><button className="btn btn-gold">+ Add Customer</button></div>
+          <table className="tbl">
+            <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Country</th><th>VPS</th><th>Spent</th><th>Status</th><th>Joined</th></tr></thead>
+            <tbody>
+              {CUSTOMERS.map(c => (
+                <tr key={c.id}>
+                  <td><span className="tbl-id">{c.id}</span></td>
+                  <td className="tbl-b">{c.name}</td>
+                  <td>{c.email}</td>
+                  <td>{c.country}</td>
+                  <td className="tbl-n">{c.vps}</td>
+                  <td className="tbl-n">£{c.spent}</td>
+                  <td><span className={`badge ${c.status === "active" ? "b-g" : "b-r"}`}>{c.status}</span></td>
+                  <td>{c.joined}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>}
+
+        {/* ORDERS */}
+        {tab === "orders" && <div className="cd">
+          <div className="cd-h"><div className="cd-t">All Orders ({ORDERS.length})</div></div>
+          <table className="tbl">
+            <thead><tr><th>Order</th><th>Customer</th><th>Plan</th><th>Amount</th><th>Status</th><th>Time</th><th></th></tr></thead>
+            <tbody>
+              {ORDERS.map(o => (
+                <tr key={o.id}>
+                  <td><span className="tbl-id">{o.id}</span></td>
+                  <td className="tbl-b">{o.customer}</td>
+                  <td>{o.plan}</td>
+                  <td className="tbl-n">£{o.amount}</td>
+                  <td><span className={`badge ${o.status === "paid" ? "b-g" : "b-y"}`}>{o.status}</span></td>
+                  <td>{o.time}</td>
+                  <td>{o.status === "pending" ? <button className="btn btn-gold" style={{ padding: "3px 8px", fontSize: 10 }}>Provision</button> : <button className="btn btn-g" style={{ padding: "3px 8px", fontSize: 10 }}>View</button>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>}
+
+        {/* FINANCE */}
+        {tab === "finance" && <>
+          <div className="g4">
+            <div className="st"><div className="st-l">Revenue</div><div className="st-v">£{revenue}</div><div className="st-x green">Monthly</div></div>
+            <div className="st"><div className="st-l">Costs</div><div className="st-v" style={{ color: "#ef4444" }}>£{cost.toFixed(2)}</div><div className="st-x">Servers</div></div>
+            <div className="st"><div className="st-l">Profit</div><div className="st-v" style={{ color: "#22c55e" }}>£{profit.toFixed(2)}</div><div className="st-x green">{((profit / revenue) * 100).toFixed(0)}% margin</div></div>
+            <div className="st"><div className="st-l">Annual Projection</div><div className="st-v">£{(profit * 12).toFixed(0)}</div><div className="st-x">If 0 growth</div></div>
+          </div>
+          <div className="g2">
+            <div className="cd">
+              <div className="cd-t" style={{ marginBottom: 14 }}>Revenue Breakdown</div>
+              <table className="tbl">
+                <thead><tr><th>Plan</th><th>Count</th><th>Price</th><th>Total</th></tr></thead>
                 <tbody>
-                  {users.map(u => {
-                    const used = u.tokensUsed || 0;
-                    const total = u.tokensTotal || 0;
-                    const usagePercent = total > 0 ? Math.round((used / total) * 100) : 0;
-                    const expiryDate = u.trial_end || u.billing_period_end;
-                    const daysLeft = expiryDate ? Math.max(0, Math.ceil((new Date(expiryDate).getTime() - Date.now()) / 86400000)) : null;
-                    return (
-                    <tr key={u.uid} className={`border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30 ${selectedUsers.has(u.uid) ? 'bg-[#7C3AED]/10' : ''}`}>
-                      <td className="p-3">
-                        <input type="checkbox" checked={selectedUsers.has(u.uid)}
-                          onChange={e => {
-                            const next = new Set(selectedUsers);
-                            if (e.target.checked) next.add(u.uid); else next.delete(u.uid);
-                            setSelectedUsers(next);
-                          }} className="rounded" />
-                      </td>
-                      <td className="p-3 text-white text-xs">{u.fullName || "—"}</td>
-                      <td className="p-3 text-white text-xs">{u.email || u.uid.slice(0, 12)}</td>
-                      <td className="p-3">
-                        <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: (TIER_COLORS[u.tier || "free"] || "#6b6899") + "20", color: TIER_COLORS[u.tier || "free"] }}>
-                          {(u.tier || "free").toUpperCase()}
-                        </span>
-                      </td>
-                      <td className="p-3 text-xs">
-                        <div className="flex items-center gap-2">
-                          <div className="w-16 h-1.5 bg-[#0f0e1a] rounded-full overflow-hidden">
-                            <div className="h-full rounded-full" style={{ width: `${Math.min(100, usagePercent)}%`, background: usagePercent > 90 ? '#EF4444' : usagePercent > 70 ? '#F59E0B' : '#10B981' }} />
-                          </div>
-                          <span className="text-[#a5a0cc]">{used}/{total}</span>
-                        </div>
-                      </td>
-                      <td className="p-3 text-xs">
-                        {daysLeft !== null ? (
-                          <span className={`${daysLeft <= 3 ? 'text-red-400' : daysLeft <= 7 ? 'text-[#F59E0B]' : 'text-[#10B981]'}`}>
-                            {daysLeft === 0 ? 'Today' : `${daysLeft}d left`}
-                          </span>
-                        ) : <span className="text-[#6b6899]">—</span>}
-                      </td>
-                      <td className="p-3 text-[#a5a0cc] text-xs">{u.phone || "—"}</td>
-                      <td className="p-3 text-[#a5a0cc] text-xs">
-                        {u.country || "—"}
-                        {u.ip_country && u.country && u.ip_country.toLowerCase() !== u.country.toLowerCase() && (
-                          <span className="text-[#EF4444] ml-1" title={`IP: ${u.ip_country}`}>⚠️{u.ip_country}</span>
-                        )}
-                        {!u.country && u.ip_country && <span className="text-[#6b6899]">{u.ip_country}</span>}
-                      </td>
-                      <td className="p-3">
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${u.status === "blocked" ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"}`}>
-                          {u.status === "blocked" ? "BLOCKED" : "ACTIVE"}
-                        </span>
-                      </td>
-                      <td className="p-3 text-[#a5a0cc] text-xs font-mono">{u.signup_ip || "—"}</td>
-                      <td className="p-3 flex gap-2">
-                        <select value={u.tier || "free"} onChange={e => updateTier(u.uid, e.target.value)}
-                          className="bg-[#0f0e1a] border border-[#3d3580] rounded px-2 py-1 text-xs text-white">
-                          {TIERS.map(t => <option key={t} value={t}>{t.toUpperCase()}</option>)}
-                        </select>
-                        <button onClick={() => blockUser(u.uid, u.status !== "blocked")}
-                          className={`px-2 py-1 rounded text-xs font-bold ${u.status === "blocked" ? "bg-green-600/20 text-green-400 hover:bg-green-600/40" : "bg-red-600/20 text-red-400 hover:bg-red-600/40"}`}>
-                          {u.status === "blocked" ? "Unblock" : "Block"}
-                        </button>
-                        <button onClick={async () => {
-                          if (!confirm(`Manually verify email for ${u.email}?`)) return;
-                          const token = await getToken();
-                          const res = await fetch("/api/admin/verify-email", {
-                            method: "POST",
-                            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-                            body: JSON.stringify({ email: u.email }),
-                          });
-                          const data = await res.json();
-                          if (data.ok) alert(`✅ Email verified for ${u.email}`);
-                          else alert("Error: " + (data.error || "Unknown"));
-                        }}
-                          className="px-2 py-1 rounded text-xs font-bold bg-blue-600/20 text-blue-400 hover:bg-blue-600/40">
-                          ✓ Verify
-                        </button>
-                        <button onClick={() => deleteUsers([u.uid])}
-                          className="px-2 py-1 rounded text-xs font-bold bg-red-900/20 text-red-500 hover:bg-red-900/40">
-                          Del
-                        </button>
-                      </td>
-                    </tr>
-                    );
-                  })}
-                  {users.length === 0 && (
-                    <tr><td colSpan={11} className="p-8 text-center text-[#6b6899]">No users yet</td></tr>
-                  )}
+                  <tr><td className="tbl-b">Starter 4GB</td><td className="tbl-n">{running.filter(v => v.ram === 4).length}</td><td className="tbl-n">£10</td><td className="tbl-n">£{running.filter(v => v.ram === 4).length * 10}</td></tr>
+                  <tr><td className="tbl-b">Business 8GB</td><td className="tbl-n">{running.filter(v => v.ram === 8).length}</td><td className="tbl-n">£18</td><td className="tbl-n">£{running.filter(v => v.ram === 8).length * 18}</td></tr>
+                  <tr><td className="tbl-b">Enterprise 16GB</td><td className="tbl-n">0</td><td className="tbl-n">£30</td><td className="tbl-n">£0</td></tr>
+                  <tr style={{ borderTop: "2px solid rgba(255,255,255,.1)" }}><td className="tbl-b" style={{ color: "#fbbf24" }}>TOTAL</td><td></td><td></td><td className="tbl-n" style={{ color: "#fbbf24", fontSize: 14 }}>£{revenue}</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="cd">
+              <div className="cd-t" style={{ marginBottom: 14 }}>Cost Breakdown</div>
+              <table className="tbl">
+                <thead><tr><th>Item</th><th>Provider</th><th>Cost</th></tr></thead>
+                <tbody>
+                  <tr><td className="tbl-b">UK246 Server</td><td>Binary Racks</td><td className="tbl-n">£40.50</td></tr>
+                  <tr><td className="tbl-b">VAT (20%)</td><td>HMRC</td><td className="tbl-n">£8.10</td></tr>
+                  <tr style={{ borderTop: "2px solid rgba(255,255,255,.1)" }}><td className="tbl-b" style={{ color: "#ef4444" }}>TOTAL</td><td></td><td className="tbl-n" style={{ color: "#ef4444", fontSize: 14 }}>£{cost.toFixed(2)}</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
+        </>}
+      </main>
+
+      {/* CREATE VPS MODAL */}
+      {showCreate && <div className="mod-bg" onClick={() => setShowCreate(false)}>
+        <div className="mod" onClick={e => e.stopPropagation()}>
+          <div className="mod-t">Create New VPS</div>
+          <div className="mod-s">Provision a new Windows VPS for a customer</div>
+          <div className="fld"><label className="fld-l">Customer Name</label><input className="fld-i" placeholder="e.g. Ahmed Raza" /></div>
+          <div className="fld"><label className="fld-l">Email</label><input className="fld-i" placeholder="e.g. ahmed@example.com" /></div>
+          <div className="fld"><label className="fld-l">Plan</label><select className="fld-s"><option>Starter — 4GB RAM, 2 vCPU (£10/mo)</option><option>Business — 8GB RAM, 4 vCPU (£18/mo)</option><option>Enterprise — 16GB RAM, 6 vCPU (£30/mo)</option></select></div>
+          <div className="fld"><label className="fld-l">Server</label><select className="fld-s"><option>UK246 (London) — {64 - SERVERS[0].ramUsed}GB RAM free</option></select></div>
+          <div className="fld"><label className="fld-l">Assign IP</label><select className="fld-s">{AVAILABLE_IPS.map(ip => <option key={ip}>{ip}</option>)}</select></div>
+          <div className="fld"><label className="fld-l">OS</label><select className="fld-s"><option>Windows Server 2022 (Template)</option><option>Windows Server 2019</option><option>Ubuntu 22.04</option></select></div>
+          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 18 }}>
+            <button className="btn btn-g" onClick={() => setShowCreate(false)}>Cancel</button>
+            <button className="btn btn-gold">Provision VPS →</button>
           </div>
-        )}
-
-        {/* Payments Tab */}
-        {tab === "payments" && stats && (
-          <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-[#2d2766] text-left">
-                    <th className="p-4 text-[#a5a0cc] font-medium">Email</th>
-                    <th className="p-4 text-[#a5a0cc] font-medium">Amount</th>
-                    <th className="p-4 text-[#a5a0cc] font-medium">Plan</th>
-                    <th className="p-4 text-[#a5a0cc] font-medium">Status</th>
-                    <th className="p-4 text-[#a5a0cc] font-medium">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(stats.payments as Record<string, unknown>[]).map((p, i) => (
-                    <tr key={i} className="border-t border-[#3d3580]/20">
-                      <td className="p-4 text-white">{p.email as string || "—"}</td>
-                      <td className="p-4 text-[#F59E0B] font-bold">£{Number(p.amount || 0).toFixed(2)}</td>
-                      <td className="p-4 text-[#a5a0cc]">{p.new_tier as string || "—"}</td>
-                      <td className="p-4"><span className={`px-2 py-0.5 rounded text-xs ${p.status === "completed" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{p.status as string}</span></td>
-                      <td className="p-4 text-[#a5a0cc]">{(() => {
-                        const d = p.received_at;
-                        if (!d) return "—";
-                        if (typeof d === "string") return new Date(d).toLocaleDateString();
-                        if ((d as Record<string, number>)._seconds) return new Date((d as Record<string, number>)._seconds * 1000).toLocaleDateString();
-                        return "—";
-                      })()}</td>
-                    </tr>
-                  ))}
-                  {stats.payments.length === 0 && (
-                    <tr><td colSpan={5} className="p-8 text-center text-[#6b6899]">No payments yet</td></tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* Affiliates Tab */}
-        {tab === "affiliates" && (
-          <div className="space-y-6">
-            {/* Applications Table */}
-            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
-              <div className="p-4 border-b border-[#3d3580]/30">
-                <h3 className="text-white font-bold">Affiliate Applications ({affiliates.length})</h3>
-                <p className="text-xs text-[#6b6899]">Pending: {affiliates.filter(a => a.status === "pending").length} | Approved: {affiliates.filter(a => a.status === "approved").length}</p>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-[#2d2766] text-left">
-                      <th className="p-3 text-[#a5a0cc] font-medium">Name</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Email</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Website</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Method</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Ref Code</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {affiliates.map(a => (
-                      <tr key={a.id} className="border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30">
-                        <td className="p-3 text-white text-xs">{a.name || "—"}</td>
-                        <td className="p-3 text-white text-xs">{a.email || "—"}</td>
-                        <td className="p-3 text-[#a5a0cc] text-xs max-w-[150px] truncate">{a.website || "—"}</td>
-                        <td className="p-3 text-[#a5a0cc] text-xs">{a.promotion_plan || "—"}</td>
-                        <td className="p-3">
-                          <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                            a.status === "approved" ? "bg-green-500/20 text-green-400" :
-                            a.status === "rejected" ? "bg-red-500/20 text-red-400" :
-                            "bg-yellow-500/20 text-yellow-400"
-                          }`}>{(a.status || "pending").toUpperCase()}</span>
-                        </td>
-                        <td className="p-3 text-[#F59E0B] text-xs font-mono">{a.ref_code || "—"}</td>
-                        <td className="p-3 flex gap-2">
-                          {a.status === "pending" && (
-                            <>
-                              <button onClick={() => handleAffiliate(a.id, "approved")}
-                                className="px-2 py-1 rounded text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40">Approve</button>
-                              <button onClick={() => handleAffiliate(a.id, "rejected")}
-                                className="px-2 py-1 rounded text-xs font-bold bg-red-600/20 text-red-400 hover:bg-red-600/40">Reject</button>
-                            </>
-                          )}
-                          {a.status === "approved" && <span className="text-xs text-green-400">✓ Active</span>}
-                          {a.status === "rejected" && <span className="text-xs text-red-400">✕ Rejected</span>}
-                        </td>
-                      </tr>
-                    ))}
-                    {affiliates.length === 0 && (
-                      <tr><td colSpan={7} className="p-8 text-center text-[#6b6899]">No affiliate applications yet</td></tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Pending Payouts */}
-            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
-              <div className="p-4 border-b border-[#3d3580]/30 flex items-center justify-between">
-                <h3 className="text-white font-bold">💰 Pending Payouts</h3>
-                <button onClick={async () => {
-                  try {
-                    const token = await getToken();
-                    const res = await fetch("/api/admin/affiliate-payouts", { headers: { Authorization: `Bearer ${token}` } });
-                    if (res.ok) {
-                      const d = await res.json();
-                      setAffPayouts(d.payouts || []);
-                    }
-                  } catch { /* */ }
-                }} className="px-3 py-1 text-xs text-[#a5a0cc] border border-[#3d3580] rounded hover:text-white">Load Payouts</button>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead><tr className="bg-[#2d2766] text-left">
-                    <th className="p-3 text-[#a5a0cc] font-medium">Affiliate</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Amount</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Requested</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
-                  </tr></thead>
-                  <tbody>
-                    {(affPayouts || []).map((p: any) => (
-                      <tr key={p.id} className="border-t border-[#3d3580]/20">
-                        <td className="p-3 text-white text-xs">{p.affiliate_name} ({p.affiliate_email})</td>
-                        <td className="p-3 text-[#F59E0B] font-bold text-xs">£{(p.amount || 0).toFixed(2)}</td>
-                        <td className="p-3"><span className={`px-2 py-0.5 rounded text-xs font-bold ${p.status === "paid" ? "bg-green-500/20 text-green-400" : p.status === "rejected" ? "bg-red-500/20 text-red-400" : "bg-yellow-500/20 text-yellow-400"}`}>{(p.status || "pending").toUpperCase()}</span></td>
-                        <td className="p-3 text-[#6b6899] text-xs">{p.created_at ? new Date(p.created_at).toLocaleDateString() : "—"}</td>
-                        <td className="p-3 flex gap-2">
-                          {p.status === "pending" && (
-                            <>
-                              <button onClick={async () => {
-                                const ref = prompt("Bank transfer reference (optional):");
-                                const token = await getToken();
-                                await fetch("/api/affiliate/payout", {
-                                  method: "POST",
-                                  headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-                                  body: JSON.stringify({ payout_id: p.id, action: "approve", reference: ref || "" }),
-                                });
-                                alert("✅ Payout marked as paid");
-                              }} className="px-2 py-1 rounded text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40">Mark Paid</button>
-                              <button onClick={async () => {
-                                const reason = prompt("Reject reason:");
-                                const token = await getToken();
-                                await fetch("/api/affiliate/payout", {
-                                  method: "POST",
-                                  headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-                                  body: JSON.stringify({ payout_id: p.id, action: "reject", reference: reason || "" }),
-                                });
-                                alert("Payout rejected");
-                              }} className="px-2 py-1 rounded text-xs font-bold bg-red-600/20 text-red-400 hover:bg-red-600/40">Reject</button>
-                            </>
-                          )}
-                          {p.status === "paid" && <span className="text-xs text-green-400">✓ Paid</span>}
-                        </td>
-                      </tr>
-                    ))}
-                    {(!affPayouts || affPayouts.length === 0) && (
-                      <tr><td colSpan={5} className="p-6 text-center text-[#6b6899] text-xs">Click &quot;Load Payouts&quot; to see payout requests</td></tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Settings Tab */}
-        {tab === "settings" && (
-          <div className="space-y-6 max-w-xl">
-            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-6">
-              <h3 className="text-lg font-bold text-white mb-4">Extension Control</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm font-medium text-white">Maintenance Mode</div>
-                    <div className="text-xs text-[#6b6899]">Blocks all users from using the extension</div>
-                  </div>
-                  <button onClick={() => setSettings(s => ({ ...s, maintenance: !s.maintenance }))}
-                    className={`w-12 h-6 rounded-full relative transition-colors ${settings.maintenance ? "bg-red-500" : "bg-[#3d3580]"}`}>
-                    <span className={`absolute top-[3px] left-[3px] w-[18px] h-[18px] bg-white rounded-full transition-transform ${settings.maintenance ? "translate-x-6" : ""}`} />
-                  </button>
-                </div>
-                <div>
-                  <label className="text-sm text-[#a5a0cc] mb-1 block">Minimum Version</label>
-                  <input value={settings.min_version} onChange={e => setSettings(s => ({ ...s, min_version: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-sm" />
-                </div>
-                <div>
-                  <label className="text-sm text-[#a5a0cc] mb-1 block">Latest Version</label>
-                  <input value={settings.latest_version} onChange={e => setSettings(s => ({ ...s, latest_version: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-sm" />
-                </div>
-                <div>
-                  <label className="text-sm text-[#a5a0cc] mb-1 block">Announcement Message</label>
-                  <input value={settings.message} onChange={e => setSettings(s => ({ ...s, message: e.target.value }))} placeholder="Leave empty for none"
-                    className="w-full px-3 py-2 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-sm" />
-                </div>
-                <button onClick={saveSettings} disabled={saving}
-                  className="btn-primary px-6 py-2.5 rounded-lg text-sm font-bold disabled:opacity-50">
-                  {saving ? "Saving..." : "Save Settings"}
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-6">
-              <h3 className="text-lg font-bold text-white mb-4">Quick Actions</h3>
-              <div className="space-y-3">
-                <a href="https://console.firebase.google.com/project/unicorn-ds-7f831/firestore" target="_blank"
-                  className="block px-4 py-3 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-all">
-                  Open Firebase Console →
-                </a>
-                <a href="https://business.revolut.com/merchant" target="_blank"
-                  className="block px-4 py-3 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-all">
-                  Open Revolut Merchant →
-                </a>
-                <a href="https://vercel.com/dashboard" target="_blank"
-                  className="block px-4 py-3 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-all">
-                  Open Vercel Dashboard →
-                </a>
-                <a href="https://chrome.google.com/webstore/devconsole" target="_blank"
-                  className="block px-4 py-3 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-all">
-                  Chrome Web Store Console →
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Health Tab — System Monitoring */}
-        {tab === "health" && (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-white">System Health</h2>
-              <div className="flex gap-3">
-                <button
-                  onClick={async () => {
-                    try {
-                      const token = await getToken();
-                      const res = await fetch("/api/test-telegram", {
-                        method: "POST",
-                        headers: { Authorization: `Bearer ${token}` },
-                      });
-                      const data = await res.json();
-                      if (data.ok) {
-                        alert("✅ Telegram is working! Check your Telegram group.");
-                      } else {
-                        alert(`❌ Telegram failed:\n${data.error || "Unknown error"}\n\nToken set: ${data.has_token}\nChat ID set: ${data.has_chat_id}`);
-                      }
-                    } catch (e) { alert("❌ Network error: " + e); }
-                  }}
-                  className="px-5 py-2.5 bg-[#0088cc] text-white rounded-lg text-sm font-bold hover:bg-[#006daa] transition-all"
-                >
-                  📱 Test Telegram
-                </button>
-                <button
-                  onClick={async () => {
-                  setHealthLoading(true);
-                  try {
-                    const token = await getToken();
-                    const res = await fetch("/api/admin/health", { headers: { Authorization: `Bearer ${token}` } });
-                    if (res.ok) setHealth(await res.json());
-                  } catch (e) { console.error(e); }
-                  setHealthLoading(false);
-                }}
-                disabled={healthLoading}
-                className="px-6 py-2.5 bg-[#7C3AED] text-white rounded-lg text-sm font-bold hover:bg-[#6D28D9] disabled:opacity-50 transition-all"
-              >
-                {healthLoading ? "⏳ Checking..." : "🔄 Run Health Check"}
-              </button>
-              </div>
-            </div>
-
-            {!health && !healthLoading && (
-              <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-10 text-center">
-                <p className="text-4xl mb-3">🏥</p>
-                <p className="text-[#a5a0cc]">Click &quot;Run Health Check&quot; to scan all services</p>
-              </div>
-            )}
-
-            {health && (
-              <>
-                {/* Overall Status */}
-                <div className={`rounded-xl p-5 border ${
-                  health.status === "healthy" ? "bg-[#059669]/10 border-[#059669]/30" :
-                  health.status === "degraded" ? "bg-[#D97706]/10 border-[#D97706]/30" :
-                  "bg-[#DC2626]/10 border-[#DC2626]/30"
-                }`}>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="text-3xl">
-                        {health.status === "healthy" ? "✅" : health.status === "degraded" ? "⚠️" : "❌"}
-                      </span>
-                      <div>
-                        <div className="text-lg font-bold text-white capitalize">{health.status}</div>
-                        <div className="text-xs text-[#a5a0cc]">{health.timestamp} · {health.totalLatency}ms</div>
-                      </div>
-                    </div>
-                    <div className="text-sm text-[#a5a0cc]">{health.checks?.length || 0} services checked</div>
-                  </div>
-                </div>
-
-                {/* Individual Checks */}
-                <div className="space-y-3">
-                  {health.checks?.map((c: any, i: number) => (
-                    <div key={i} className={`bg-[#1E1B4B]/50 border rounded-xl p-4 ${
-                      c.status === "ok" ? "border-[#059669]/30" :
-                      c.status === "warning" ? "border-[#D97706]/30" :
-                      "border-[#DC2626]/30"
-                    }`}>
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-start gap-3">
-                          <span className="text-lg mt-0.5">
-                            {c.status === "ok" ? "✅" : c.status === "warning" ? "⚠️" : "❌"}
-                          </span>
-                          <div>
-                            <div className="font-bold text-white text-sm">{c.name}</div>
-                            <div className="text-sm text-[#a5a0cc] mt-0.5">{c.message}</div>
-                            {c.details && (
-                              <details className="mt-2">
-                                <summary className="text-xs text-[#7C3AED] cursor-pointer hover:text-[#A78BFA]">Show details</summary>
-                                <pre className="mt-2 text-xs text-[#a5a0cc] bg-black/30 rounded-lg p-3 overflow-x-auto max-h-48">
-                                  {JSON.stringify(c.details, null, 2)}
-                                </pre>
-                              </details>
-                            )}
-                          </div>
-                        </div>
-                        {c.latency && (
-                          <span className="text-xs text-[#a5a0cc] bg-[#1E1B4B] px-2 py-1 rounded">{c.latency}ms</span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Quick Actions */}
-                <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-5">
-                  <h3 className="font-bold text-white mb-3">Quick Links</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <a href="https://console.firebase.google.com/project/unicorn-ds-7f831/firestore" target="_blank"
-                      className="px-4 py-3 border border-[#3d3580] rounded-lg text-xs text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] text-center transition-all">
-                      🔥 Firestore
-                    </a>
-                    <a href="https://console.firebase.google.com/project/unicorn-ds-7f831/functions" target="_blank"
-                      className="px-4 py-3 border border-[#3d3580] rounded-lg text-xs text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] text-center transition-all">
-                      ⚡ Cloud Functions
-                    </a>
-                    <a href="https://app.brevo.com" target="_blank"
-                      className="px-4 py-3 border border-[#3d3580] rounded-lg text-xs text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] text-center transition-all">
-                      📧 Brevo Email
-                    </a>
-                    <a href="https://vercel.com/dashboard" target="_blank"
-                      className="px-4 py-3 border border-[#3d3580] rounded-lg text-xs text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] text-center transition-all">
-                      🌐 Vercel
-                    </a>
-                    <a href="https://search.google.com/search-console" target="_blank"
-                      className="px-4 py-3 border border-[#3d3580] rounded-lg text-xs text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] text-center transition-all">
-                      📊 Search Console
-                    </a>
-                    <a href="https://analytics.google.com" target="_blank"
-                      className="px-4 py-3 border border-[#3d3580] rounded-lg text-xs text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] text-center transition-all">
-                      📈 Google Analytics
-                    </a>
-                    <a href="https://www.youtube.com/channel/UCqyAi7iJ8gykR0r1JuG8uLQ" target="_blank"
-                      className="px-4 py-3 border border-[#3d3580] rounded-lg text-xs text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] text-center transition-all">
-                      🎥 YouTube
-                    </a>
-                    <a href="https://console.firebase.google.com/project/unicorn-ds-7f831/functions/logs" target="_blank"
-                      className="px-4 py-3 border border-[#3d3580] rounded-lg text-xs text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] text-center transition-all">
-                      📋 Function Logs
-                    </a>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+        </div>
+      </div>}
     </div>
   );
 }
