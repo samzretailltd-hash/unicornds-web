@@ -8,7 +8,7 @@ const TIERS = ["free", "starter", "growth", "empire"];
 const TIER_COLORS: Record<string, string> = { free: "#6b6899", starter: "#7C3AED", growth: "#10B981", empire: "#F59E0B" };
 
 interface UserData { uid: string; email?: string; fullName?: string; phone?: string; country?: string; ip_country?: string; ip_city?: string; tier?: string; status?: string; ref?: string; signup_ip?: string; last_ip?: string; created_at?: unknown; billing_period_end?: string; trial_end?: string; tokensUsed?: number; tokensTotal?: number; card_verified?: boolean; usage?: Record<string, unknown>; }
-interface Stats { users: { total: number; free: number; starter: number; growth: number; empire: number }; payments: unknown[]; revenue: { total: number; currency: string }; }
+interface Stats { users: { total: number; free: number; trial: number; starter: number; growth: number; empire: number; paidActive?: number; paymentFailed?: number }; payments: unknown[]; revenue: { total: number; trial?: number; monthly?: number; currency: string }; }
 
 export default function AdminPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -21,6 +21,8 @@ export default function AdminPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [users, setUsers] = useState<UserData[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all"|"paid"|"failed"|"trial"|"expired"|"free"|"blocked">("all");
   const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "" });
   const [saving, setSaving] = useState(false);
   const [affiliates, setAffiliates] = useState<{id:string;name?:string;email?:string;website?:string;audience?:string;promotion_plan?:string;status?:string;applied_at?:string;ref_code?:string;ip?:string}[]>([]);
@@ -70,7 +72,7 @@ export default function AdminPage() {
   const updateTier = async (uid: string, tier: string) => {
     const token = await getToken();
     const end = new Date(); end.setMonth(end.getMonth() + 1);
-    const tokenTotals: Record<string, number> = { free: 20, starter: 500, growth: 1500, empire: 3000 };
+    const tokenTotals: Record<string, number> = { free: 0, starter: 500, growth: 1500, empire: 3000 };
     await fetch("/api/admin/update-tier", {
       method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -194,10 +196,10 @@ export default function AdminPage() {
               {[
                 ["Total Users", stats.users.total, "#7C3AED"],
                 ["Free", stats.users.free, "#6b6899"],
-                ["Free", (stats.users as any).free || 0, "#6b6899"],
                 ["Starter", stats.users.starter, "#7C3AED"],
                 ["Growth", stats.users.growth, "#10B981"],
                 ["Empire", stats.users.empire, "#F59E0B"],
+                ["Failed Payments", (stats.users as any).paymentFailed || 0, "#EF4444"],
               ].map(([label, value, color]) => (
                 <div key={label as string} className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-5">
                   <div className="text-sm text-[#a5a0cc] mb-1">{label as string}</div>
@@ -248,6 +250,20 @@ export default function AdminPage() {
         {/* Users Tab */}
         {tab === "users" && (
           <div>
+            <div className="mb-4 flex flex-wrap gap-3 items-center">
+              <input type="text" placeholder="🔍 Search by email, name, phone, IP..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+                className="px-3 py-2 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-xs w-72" />
+              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value as any)}
+                className="px-3 py-2 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-xs">
+                <option value="all">All Status</option>
+                <option value="paid">✅ Paid</option>
+                <option value="failed">🚫 Failed</option>
+                <option value="trial">🔵 Trial</option>
+                <option value="expired">⚠️ Expired</option>
+                <option value="free">⚪ Free</option>
+                <option value="blocked">🔒 Blocked</option>
+              </select>
+            </div>
             <div className="flex items-center justify-between mb-4">
               <p className="text-sm text-[#a5a0cc]">{users.length} users {selectedUsers.size > 0 && <span className="text-[#F59E0B]">({selectedUsers.size} selected)</span>}</p>
               <div className="flex gap-3">
@@ -310,12 +326,48 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map(u => {
+                  {(() => {
+                    // Detect duplicate IPs and phones
+                    const ipCounts: Record<string, number> = {};
+                    const phoneCounts: Record<string, number> = {};
+                    users.forEach(u => {
+                      const ip = u.signup_ip || u.last_ip;
+                      if (ip) ipCounts[ip] = (ipCounts[ip] || 0) + 1;
+                      if (u.phone) phoneCounts[u.phone] = (phoneCounts[u.phone] || 0) + 1;
+                    });
+
+                    // Filter by search and status
+                    const filtered = users.filter(u => {
+                      if (searchQuery) {
+                        const q = searchQuery.toLowerCase();
+                        const hay = `${u.email || ""} ${u.fullName || ""} ${u.phone || ""} ${u.signup_ip || ""}`.toLowerCase();
+                        if (!hay.includes(q)) return false;
+                      }
+                      if (statusFilter !== "all") {
+                        const now = new Date();
+                        const expiry = u.trial_end || u.billing_period_end;
+                        const isExpired = expiry && new Date(expiry) < now;
+                        const isPaid = ["starter","growth","empire"].includes(u.tier || "");
+                        let actualStatus = "free";
+                        if (u.status === "blocked") actualStatus = "blocked";
+                        else if (u.status === "payment_failed") actualStatus = "failed";
+                        else if (u.status === "active" && isPaid) actualStatus = "paid";
+                        else if (u.status === "trialing") actualStatus = "trial";
+                        else if (isPaid && isExpired) actualStatus = "expired";
+                        if (actualStatus !== statusFilter) return false;
+                      }
+                      return true;
+                    });
+
+                    return filtered.map(u => {
                     const used = u.tokensUsed || 0;
                     const total = u.tokensTotal || 0;
                     const usagePercent = total > 0 ? Math.round((used / total) * 100) : 0;
                     const expiryDate = u.trial_end || u.billing_period_end;
                     const daysLeft = expiryDate ? Math.max(0, Math.ceil((new Date(expiryDate).getTime() - Date.now()) / 86400000)) : null;
+                    const userIP = u.signup_ip || u.last_ip || "";
+                    const isDupIP = userIP && ipCounts[userIP] > 1;
+                    const isDupPhone = u.phone && phoneCounts[u.phone] > 1;
                     return (
                     <tr key={u.uid} className={`border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30 ${selectedUsers.has(u.uid) ? 'bg-[#7C3AED]/10' : ''}`}>
                       <td className="p-3">
@@ -326,7 +378,11 @@ export default function AdminPage() {
                             setSelectedUsers(next);
                           }} className="rounded" />
                       </td>
-                      <td className="p-3 text-white text-xs">{u.fullName || "—"}</td>
+                      <td className="p-3 text-white text-xs">
+                        {u.fullName || "—"}
+                        {isDupIP && <span className="ml-1 px-1 py-0.5 bg-red-500/20 text-red-400 rounded text-[10px]" title={`Shared IP: ${userIP}`}>DUP IP</span>}
+                        {isDupPhone && <span className="ml-1 px-1 py-0.5 bg-orange-500/20 text-orange-400 rounded text-[10px]" title={`Shared phone: ${u.phone}`}>DUP PHONE</span>}
+                      </td>
                       <td className="p-3 text-white text-xs">{u.email || u.uid.slice(0, 12)}</td>
                       <td className="p-3">
                         <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: (TIER_COLORS[u.tier || "free"] || "#6b6899") + "20", color: TIER_COLORS[u.tier || "free"] }}>
@@ -382,6 +438,20 @@ export default function AdminPage() {
                           className={`px-2 py-1 rounded text-xs font-bold ${u.status === "blocked" ? "bg-green-600/20 text-green-400 hover:bg-green-600/40" : "bg-red-600/20 text-red-400 hover:bg-red-600/40"}`}>
                           {u.status === "blocked" ? "Unblock" : "Block"}
                         </button>
+                        {["starter","growth","empire"].includes(u.tier || "") && (
+                          <button onClick={async () => {
+                            if (!confirm(`Force expire ${u.email}? Sets tier=free, tokens=0 immediately.`)) return;
+                            const token = await getToken();
+                            await fetch("/api/admin/update-tier", {
+                              method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                              body: JSON.stringify({ uid: u.uid, tier: "free", tokensTotal: 0, tokensUsed: 0, status: "expired_manual" }),
+                            });
+                            fetchData();
+                          }}
+                            className="px-2 py-1 rounded text-xs font-bold bg-orange-600/20 text-orange-400 hover:bg-orange-600/40">
+                            Expire
+                          </button>
+                        )}
                         <button onClick={async () => {
                           if (!confirm(`Manually verify email for ${u.email}?`)) return;
                           const token = await getToken();
@@ -404,7 +474,8 @@ export default function AdminPage() {
                       </td>
                     </tr>
                     );
-                  })}
+                  });
+                  })()}
                   {users.length === 0 && (
                     <tr><td colSpan={11} className="p-8 text-center text-[#6b6899]">No users yet</td></tr>
                   )}
@@ -628,9 +699,9 @@ export default function AdminPage() {
                   className="block px-4 py-3 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-all">
                   Open Firebase Console →
                 </a>
-                <a href="https://business.revolut.com/merchant" target="_blank"
+                <a href="https://dashboard.stripe.com" target="_blank"
                   className="block px-4 py-3 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-all">
-                  Open Revolut Merchant →
+                  Open Stripe Dashboard →
                 </a>
                 <a href="https://vercel.com/dashboard" target="_blank"
                   className="block px-4 py-3 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-all">
