@@ -234,6 +234,8 @@ export async function POST(req: NextRequest) {
 
         await adminDb.collection("users").doc(uid).set({
           status: "payment_failed",
+          tokensTotal: 0,
+          tokensUsed: 0,
           updated_at: new Date().toISOString(),
         }, { merge: true });
         console.log("[Stripe] Payment failed:", uid);
