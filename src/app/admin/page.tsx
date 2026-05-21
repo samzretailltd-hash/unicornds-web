@@ -365,6 +365,7 @@ export default function AdminPage() {
                           let label = "FREE"; let color = "bg-gray-500/20 text-gray-400";
                           if (u.status === "blocked") { label = "BLOCKED"; color = "bg-red-500/20 text-red-400"; }
                           else if (u.status === "payment_failed") { label = "FAILED"; color = "bg-red-500/20 text-red-400"; }
+                          else if (u.status === "active" && isPaid) { label = "PAID"; color = "bg-green-500/20 text-green-400"; }
                           else if (u.status === "trialing") { label = "TRIAL"; color = "bg-blue-500/20 text-blue-400"; }
                           else if (isPaid && isExpired) { label = "EXPIRED"; color = "bg-orange-500/20 text-orange-400"; }
                           else if (isPaid) { label = "PAID"; color = "bg-green-500/20 text-green-400"; }
