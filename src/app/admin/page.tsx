@@ -357,9 +357,19 @@ export default function AdminPage() {
                         {!u.country && u.ip_country && <span className="text-[#6b6899]">{u.ip_country}</span>}
                       </td>
                       <td className="p-3">
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${u.status === "blocked" ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"}`}>
-                          {u.status === "blocked" ? "BLOCKED" : "ACTIVE"}
-                        </span>
+                        {(() => {
+                          const now = new Date();
+                          const expiry = u.trial_end || u.billing_period_end;
+                          const isExpired = expiry && new Date(expiry) < now;
+                          const isPaid = ["starter","growth","empire"].includes(u.tier || "");
+                          let label = "FREE"; let color = "bg-gray-500/20 text-gray-400";
+                          if (u.status === "blocked") { label = "BLOCKED"; color = "bg-red-500/20 text-red-400"; }
+                          else if (u.status === "payment_failed") { label = "FAILED"; color = "bg-red-500/20 text-red-400"; }
+                          else if (u.status === "trialing") { label = "TRIAL"; color = "bg-blue-500/20 text-blue-400"; }
+                          else if (isPaid && isExpired) { label = "EXPIRED"; color = "bg-orange-500/20 text-orange-400"; }
+                          else if (isPaid) { label = "PAID"; color = "bg-green-500/20 text-green-400"; }
+                          return <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${color}`}>{label}</span>;
+                        })()}
                       </td>
                       <td className="p-3 text-[#a5a0cc] text-xs font-mono">{u.signup_ip || "—"}</td>
                       <td className="p-3 flex gap-2">
