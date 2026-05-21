@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb, verifyAdmin } from "@/lib/firebase-admin";
-import { stripe } from "@/lib/stripe";
+import { stripe, PRICE_TO_TIER } from "@/lib/stripe";
 
 export async function POST(req: NextRequest) {
   const admin = await verifyAdmin(req.headers.get("authorization"));
@@ -21,7 +21,37 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        const sub = await stripe.subscriptions.retrieve(subId) as any;
+        const sub = await stripe.subscriptions.retrieve(subId, {
+          expand: ["latest_invoice"],
+        }) as any;
+
+        const latestInvoice = sub.latest_invoice;
+        const invoiceStatus = latestInvoice?.status;
+        const invoicePaid = latestInvoice?.paid === true;
+
+        let realStatus = "active";
+        let shouldBlock = false;
+
+        if (sub.status === "canceled" || sub.status === "unpaid") {
+          realStatus = "canceled";
+          shouldBlock = true;
+        } else if (sub.status === "past_due") {
+          realStatus = "payment_failed";
+          shouldBlock = true;
+        } else if (sub.status === "trialing") {
+          realStatus = "trialing";
+        } else if (sub.status === "active") {
+          if (invoiceStatus === "open" && !invoicePaid) {
+            realStatus = "payment_failed";
+            shouldBlock = true;
+          } else {
+            realStatus = "active";
+          }
+        }
+
+        const priceId = sub.items?.data?.[0]?.price?.id;
+        const tierInfo = priceId ? PRICE_TO_TIER[priceId] : null;
+
         const update: Record<string, unknown> = {
           billing_period_end: sub.current_period_end
             ? new Date(sub.current_period_end * 1000).toISOString()
@@ -29,14 +59,44 @@ export async function POST(req: NextRequest) {
           trial_end: sub.trial_end
             ? new Date(sub.trial_end * 1000).toISOString()
             : null,
-          status: sub.status === "trialing" ? "trialing" : sub.status === "active" ? "active" : data.status,
+          status: realStatus,
           synced_at: new Date().toISOString(),
         };
 
+        if (shouldBlock) {
+          update.tokensTotal = 0;
+          update.tokensUsed = 0;
+          if (sub.status === "canceled") {
+            update.tier = "free";
+            update.stripe_subscription_id = null;
+          }
+        }
+
+        if (realStatus === "active" && tierInfo && data.tokensTotal === 0) {
+          update.tokensTotal = tierInfo.tokensTotal;
+        }
+
         await adminDb.collection("users").doc(doc.id).set(update, { merge: true });
-        results.push({ email, status: `✅ synced — expires ${update.billing_period_end || "n/a"}` });
+
+        const statusEmoji = shouldBlock ? "🚫" : realStatus === "trialing" ? "🔵" : "✅";
+        results.push({
+          email,
+          status: `${statusEmoji} ${realStatus} — invoice: ${invoiceStatus || "n/a"} — expires: ${update.billing_period_end || "n/a"}`,
+        });
       } catch (e: any) {
-        results.push({ email, status: `❌ ${e.message}` });
+        if (e.message?.includes("No such subscription")) {
+          await adminDb.collection("users").doc(doc.id).set({
+            tier: "free",
+            tokensTotal: 0,
+            tokensUsed: 0,
+            status: "canceled",
+            stripe_subscription_id: null,
+            synced_at: new Date().toISOString(),
+          }, { merge: true });
+          results.push({ email, status: "🚫 subscription deleted — downgraded to free" });
+        } else {
+          results.push({ email, status: `❌ ${e.message}` });
+        }
       }
     }
 
