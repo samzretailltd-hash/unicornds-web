@@ -59,6 +59,7 @@ export function Navbar() {
 
   const RESOURCES_ITEMS: DropdownItem[] = [
     { href: "/about", label: "About / Founder", desc: "Our story & mission", icon: "👋" },
+    { href: "/changelog", label: "Changelog", desc: "What's new & updates", icon: "📰", highlight: "gold" },
     { href: "/support", label: "Support", desc: "Get help fast", icon: "💬" },
     { href: "/affiliate", label: "Affiliate Program", desc: "Earn 30% commission", icon: "🤝", highlight: "gold" },
     { href: "/handbook", label: "Handbook", desc: "How everything works", icon: "📖" },

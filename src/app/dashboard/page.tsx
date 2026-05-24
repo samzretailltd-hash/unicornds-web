@@ -5,6 +5,7 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { SITE, PLANS } from "@/lib/constants";
+import { ChangelogWidget } from "@/components/ChangelogWidget";
 
 const CF_BASE = "https://us-central1-unicorn-ds-7f831.cloudfunctions.net";
 
@@ -191,14 +192,6 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex gap-2">
-              {(tier === "growth" || tier === "empire") && (
-                <Link
-                  href="/dashboard/courses"
-                  className="px-4 py-2.5 rounded-lg text-sm font-bold bg-[#F59E0B]/15 border border-[#F59E0B]/40 text-[#F59E0B] hover:bg-[#F59E0B]/25 hover:text-[#FBBF24] transition-colors flex items-center gap-1.5"
-                >
-                  🎓 Mastery Course
-                </Link>
-              )}
               <Link
                 href="/dashboard/billing"
                 className="px-4 py-2.5 rounded-lg text-sm font-bold border border-[#3d3580] text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-colors flex items-center gap-1.5"
@@ -350,6 +343,11 @@ export default function DashboardPage() {
               </a>
             ))}
           </div>
+        </div>
+
+        {/* What's New — Changelog Widget */}
+        <div className="mb-6">
+          <ChangelogWidget />
         </div>
 
         {/* Bottom Grid */}
