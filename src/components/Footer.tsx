@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className="border-t border-[#3d3580]/20 pt-16 pb-8">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
           <div className="md:col-span-1">
             <div className="font-[family-name:var(--font-display)] font-extrabold text-lg text-white flex items-center gap-2 mb-3">
               <Image src="/logo.svg" alt="UnicornDS" width={28} height={28} /> {SITE.name}
@@ -20,9 +20,19 @@ export function Footer() {
               <Link href="/#features" className="text-sm text-[#a5a0cc] hover:text-[#A78BFA] transition-colors">Features</Link>
               <Link href="/pricing" className="text-sm text-[#a5a0cc] hover:text-[#A78BFA] transition-colors">Pricing</Link>
               <Link href="/courses" className="text-sm text-[#F59E0B] hover:text-white transition-colors font-bold">🎓 Mastery Course</Link>
-              <Link href="/ebay-fees-calculator" className="text-sm text-[#10B981] hover:text-white transition-colors font-bold">🧮 Free Fees Calculator</Link>
+              <Link href="/vs/ecomsniper" className="text-sm text-[#a5a0cc] hover:text-[#A78BFA] transition-colors">vs EcomSniper</Link>
               <Link href="/guarantee" className="text-sm text-[#10B981] hover:text-white transition-colors">30-Day Guarantee</Link>
-              <Link href="/#faq" className="text-sm text-[#a5a0cc] hover:text-[#A78BFA] transition-colors">FAQ</Link>
+              <Link href="/about" className="text-sm text-[#a5a0cc] hover:text-[#A78BFA] transition-colors">About</Link>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">Free Tools</h4>
+            <div className="flex flex-col gap-2.5">
+              <Link href="/ebay-fees-calculator" className="text-sm text-[#10B981] hover:text-white transition-colors font-bold">🧮 eBay Fees Calculator</Link>
+              <Link href="/profit-margin-calculator" className="text-sm text-[#10B981] hover:text-white transition-colors font-bold">📊 Profit Margin Calc</Link>
+              <Link href="/glossary" className="text-sm text-[#a5a0cc] hover:text-white transition-colors">📖 Glossary</Link>
+              <Link href="/free-guide" className="text-sm text-[#a5a0cc] hover:text-white transition-colors">📘 Free Guide</Link>
+              <Link href="/blog" className="text-sm text-[#a5a0cc] hover:text-[#A78BFA] transition-colors">Blog</Link>
             </div>
           </div>
           <div>

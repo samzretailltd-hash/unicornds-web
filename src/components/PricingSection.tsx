@@ -60,6 +60,34 @@ export function PricingSection() {
           <p className="text-[#a5a0cc] mb-2">{t('pricing.subtitle', geo.language)}</p>
           <p className="text-sm text-[#F59E0B] font-semibold">7-day trial: Starter £1 · Growth £5 · Empire £10 — or subscribe at full price</p>
         </div>
+
+        {/* ANNUAL SAVINGS BANNER */}
+        <div className="max-w-2xl mx-auto mb-6">
+          <button
+            onClick={() => setAnnual(true)}
+            className={`w-full bg-gradient-to-r from-[#10B981]/15 via-[#10B981]/10 to-[#F59E0B]/15 border-2 ${annual ? "border-[#10B981]" : "border-[#10B981]/40 hover:border-[#10B981]"} rounded-2xl p-4 transition-all group`}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="text-3xl">💰</div>
+                <div className="text-left">
+                  <div className="text-sm font-extrabold text-white">
+                    {annual ? "✅ Annual selected — saving 20%" : "Save 20% with annual billing"}
+                  </div>
+                  <div className="text-xs text-[#a5a0cc]">
+                    Pay yearly · Get 2 months free · Same flexibility
+                  </div>
+                </div>
+              </div>
+              {!annual && (
+                <div className="text-xs text-[#10B981] font-bold whitespace-nowrap group-hover:translate-x-1 transition-transform">
+                  Switch →
+                </div>
+              )}
+            </div>
+          </button>
+        </div>
+
         <div className="flex items-center justify-center gap-3 mb-12 text-sm">
           <span className={!annual ? "text-white font-bold" : "text-[#a5a0cc]"}>{t('pricing.monthly', geo.language)}</span>
           <button onClick={() => setAnnual(!annual)} className={`w-12 h-6 rounded-full relative transition-colors ${annual ? "bg-[#7C3AED]" : "bg-[#3d3580]"}`} aria-label="Toggle billing">

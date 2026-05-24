@@ -45,16 +45,20 @@ export function Navbar() {
     { href: "/#demos", label: "Demos", desc: "See it in action", icon: "▶️" },
     { href: "/pricing", label: "Pricing", desc: "Plans from £29.99/mo", icon: "💰" },
     { href: "/courses", label: "Mastery Course", desc: "FREE with Growth & Empire", icon: "🎓", highlight: "gold" },
+    { href: "/vs/ecomsniper", label: "vs EcomSniper", desc: "Why we're 60% cheaper", icon: "⚔️" },
     { href: "/guarantee", label: "30-Day Guarantee", desc: "Refund if no sales", icon: "💯", highlight: "green" },
   ];
 
   const TOOLS_ITEMS: DropdownItem[] = [
     { href: "/ebay-fees-calculator", label: "eBay Fees Calculator", desc: "Calculate profit in seconds", icon: "🧮", highlight: "green" },
+    { href: "/profit-margin-calculator", label: "Profit Margin Calculator", desc: "Net margin, ROI, markup", icon: "📊", highlight: "green" },
+    { href: "/glossary", label: "eBay Dropshipping Glossary", desc: "60+ terms explained", icon: "📖" },
     { href: "/free-guide", label: "Free Beginner's Guide", desc: "Start dropshipping today", icon: "📘", highlight: "green" },
     { href: "/blog", label: "Dropshipping Blog", desc: "64+ guides & tutorials", icon: "📚" },
   ];
 
   const RESOURCES_ITEMS: DropdownItem[] = [
+    { href: "/about", label: "About / Founder", desc: "Our story & mission", icon: "👋" },
     { href: "/support", label: "Support", desc: "Get help fast", icon: "💬" },
     { href: "/affiliate", label: "Affiliate Program", desc: "Earn 30% commission", icon: "🤝", highlight: "gold" },
     { href: "/handbook", label: "Handbook", desc: "How everything works", icon: "📖" },
