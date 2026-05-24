@@ -220,7 +220,7 @@ export function HomeContent() {
               </div>
               <div>
                 <div className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold text-white mb-1">
-                  <AnimatedCounter end={3,629} suffix="" />
+                  <AnimatedCounter end={3629} suffix="" />
                 </div>
                 <div className="text-xs text-[#8b85b1] uppercase tracking-wider">{t('stats.vero', l)}</div>
               </div>
