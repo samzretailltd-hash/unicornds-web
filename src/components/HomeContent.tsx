@@ -8,6 +8,7 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { ParticleField } from "@/components/ParticleField";
 import { useGeo } from "@/lib/geo";
 import { t } from "@/lib/i18n";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 
 /* ─── Animated Counter ─── */
 function AnimatedCounter({ end, suffix = '', prefix = '' }: { end: number; suffix?: string; prefix?: string }) {
@@ -114,6 +115,9 @@ export function HomeContent() {
         <ParticleField />
 
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="max-w-5xl mx-auto px-6 relative z-10">
+          {/* Announcement Bar */}
+          <AnnouncementBar />
+
           {/* Badge */}
           <Reveal>
             <div className="inline-block px-5 py-1.5 rounded-full bg-[#7C3AED]/10 border border-[#7C3AED]/20 text-sm text-[#A78BFA] font-medium mb-8 hero-badge">
