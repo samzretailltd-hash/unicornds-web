@@ -58,7 +58,11 @@ export const PLANS: Plan[] = [
       { text: "Address Helper (auto-fill)", status: "yes" },
       { text: "🎓 UnicornDS Mastery Course (FREE)", status: "yes" },
       { text: "💬 Private Telegram Community", status: "yes" },
-      { text: "Priority support", status: "yes" },, name: "Empire", monthly: 99.99, annual: 959.88,
+      { text: "Priority support", status: "yes" },
+    ],
+  },
+  {
+    id: "empire", name: "Empire", monthly: 99.99, annual: 959.88,
     listings: "3,000 listings/month",
     features: [
       { text: "3,000 eBay listings/month", status: "yes" },
