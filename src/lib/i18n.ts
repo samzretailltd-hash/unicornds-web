@@ -1,9 +1,9 @@
 const translations: Record<string, Record<string, string>> = {
   en: {
     'hero.badge': 'Trusted by eBay Sellers Worldwide',
-    'hero.title1': 'Find. List. Sell.',
-    'hero.title2': 'Automatically.',
-    'hero.subtitle': 'Source from **Amazon** for fast delivery or **AliExpress** for maximum margins. List on eBay in seconds with AI-powered automation.',
+    'hero.title1': 'eBay Dropshipping,',
+    'hero.title2': 'Fully Automated.',
+    'hero.subtitle': 'The **#1 Chrome extension for eBay sellers**. Source from **Amazon** & **AliExpress**, list with AI titles in seconds, auto-fulfill orders. Built for UK, US, DE, FR, AU & CA marketplaces.',
     'hero.cta': 'Start 7-Day Trial for £1',
     'hero.cta2': 'See Features ↓',
     'hero.free': '7-day trial from £1. Limited trial listings. AI titles. Full access.',
@@ -108,8 +108,8 @@ const translations: Record<string, Record<string, string>> = {
   },
   de: {
     'hero.badge': 'Vertraut von eBay-Verkäufern weltweit',
-    'hero.title1': 'Finden. Listen. Verkaufen.',
-    'hero.title2': 'Automatisch.',
+    'hero.title1': 'eBay Dropshipping,',
+    'hero.title2': 'Voll Automatisiert.',
     'hero.subtitle': 'Einkaufen bei **Amazon** für schnelle Lieferung oder **AliExpress** für maximale Margen. In Sekunden auf eBay listen mit KI-Automatisierung.',
     'hero.cta': 'Kostenlos installieren — Chrome',
     'hero.cta2': 'Funktionen ansehen ↓',
@@ -209,8 +209,8 @@ const translations: Record<string, Record<string, string>> = {
   },
   fr: {
     'hero.badge': 'Approuvé par les vendeurs eBay du monde entier',
-    'hero.title1': 'Trouvez. Listez. Vendez.',
-    'hero.title2': 'Automatiquement.',
+    'hero.title1': 'Dropshipping eBay,',
+    'hero.title2': 'Entièrement Automatisé.',
     'hero.subtitle': 'Achetez sur **Amazon** pour une livraison rapide ou **AliExpress** pour des marges maximales. Listez sur eBay en quelques secondes.',
     'hero.cta': 'Installer gratuitement — Chrome',
     'hero.cta2': 'Voir les fonctionnalités ↓',
@@ -310,8 +310,8 @@ const translations: Record<string, Record<string, string>> = {
   },
   es: {
     'hero.badge': 'Confiado por vendedores de eBay en todo el mundo',
-    'hero.title1': 'Encuentra. Lista. Vende.',
-    'hero.title2': 'Automáticamente.',
+    'hero.title1': 'Dropshipping eBay,',
+    'hero.title2': 'Totalmente Automatizado.',
     'hero.subtitle': 'Compra en **Amazon** para entrega rápida o **AliExpress** para márgenes máximos. Lista en eBay en segundos.',
     'hero.cta': 'Instalar gratis — Chrome',
     'hero.cta2': 'Ver características ↓',
