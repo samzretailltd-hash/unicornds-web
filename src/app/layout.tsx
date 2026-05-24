@@ -54,12 +54,13 @@ export const metadata: Metadata = {
     images: ["https://www.unicornds.io/og-image.png"],
   },
   robots: { index: true, follow: true },
-  // ══════════ IMPORTANT: Replace with your REAL Google Search Console code ══════════
-  // Go to https://search.google.com/search-console → Add Property → URL prefix → 
-  // Enter https://www.unicornds.io → Choose HTML tag method → Copy the content value
-  verification: {
-    google: "REPLACE_WITH_REAL_CODE",
-  },
+  // ══════════ Google Search Console verification ══════════
+  // When you have your verification code from https://search.google.com/search-console
+  // (Add Property → URL prefix → https://www.unicornds.io → HTML tag method),
+  // uncomment the block below and paste your real code in place of YOUR_CODE_HERE
+  // verification: {
+  //   google: "YOUR_CODE_HERE",
+  // },
 };
 
 const jsonLd = {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "30-Day Sales Guarantee — Zero Risk | UnicornDS",
+  title: "30-Day Sales Guarantee — Zero Risk",
   description: "100% money-back guarantee if you don't make a sale in 30 days using UnicornDS. No questions, no fine print, no hoops. Try risk-free.",
   alternates: { canonical: "https://www.unicornds.io/guarantee" },
 };

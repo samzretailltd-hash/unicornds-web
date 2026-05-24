@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About UnicornDS — Built by an eBay Seller, for eBay Sellers | UnicornDS",
+  title: "About UnicornDS — Built by an eBay Seller, for eBay Sellers",
   description: "Meet Zohaib Hassan, founder of UnicornDS. Why a UK eBay seller built a Chrome extension to fix what other tools got wrong. Our story, mission, and team.",
   alternates: { canonical: "https://www.unicornds.io/about" },
   openGraph: {

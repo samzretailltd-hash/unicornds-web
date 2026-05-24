@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "UnicornDS Mastery — Free eBay Dropshipping Course with Growth & Empire | UnicornDS",
-  description: "Complete eBay dropshipping course in English & Urdu — FREE with UnicornDS Growth or Empire. 8 modules, 49 lessons, private Telegram community. 100% money-back if no sales in 30 days.",
+  title: "UnicornDS Mastery — Free eBay Dropshipping Course with Growth & Empire",
+  description: "Complete eBay dropshipping course FREE with UnicornDS Growth or Empire plan. 8 modules, 49 lessons, private Telegram community. 100% money-back if no sales in 30 days.",
   alternates: { canonical: "https://www.unicornds.io/courses" },
 };
 
@@ -34,7 +34,6 @@ const MODULES = [
 
 const INCLUDED = [
   { icon: "🎓", title: "Complete Video Course", desc: "8 modules, 49 lessons, 13+ hours of HD training. Updated for 2026." },
-  { icon: "🇬🇧🇵🇰", title: "English & Urdu Available", desc: "Every lesson recorded in both English and Roman Urdu. Switch language anytime in your dashboard." },
   { icon: "🚀", title: "UnicornDS Extension", desc: "Growth = 1,500 listings/mo. Empire = 3,000 listings/mo + MSKU builder." },
   { icon: "💬", title: "Private Telegram Community", desc: "Direct chat with other sellers + our team. Answers in minutes." },
   { icon: "📞", title: "1-on-1 Onboarding (Empire)", desc: "30-min setup call with our team. Empire tier only." },
