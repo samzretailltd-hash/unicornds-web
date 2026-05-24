@@ -16,7 +16,19 @@ export const metadata: Metadata = {
   description:
     "The #1 Chrome extension for eBay dropshipping. Source from Amazon & AliExpress, list on eBay in seconds with AI titles, VERO protection & bulk listing. 7-day trial from £1.",
   metadataBase: new URL("https://www.unicornds.io"),
-  alternates: { canonical: "https://www.unicornds.io" },
+  alternates: {
+    canonical: "https://www.unicornds.io",
+    languages: {
+      "en-GB": "https://www.unicornds.io",
+      "en-US": "https://www.unicornds.io",
+      "en-AU": "https://www.unicornds.io",
+      "en-CA": "https://www.unicornds.io",
+      "de-DE": "https://www.unicornds.io",
+      "fr-FR": "https://www.unicornds.io",
+      "es-ES": "https://www.unicornds.io",
+      "x-default": "https://www.unicornds.io",
+    },
+  },
   openGraph: {
     title: "UnicornDS — eBay Dropshipping Chrome Extension",
     description:

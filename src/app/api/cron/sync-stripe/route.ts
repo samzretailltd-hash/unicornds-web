@@ -107,12 +107,45 @@ export async function GET(req: NextRequest) {
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
     console.log(`[Cron] Sync done in ${elapsed}s: ${synced} synced, ${blocked} blocked, ${downgraded} downgraded, ${errors} errors`);
 
+    // ════════════════════════════════════════════════════════════
+    // PASS 2: Expire orphan trial users (no Stripe sub but trial_end passed)
+    // Catches users whose trial ran out and never converted
+    // ════════════════════════════════════════════════════════════
+    let expiredTrials = 0;
+    const now = new Date();
+    for (const doc of usersSnap.docs) {
+      const data = doc.data();
+      // Skip users with active Stripe subscription (handled above)
+      if (data.stripe_subscription_id) continue;
+      // Skip already-free users
+      if (!data.tier || data.tier === "free") continue;
+      // Skip if no trial_end (shouldn't happen but safe)
+      if (!data.trial_end) continue;
+
+      const trialEnd = new Date(data.trial_end);
+      if (trialEnd < now) {
+        await adminDb.collection("users").doc(doc.id).set({
+          tier: "free",
+          tokensTotal: 0,
+          tokensUsed: 0,
+          status: "canceled",
+          synced_at: new Date().toISOString(),
+        }, { merge: true });
+        expiredTrials++;
+        console.log(`[Cron] Expired orphan trial: ${data.email || doc.id}`);
+      }
+    }
+    if (expiredTrials > 0) {
+      console.log(`[Cron] Expired ${expiredTrials} orphan trial accounts`);
+    }
+
     return NextResponse.json({
       ok: true,
       elapsed: `${elapsed}s`,
       synced,
       blocked,
       downgraded,
+      expiredTrials,
       errors,
       timestamp: new Date().toISOString(),
     });
