@@ -87,7 +87,7 @@ export function HomeContent() {
   const videoSchema = [
     { id: 'gFoUuILDDSQ', name: 'Bulk List 4 Products on eBay with UnicornDS', description: 'Watch UnicornDS bulk list 4 Amazon products to eBay in under a minute with AI-generated titles and VERO protection.' },
     { id: '8qpd9Dt6jrI', name: 'Spy on eBay Sellers with Competitor Scanner', description: 'UnicornDS Competitor Scanner extracts any eBay seller\'s entire product catalog in seconds.' },
-    { id: 'C9-CB3EJldM', name: 'eBay VERO List Protection Explained', description: 'How UnicornDS checks every product against 3,390 VERO-protected brands before listing to prevent account suspension.' },
+    { id: 'C9-CB3EJldM', name: 'eBay VERO List Protection Explained', description: 'How UnicornDS checks every product against 3,629 VERO-protected brands before listing to prevent account suspension.' },
     { id: 'pfFSKKIlymc', name: 'Create Professional eBay Product Images', description: 'UnicornDS Image Designer adds watermarks and branded overlays to product photos for a consistent eBay store look.' },
     { id: 'qBceu9VeZIA', name: 'AliExpress to eBay — 93% Profit Margin', description: 'Step-by-step AliExpress dropshipping to eBay with UnicornDS showing real margin calculations.' },
   ].map(v => ({
@@ -220,7 +220,7 @@ export function HomeContent() {
               </div>
               <div>
                 <div className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold text-white mb-1">
-                  <AnimatedCounter end={3390} suffix="" />
+                  <AnimatedCounter end={3,629} suffix="" />
                 </div>
                 <div className="text-xs text-[#8b85b1] uppercase tracking-wider">{t('stats.vero', l)}</div>
               </div>
@@ -310,20 +310,26 @@ export function HomeContent() {
           {/* Extra features row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             {[
+              { icon: "📦", title: t('feat.orderMgr', l), desc: t('feat.orderMgr.desc', l), highlight: true },
+              { icon: "🚀", title: t('feat.bulkFulfill', l), desc: t('feat.bulkFulfill.desc', l), highlight: true },
+              { icon: "⭐", title: t('feat.repeatBuyer', l), desc: t('feat.repeatBuyer.desc', l), highlight: true },
               { icon: "📊", title: t('feat.demand', l), desc: t('feat.demand.desc', l) },
               { icon: "🏷️", title: t('feat.ebaySales', l), desc: t('feat.ebaySales.desc', l) },
               { icon: "💰", title: t('feat.priceBar', l), desc: t('feat.priceBar.desc', l) },
               { icon: "🛡️", title: t('feat.vero', l), desc: t('feat.vero.desc', l) },
-              { icon: "📦", title: t('feat.stock', l), desc: t('feat.stock.desc', l) },
               { icon: "📋", title: t('feat.address', l), desc: t('feat.address.desc', l) },
               { icon: "🔍", title: t('feat.checkEbay', l), desc: t('feat.checkEbay.desc', l) },
               { icon: "💬", title: t('feat.orderMsg', l), desc: t('feat.orderMsg.desc', l) },
               { icon: "🔄", title: t('feat.restock', l), desc: t('feat.restock.desc', l) },
+              { icon: "📦", title: t('feat.stock', l), desc: t('feat.stock.desc', l) },
             ].map((f, i) => (
               <Reveal key={f.title} delay={0.1 * i}>
-                <div className="bento-card p-6 h-full">
+                <div className={`bento-card p-6 h-full ${(f as any).highlight ? 'border-[#F59E0B]/40 border-2' : ''}`}>
                   <span className="text-2xl mb-3 block">{f.icon}</span>
-                  <h3 className="font-[family-name:var(--font-display)] text-base font-bold text-white mb-2">{f.title}</h3>
+                  <h3 className="font-[family-name:var(--font-display)] text-base font-bold text-white mb-2">
+                    {f.title}
+                    {(f as any).highlight && <span className="ml-2 px-2 py-0.5 text-[9px] font-extrabold bg-[#F59E0B] text-[#1E1B4B] rounded-full align-middle">NEW</span>}
+                  </h3>
                   <p className="text-sm text-[#8b85b1] leading-relaxed">{f.desc}</p>
                 </div>
               </Reveal>
