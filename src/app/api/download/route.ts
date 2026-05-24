@@ -4,11 +4,7 @@ import { adminAuth, adminDb } from "@/lib/firebase-admin";
 export async function POST(req: NextRequest) {
   try {
     const { token } = await req.json();
-    if (!token) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
-    }
 
-    // Verify Firebase ID token
     const decoded = await adminAuth.verifyIdToken(token);
     if (!decoded?.uid) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
@@ -22,7 +18,7 @@ export async function POST(req: NextRequest) {
         uid: decoded.uid,
         email: decoded.email || "",
         tier: userDoc.exists ? userDoc.data()?.tier || "free" : "free",
-        version: "7.12.1",
+        version: "7.20.0",
         downloadedAt: new Date().toISOString(),
         userAgent: req.headers.get("user-agent") || "",
       });
@@ -37,9 +33,9 @@ export async function POST(req: NextRequest) {
 
     // Return the download URL (hashed filename)
     return NextResponse.json({
-      url: "/ext_a8c2f1e9d4b7.zip",
-      filename: "UnicornDS_v7_12_1.zip",
-      version: "7.12.1",
+      url: "/ext_b9d3e2f0a5c8.zip",
+      filename: "UnicornDS_v7_20_0.zip",
+      version: "7.20.0",
     });
   } catch (err: any) {
     console.error("Download auth error:", err);
