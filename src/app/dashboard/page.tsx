@@ -191,6 +191,12 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex gap-2">
+              <Link
+                href="/dashboard/billing"
+                className="px-4 py-2.5 rounded-lg text-sm font-bold border border-[#3d3580] text-[#a5a0cc] hover:text-white hover:border-[#7C3AED] transition-colors flex items-center gap-1.5"
+              >
+                📄 Billing &amp; Invoices
+              </Link>
               {(tier === "starter" || tier === "growth" || tier === "empire") && (
                 <button
                   onClick={async () => {

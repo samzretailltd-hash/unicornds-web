@@ -4,7 +4,17 @@ import { stripe } from "@/lib/stripe";
 
 export async function POST(req: NextRequest) {
   try {
-    const { token } = await req.json();
+    // Support both Authorization header AND body token (backward compat)
+    let token: string | null = null;
+    const authHeader = req.headers.get("authorization");
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split("Bearer ")[1];
+    }
+
+    let body: any = {};
+    try { body = await req.json(); } catch {}
+    if (!token) token = body.token;
+
     if (!token) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
     const decoded = await adminAuth.verifyIdToken(token);
@@ -18,10 +28,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No subscription found. Please subscribe first." }, { status: 400 });
     }
 
-    // Create customer portal session
+    // Create customer portal session — allow custom return_url
+    const returnUrl = body.return_url || `${req.nextUrl.origin}/dashboard/billing`;
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: `${req.nextUrl.origin}/dashboard`,
+      return_url: returnUrl,
     });
 
     return NextResponse.json({ url: session.url });

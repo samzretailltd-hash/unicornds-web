@@ -345,9 +345,11 @@ export default function AdminPage() {
                       }
                       if (statusFilter !== "all") {
                         const now = new Date();
-                        const expiry = u.trial_end || u.billing_period_end;
-                        const isExpired = expiry && new Date(expiry) < now;
                         const isPaid = ["starter","growth","empire"].includes(u.tier || "");
+                        const expiry = isPaid && u.status === "active"
+                          ? (u.billing_period_end || u.trial_end)
+                          : (u.trial_end || u.billing_period_end);
+                        const isExpired = expiry && new Date(expiry) < now;
                         let actualStatus = "free";
                         if (u.status === "blocked") actualStatus = "blocked";
                         else if (u.status === "payment_failed") actualStatus = "failed";
@@ -363,7 +365,12 @@ export default function AdminPage() {
                     const used = u.tokensUsed || 0;
                     const total = u.tokensTotal || 0;
                     const usagePercent = total > 0 ? Math.round((used / total) * 100) : 0;
-                    const expiryDate = u.trial_end || u.billing_period_end;
+                    const isPaidUser = ["starter","growth","empire"].includes(u.tier || "") && u.status === "active";
+                    // Paid users: use billing_period_end (renewal date)
+                    // Trial/other users: use trial_end
+                    const expiryDate = isPaidUser
+                      ? (u.billing_period_end || u.trial_end)
+                      : (u.trial_end || u.billing_period_end);
                     const daysLeft = expiryDate ? Math.max(0, Math.ceil((new Date(expiryDate).getTime() - Date.now()) / 86400000)) : null;
                     const userIP = u.signup_ip || u.last_ip || "";
                     const isDupIP = userIP && ipCounts[userIP] > 1;
@@ -415,9 +422,11 @@ export default function AdminPage() {
                       <td className="p-3">
                         {(() => {
                           const now = new Date();
-                          const expiry = u.trial_end || u.billing_period_end;
-                          const isExpired = expiry && new Date(expiry) < now;
                           const isPaid = ["starter","growth","empire"].includes(u.tier || "");
+                          const expiry = isPaid && u.status === "active"
+                            ? (u.billing_period_end || u.trial_end)
+                            : (u.trial_end || u.billing_period_end);
+                          const isExpired = expiry && new Date(expiry) < now;
                           let label = "FREE"; let color = "bg-gray-500/20 text-gray-400";
                           if (u.status === "blocked") { label = "BLOCKED"; color = "bg-red-500/20 text-red-400"; }
                           else if (u.status === "payment_failed") { label = "FAILED"; color = "bg-red-500/20 text-red-400"; }
