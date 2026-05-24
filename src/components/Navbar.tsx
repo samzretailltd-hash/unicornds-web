@@ -33,6 +33,7 @@ export function Navbar() {
           <Link href="/features" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">{t('nav.features', l)}</Link>
           <Link href="/#demos" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">Demos</Link>
           <Link href="/pricing" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">{t('nav.pricing', l)}</Link>
+          <Link href="/courses" className="text-sm text-[#F59E0B] hover:text-white transition-colors font-bold">🎓 Mastery</Link>
           <Link href="/blog" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">{t('nav.blog', l)}</Link>
           <Link href="/support" className="text-sm text-[#a5a0cc] hover:text-white transition-colors font-medium">{t('nav.support', l)}</Link>
           <Link href="/affiliate" className="text-sm text-[#F59E0B] hover:text-white transition-colors font-medium">{t('nav.affiliate', l)}</Link>
@@ -58,6 +59,7 @@ export function Navbar() {
           <Link href="/features" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.features', l)}</Link>
           <Link href="/#demos" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">Demos</Link>
           <Link href="/pricing" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.pricing', l)}</Link>
+          <Link href="/courses" onClick={close} className="text-[15px] text-[#F59E0B] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50 font-bold">🎓 Mastery (New)</Link>
           <Link href="/blog" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.blog', l)}</Link>
           <Link href="/support" onClick={close} className="text-[15px] text-[#a5a0cc] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.support', l)}</Link>
           <Link href="/affiliate" onClick={close} className="text-[15px] text-[#F59E0B] hover:text-white py-3 px-3 rounded-lg hover:bg-[#1E1B4B]/50">{t('nav.affiliate', l)}</Link>

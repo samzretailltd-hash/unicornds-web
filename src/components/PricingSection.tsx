@@ -114,12 +114,63 @@ export function PricingSection() {
             );
           })}
         </div>
+
+        {/* TRUST STRIP — guarantee + community + cancel anytime */}
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
+          <a href="/guarantee" className="bg-[#10B981]/5 hover:bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl p-4 text-center transition-colors">
+            <div className="text-2xl mb-1">💯</div>
+            <div className="text-xs font-bold text-[#10B981]">30-Day Sales Guarantee</div>
+            <div className="text-[10px] text-[#a5a0cc] mt-0.5">Full refund if no sales</div>
+          </a>
+          <div className="bg-[#7C3AED]/5 border border-[#7C3AED]/30 rounded-xl p-4 text-center">
+            <div className="text-2xl mb-1">💬</div>
+            <div className="text-xs font-bold text-[#A78BFA]">Private Telegram Group</div>
+            <div className="text-[10px] text-[#a5a0cc] mt-0.5">Daily seller help</div>
+          </div>
+          <div className="bg-[#F59E0B]/5 border border-[#F59E0B]/30 rounded-xl p-4 text-center">
+            <div className="text-2xl mb-1">🔓</div>
+            <div className="text-xs font-bold text-[#F59E0B]">Cancel Anytime</div>
+            <div className="text-[10px] text-[#a5a0cc] mt-0.5">No contracts, no lock-in</div>
+          </div>
+          <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-4 text-center">
+            <div className="text-2xl mb-1">🛡️</div>
+            <div className="text-xs font-bold text-white">VERO Protection</div>
+            <div className="text-[10px] text-[#a5a0cc] mt-0.5">3,629 brands auto-blocked</div>
+          </div>
+        </div>
+
         <p className="text-center mt-8 text-sm text-[#6b6899]">{t('pricing.guarantee', geo.language)}</p>
 
         <div className="text-center mt-4">
           <button onClick={handlePortal} className="text-sm text-[#A78BFA] hover:text-white transition-colors underline">
             Already subscribed? Manage your plan &rarr;
           </button>
+        </div>
+
+        {/* MASTERY UPSELL — course + tool bundle */}
+        <div className="mt-12 bg-gradient-to-r from-[#10B981]/10 via-[#7C3AED]/10 to-[#F59E0B]/10 border-2 border-[#F59E0B]/40 rounded-2xl p-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-left flex-1">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] text-[10px] font-extrabold uppercase tracking-wider mb-3">
+                🔥 NEW · 20% Off First Month
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">🎓 UnicornDS Mastery — Course + Tool Bundle</h3>
+              <p className="text-[#a5a0cc] text-sm max-w-xl mb-3">
+                Complete eBay dropshipping course (8 modules · 49 lessons · 13+ hours) <strong className="text-white">PLUS</strong> Empire-tier extension <strong className="text-white">PLUS</strong> 1-on-1 onboarding call <strong className="text-white">PLUS</strong> private Telegram community.
+              </p>
+              <p className="text-xs text-[#10B981] font-bold">
+                ✅ 100% money back if no sales in 30 days
+              </p>
+            </div>
+            <div className="text-center md:text-right flex-shrink-0">
+              <div className="text-3xl font-extrabold text-[#F59E0B] mb-0.5">£79.99</div>
+              <div className="text-xs text-[#6b6899] line-through mb-1">£99.99</div>
+              <div className="text-[10px] text-[#a5a0cc] mb-3">then £59.99/mo</div>
+              <a href="/courses" className="btn-gold inline-block px-6 py-3 rounded-xl text-sm font-bold whitespace-nowrap">
+                Get Mastery &rarr;
+              </a>
+            </div>
+          </div>
         </div>
 
         <div className="mt-12 bg-gradient-to-r from-[#1E1B4B] to-[#2d2875] border border-[#F59E0B]/30 rounded-2xl p-8 text-center">
