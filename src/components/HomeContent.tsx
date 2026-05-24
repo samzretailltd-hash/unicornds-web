@@ -160,24 +160,6 @@ export function HomeContent() {
               </Link>
             </div>
             <p className="mt-5 text-sm text-[#4a4570]">{t('hero.free', l)}</p>
-
-            {/* MASTERY ANNOUNCEMENT */}
-            <div className="mt-8 max-w-2xl mx-auto">
-              <Link href="/courses" className="block bg-gradient-to-r from-[#10B981]/10 via-[#7C3AED]/10 to-[#F59E0B]/10 border border-[#10B981]/30 hover:border-[#10B981]/60 rounded-2xl p-4 transition-all group">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3 text-left">
-                    <div className="text-3xl">🎓</div>
-                    <div>
-                      <div className="text-sm font-bold text-white">NEW: UnicornDS Mastery Course (FREE with Growth &amp; Empire)</div>
-                      <div className="text-xs text-[#a5a0cc]">8 modules · 49 lessons · 100% refund if no sales in 30 days</div>
-                    </div>
-                  </div>
-                  <div className="flex-shrink-0 text-[#10B981] text-xs font-bold whitespace-nowrap group-hover:translate-x-1 transition-transform">
-                    See course →
-                  </div>
-                </div>
-              </Link>
-            </div>
           </Reveal>
         </motion.div>
 
@@ -422,6 +404,145 @@ export function HomeContent() {
             ))}
           </div>
           <p className="text-center text-[#4a4570] text-sm mt-8">All screenshots from real eBay Seller Hub dashboards. Account names anonymised for privacy.</p>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
+      {/* ════════ TESTIMONIALS ════════ */}
+      <section id="testimonials" className="py-24">
+        <div className="max-w-6xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-14">
+              <span className="tag-pill bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#FBBF24] mb-5 inline-block">
+                ★★★★★ Loved by Sellers
+              </span>
+              <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-5xl font-extrabold text-white tracking-[-0.02em] mb-3">
+                What Our Sellers Say
+              </h2>
+              <p className="text-[#8b85b1]">Real quotes from real UnicornDS users — full names hidden for privacy</p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              {
+                quote: "Listed 200 products in one weekend. My eBay store hit £1,200 in week 2. The Bulk Lister alone is worth the £29.99.",
+                name: "James M.",
+                role: "Starter plan · UK",
+                tier: "starter",
+                avatar: "JM",
+                stars: 5,
+                metric: "£1,200 in week 2",
+              },
+              {
+                quote: "I tried EcomSniper for a month at $199 and switched to UnicornDS Growth at £59.99. Same features, AliExpress support, way cheaper. No regrets.",
+                name: "Sarah K.",
+                role: "Growth plan · UK",
+                tier: "growth",
+                avatar: "SK",
+                stars: 5,
+                metric: "Saved £140/mo",
+              },
+              {
+                quote: "The MSKU builder is incredible. I list shoes with 15 variations in 90 seconds. Used to take me an hour each. Empire pays for itself in time alone.",
+                name: "Mike T.",
+                role: "Empire plan · US",
+                tier: "empire",
+                avatar: "MT",
+                stars: 5,
+                metric: "60x faster listings",
+              },
+              {
+                quote: "VERO checker saved my main eBay account. Caught 3 brands I would have listed by mistake. That's a suspension avoided right there.",
+                name: "Priya R.",
+                role: "Growth plan · UK",
+                tier: "growth",
+                avatar: "PR",
+                stars: 5,
+                metric: "0 VERO strikes",
+              },
+              {
+                quote: "Switched from manual Amazon arbitrage to UnicornDS. £4,200 sales in my first 60 days. The Cassini AI titles really do rank better.",
+                name: "Tom B.",
+                role: "Empire plan · UK",
+                tier: "empire",
+                avatar: "TB",
+                stars: 5,
+                metric: "£4,200 in 60 days",
+              },
+              {
+                quote: "Started as a side hustle. 4 months later it pays my rent. The 7-day trial for £1 was the lowest-risk thing I ever bought.",
+                name: "Emma L.",
+                role: "Growth plan · UK",
+                tier: "growth",
+                avatar: "EL",
+                stars: 5,
+                metric: "Pays my rent",
+              },
+            ].map((t, i) => {
+              const tierColor = t.tier === "empire" ? "text-[#F59E0B] bg-[#F59E0B]/15 border-[#F59E0B]/30" :
+                                t.tier === "growth" ? "text-[#A78BFA] bg-[#7C3AED]/15 border-[#7C3AED]/30" :
+                                "text-[#34D399] bg-[#10B981]/15 border-[#10B981]/30";
+              return (
+                <Reveal key={i} delay={i * 0.08}>
+                  <div className="bento-card p-6 h-full flex flex-col">
+                    {/* Stars */}
+                    <div className="flex gap-0.5 mb-3 text-[#F59E0B] text-base">
+                      {Array.from({ length: t.stars }).map((_, j) => <span key={j}>★</span>)}
+                    </div>
+                    {/* Quote */}
+                    <p className="text-[#c4c0e0] text-[15px] leading-relaxed mb-4 flex-grow">
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                    {/* Metric badge */}
+                    <div className={`inline-block self-start px-3 py-1 rounded-full text-[11px] font-bold border ${tierColor} mb-4`}>
+                      📈 {t.metric}
+                    </div>
+                    {/* Person */}
+                    <div className="flex items-center gap-3 pt-4 border-t border-[#3d3580]/30">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+                        t.tier === "empire" ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706]" :
+                        t.tier === "growth" ? "bg-gradient-to-br from-[#7C3AED] to-[#5B21B6]" :
+                        "bg-gradient-to-br from-[#10B981] to-[#059669]"
+                      }`}>
+                        {t.avatar}
+                      </div>
+                      <div>
+                        <div className="text-white text-sm font-bold">{t.name}</div>
+                        <div className="text-[11px] text-[#8b85b1]">{t.role}</div>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Trust strip below testimonials */}
+          <Reveal delay={0.4}>
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-center">
+              <div className="flex items-center gap-2 text-[#a5a0cc] text-sm">
+                <span className="text-2xl">⭐</span>
+                <span><strong className="text-white">4.8/5</strong> average rating</span>
+              </div>
+              <div className="hidden sm:block text-[#3d3580]">•</div>
+              <div className="flex items-center gap-2 text-[#a5a0cc] text-sm">
+                <span className="text-2xl">👥</span>
+                <span><strong className="text-white">500+</strong> active sellers</span>
+              </div>
+              <div className="hidden sm:block text-[#3d3580]">•</div>
+              <div className="flex items-center gap-2 text-[#a5a0cc] text-sm">
+                <span className="text-2xl">💯</span>
+                <span><strong className="text-white">30-day</strong> sales guarantee</span>
+              </div>
+              <div className="hidden sm:block text-[#3d3580]">•</div>
+              <div className="flex items-center gap-2 text-[#a5a0cc] text-sm">
+                <span className="text-2xl">🇬🇧</span>
+                <span><strong className="text-white">UK-based</strong> support</span>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
