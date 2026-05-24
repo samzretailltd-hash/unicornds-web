@@ -160,6 +160,24 @@ export function HomeContent() {
               </Link>
             </div>
             <p className="mt-5 text-sm text-[#4a4570]">{t('hero.free', l)}</p>
+
+            {/* MASTERY ANNOUNCEMENT */}
+            <div className="mt-8 max-w-2xl mx-auto">
+              <Link href="/courses" className="block bg-gradient-to-r from-[#10B981]/10 via-[#7C3AED]/10 to-[#F59E0B]/10 border border-[#10B981]/30 hover:border-[#10B981]/60 rounded-2xl p-4 transition-all group">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 text-left">
+                    <div className="text-3xl">🎓</div>
+                    <div>
+                      <div className="text-sm font-bold text-white">NEW: UnicornDS Mastery Course (FREE with Growth &amp; Empire)</div>
+                      <div className="text-xs text-[#a5a0cc]">8 modules · 49 lessons · 100% refund if no sales in 30 days</div>
+                    </div>
+                  </div>
+                  <div className="flex-shrink-0 text-[#10B981] text-xs font-bold whitespace-nowrap group-hover:translate-x-1 transition-transform">
+                    See course →
+                  </div>
+                </div>
+              </Link>
+            </div>
           </Reveal>
         </motion.div>
 

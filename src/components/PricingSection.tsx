@@ -147,27 +147,24 @@ export function PricingSection() {
           </button>
         </div>
 
-        {/* MASTERY UPSELL — course + tool bundle */}
-        <div className="mt-12 bg-gradient-to-r from-[#10B981]/10 via-[#7C3AED]/10 to-[#F59E0B]/10 border-2 border-[#F59E0B]/40 rounded-2xl p-8">
+        {/* MASTERY BUNDLED ANNOUNCEMENT */}
+        <div className="mt-12 bg-gradient-to-r from-[#10B981]/10 via-[#7C3AED]/10 to-[#F59E0B]/10 border-2 border-[#10B981]/40 rounded-2xl p-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-left flex-1">
-              <div className="inline-block px-3 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] text-[10px] font-extrabold uppercase tracking-wider mb-3">
-                🔥 NEW · 20% Off First Month
+              <div className="inline-block px-3 py-1 rounded-full bg-[#10B981]/20 text-[#10B981] text-[10px] font-extrabold uppercase tracking-wider mb-3">
+                ✨ NEW · Included Free with Growth &amp; Empire
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">🎓 UnicornDS Mastery — Course + Tool Bundle</h3>
+              <h3 className="text-2xl font-bold text-white mb-2">🎓 UnicornDS Mastery Course</h3>
               <p className="text-[#a5a0cc] text-sm max-w-xl mb-3">
-                Complete eBay dropshipping course (8 modules · 49 lessons · 13+ hours) <strong className="text-white">PLUS</strong> Empire-tier extension <strong className="text-white">PLUS</strong> 1-on-1 onboarding call <strong className="text-white">PLUS</strong> private Telegram community.
+                Subscribe to <strong className="text-white">Growth or Empire</strong> and unlock our complete eBay dropshipping course (8 modules · 49 lessons · 13+ hours) <strong className="text-white">at no extra cost</strong>. Plus private Telegram community. Empire adds 1-on-1 onboarding call.
               </p>
               <p className="text-xs text-[#10B981] font-bold">
                 ✅ 100% money back if no sales in 30 days
               </p>
             </div>
             <div className="text-center md:text-right flex-shrink-0">
-              <div className="text-3xl font-extrabold text-[#F59E0B] mb-0.5">£79.99</div>
-              <div className="text-xs text-[#6b6899] line-through mb-1">£99.99</div>
-              <div className="text-[10px] text-[#a5a0cc] mb-3">then £59.99/mo</div>
               <a href="/courses" className="btn-gold inline-block px-6 py-3 rounded-xl text-sm font-bold whitespace-nowrap">
-                Get Mastery &rarr;
+                See What's Inside &rarr;
               </a>
             </div>
           </div>

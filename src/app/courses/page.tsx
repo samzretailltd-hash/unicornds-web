@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "UnicornDS Mastery — eBay Dropshipping Course + Tool Bundle | UnicornDS",
-  description: "Complete eBay dropshipping course + UnicornDS Pro tool. 20% off first month. 100% money-back guarantee if no sales in 30 days. Private Telegram community + 1-on-1 coaching.",
+  title: "UnicornDS Mastery — Free eBay Dropshipping Course with Growth & Empire | UnicornDS",
+  description: "Complete eBay dropshipping course FREE with UnicornDS Growth or Empire plan. 8 modules, 49 lessons, private Telegram community. 100% money-back if no sales in 30 days.",
   alternates: { canonical: "https://www.unicornds.io/courses" },
 };
 
@@ -11,9 +11,9 @@ const courseSchema = {
   "@context": "https://schema.org",
   "@type": "Course",
   name: "UnicornDS Mastery — eBay Dropshipping Course",
-  description: "Complete eBay dropshipping training: source from Amazon & AliExpress, list with AI, scale to £10K/month. Includes UnicornDS Pro extension + private Telegram community.",
+  description: "Complete eBay dropshipping training included free with UnicornDS Growth (£59.99/mo) or Empire (£99.99/mo) plans.",
   provider: { "@type": "Organization", name: "UnicornDS", url: "https://www.unicornds.io" },
-  offers: { "@type": "Offer", price: "79.99", priceCurrency: "GBP", url: "https://www.unicornds.io/courses" },
+  offers: { "@type": "Offer", price: "59.99", priceCurrency: "GBP", url: "https://www.unicornds.io/pricing" },
   hasCourseInstance: {
     "@type": "CourseInstance",
     courseMode: "online",
@@ -33,31 +33,28 @@ const MODULES = [
 ];
 
 const INCLUDED = [
-  { icon: "🎓", title: "Complete Video Course", desc: "8 modules, 49 lessons, 13+ hours of HD video training. Updated for 2026." },
-  { icon: "🚀", title: "UnicornDS Pro Extension", desc: "Full Empire tier access — 3,000 listings/month, all features unlocked." },
-  { icon: "💬", title: "Private Telegram Community", desc: "Direct access to other sellers + the team. Get answers in minutes, not days." },
-  { icon: "📞", title: "1-on-1 Onboarding Call", desc: "30-minute setup call with our team. Get your first listing live the same day." },
-  { icon: "📊", title: "Done-For-You Templates", desc: "Pre-built listing templates, message templates, store policies, item specifics — copy and use." },
+  { icon: "🎓", title: "Complete Video Course", desc: "8 modules, 49 lessons, 13+ hours of HD training. Updated for 2026." },
+  { icon: "🚀", title: "UnicornDS Extension", desc: "Growth = 1,500 listings/mo. Empire = 3,000 listings/mo + MSKU builder." },
+  { icon: "💬", title: "Private Telegram Community", desc: "Direct chat with other sellers + our team. Answers in minutes." },
+  { icon: "📞", title: "1-on-1 Onboarding (Empire)", desc: "30-min setup call with our team. Empire tier only." },
+  { icon: "📊", title: "Done-For-You Templates", desc: "Pre-built listing templates, message templates, store policies — copy and use." },
   { icon: "🛡️", title: "VERO Brand Blacklist", desc: "Live-updated list of 3,629 restricted brands. Auto-checks every listing." },
-  { icon: "🎯", title: "Winning Products List", desc: "Monthly updated list of 50+ proven products with demand scores. Stop guessing." },
+  { icon: "🎯", title: "Winning Products List", desc: "Monthly updated list of 50+ proven products with demand scores." },
   { icon: "💎", title: "Lifetime Course Updates", desc: "eBay changes constantly. Every algorithm update, we update the course. Free, forever." },
 ];
 
 const FAQ = [
-  { q: "What if I don't make any sales in 30 days?", a: "100% money back. No questions, no fine print. If you follow the course and don't list at least one product that sells within 30 days, email us and we refund every penny. We've never refused a refund and never will." },
+  { q: "How do I get the Mastery course?", a: "It's automatically included FREE with any Growth (£59.99/mo) or Empire (£99.99/mo) subscription. Once you subscribe, course access unlocks immediately in your dashboard. Starter plan does NOT include the course." },
+  { q: "What if I don't make any sales in 30 days?", a: "100% money back. If you follow the course, list at least 10 products, and don't make a single sale within 30 days, email us and we refund every penny. No questions, no fine print." },
   { q: "Do I need any experience?", a: "No. The course starts from zero — opening your eBay account, setting up payments, choosing your first product. By module 3 you'll list your first product. By module 6 you'll be scaling to £1K/month." },
-  { q: "How is this different from EcomSniper's course?", a: "EcomSniper charges $199/mo billed monthly with a 30-day refund only. We charge £79.99 first month (£59.99 after with 20% off) AND we guarantee actual sales — not just refund availability. Plus our extension supports both Amazon AND AliExpress, theirs is Amazon-only." },
-  { q: "How much can I realistically earn?", a: "Honest answer: it depends on your effort. Following the course full-time, most students hit £1,000/mo profit in month 2, £3,000-5,000/mo by month 4. Some scale to £10K+. None of this is passive — but the systems make it efficient." },
-  { q: "Do I need to buy stock upfront?", a: "No. Dropshipping means you only buy from the supplier AFTER your eBay buyer pays you. Zero inventory risk. You need ~£100-200 buffer to handle the day between buyer payment and supplier shipping." },
-  { q: "Can I cancel anytime?", a: "Yes. Cancel from your dashboard any time. Your course access continues until the end of your billing period. No contracts, no penalties." },
-  { q: "Is this UK only?", a: "No. The course covers eBay UK, US, DE, FR, AU, and CA. International sourcing from Amazon (all regions) and AliExpress. We have students selling on all 6 marketplaces." },
+  { q: "What's the difference between Growth and Empire course access?", a: "Same course content — all 8 modules, all 49 lessons. Empire adds: 1-on-1 onboarding call, VIP Telegram channel with priority responses, and direct WhatsApp access to the team." },
+  { q: "How much can I realistically earn?", a: "Honest answer: depends on your effort. Following the course full-time, most students hit £1,000/mo profit in month 2, £3,000-5,000/mo by month 4. Some scale to £10K+. None of this is passive — but the systems make it efficient." },
+  { q: "Do I need to buy stock upfront?", a: "No. Dropshipping means you only buy from the supplier AFTER your eBay buyer pays you. Zero inventory risk. You need ~£100-200 buffer for the day between buyer payment and supplier shipping." },
+  { q: "Can I cancel anytime?", a: "Yes. Cancel from your dashboard any time. Course access continues until end of billing period. No contracts, no penalties." },
+  { q: "Is this UK only?", a: "No. Course covers eBay UK, US, DE, FR, AU, and CA. International sourcing from Amazon (all regions) and AliExpress." },
 ];
 
 export default function CoursesPage() {
-  const fullPrice = 99.99;
-  const discountedFirst = 79.99;
-  const monthlyAfter = 59.99;
-
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }} />
@@ -65,8 +62,8 @@ export default function CoursesPage() {
       <div className="pt-28 pb-20">
         {/* HERO */}
         <section className="max-w-5xl mx-auto px-6 text-center mb-16">
-          <div className="inline-block px-5 py-1.5 rounded-full bg-[#F59E0B]/15 border border-[#F59E0B]/40 text-sm text-[#F59E0B] font-bold mb-6">
-            🔥 NEW: 20% Off First Month + Sales Guarantee
+          <div className="inline-block px-5 py-1.5 rounded-full bg-[#10B981]/15 border border-[#10B981]/40 text-sm text-[#10B981] font-bold mb-6">
+            ✨ INCLUDED FREE with Growth &amp; Empire
           </div>
 
           <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-6xl font-extrabold text-white tracking-[-0.03em] mb-6 leading-tight">
@@ -75,7 +72,7 @@ export default function CoursesPage() {
           </h1>
 
           <p className="text-xl text-[#a5a0cc] max-w-2xl mx-auto mb-8 leading-relaxed">
-            8 modules · 49 lessons · 13+ hours of training · plus our entire UnicornDS Pro extension, private Telegram community, and 1-on-1 onboarding call.
+            8 modules · 49 lessons · 13+ hours of training. <strong className="text-white">Included free</strong> when you subscribe to UnicornDS Growth or Empire — no extra cost.
           </p>
 
           <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
@@ -86,27 +83,51 @@ export default function CoursesPage() {
               💬 Private Telegram Community
             </div>
             <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 rounded-full px-5 py-2 text-[#F59E0B] text-sm font-bold">
-              📞 1-on-1 Onboarding Call
+              📞 1-on-1 Onboarding (Empire)
             </div>
           </div>
 
-          <div className="bg-[#1E1B4B] border border-[#3d3580] rounded-2xl p-8 max-w-md mx-auto">
-            <div className="text-sm text-[#a5a0cc] mb-1">First month — 20% off</div>
-            <div className="flex items-baseline justify-center gap-3 mb-1">
-              <span className="text-5xl font-extrabold text-[#F59E0B]">£{discountedFirst}</span>
-              <span className="text-2xl line-through text-[#6b6899]">£{fullPrice}</span>
+          {/* PLAN ACCESS CARDS */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
+            <div className="bg-[#1E1B4B] border-2 border-[#7C3AED] rounded-2xl p-7 text-left relative">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#7C3AED] text-white text-[10px] font-extrabold px-4 py-1 rounded-full tracking-wider">MOST POPULAR</span>
+              <div className="text-2xl font-bold text-white mb-1">Growth</div>
+              <div className="text-3xl font-extrabold text-[#F59E0B] mb-1">£59.99<span className="text-sm font-normal text-[#a5a0cc]">/mo</span></div>
+              <div className="text-xs text-[#10B981] font-bold mb-4">✓ Course included FREE</div>
+              <ul className="text-xs text-[#a5a0cc] space-y-1.5 mb-5">
+                <li>✓ 1,500 listings/month</li>
+                <li>✓ Full Mastery course (8 modules)</li>
+                <li>✓ Private Telegram community</li>
+                <li>✓ Bulk Lister (5 concurrent)</li>
+                <li>✓ All extension features</li>
+              </ul>
+              <Link href="/pricing" className="block w-full py-3 bg-[#7C3AED] hover:bg-[#9333EA] text-white text-center rounded-xl text-sm font-bold transition-all">
+                Get Growth + Course →
+              </Link>
             </div>
-            <div className="text-sm text-[#a5a0cc] mb-6">then £{monthlyAfter}/mo · cancel anytime</div>
-            <Link
-              href="/checkout?plan=mastery"
-              className="block w-full py-4 bg-[#F59E0B] hover:bg-[#FBBF24] text-[#1E1B4B] rounded-xl text-base font-extrabold transition-all mb-3"
-            >
-              🚀 Start Learning Today
-            </Link>
-            <div className="text-[11px] text-[#6b6899]">30-day money-back guarantee · No contracts · Stripe secure</div>
+
+            <div className="bg-[#1E1B4B] border-2 border-[#F59E0B] rounded-2xl p-7 text-left relative">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#F59E0B] text-[#1E1B4B] text-[10px] font-extrabold px-4 py-1 rounded-full tracking-wider">BEST FOR SCALE</span>
+              <div className="text-2xl font-bold text-white mb-1">Empire</div>
+              <div className="text-3xl font-extrabold text-[#F59E0B] mb-1">£99.99<span className="text-sm font-normal text-[#a5a0cc]">/mo</span></div>
+              <div className="text-xs text-[#10B981] font-bold mb-4">✓ Course + VIP perks</div>
+              <ul className="text-xs text-[#a5a0cc] space-y-1.5 mb-5">
+                <li>✓ 3,000 listings/month</li>
+                <li>✓ Full Mastery course (8 modules)</li>
+                <li>✓ VIP Telegram + WhatsApp access</li>
+                <li>✓ 1-on-1 onboarding call</li>
+                <li>✓ MSKU builder + everything else</li>
+              </ul>
+              <Link href="/pricing" className="block w-full py-3 bg-[#F59E0B] hover:bg-[#FBBF24] text-[#1E1B4B] text-center rounded-xl text-sm font-bold transition-all">
+                Get Empire + Course →
+              </Link>
+            </div>
           </div>
 
-          <p className="mt-8 text-sm text-[#6b6899]">
+          <p className="mt-6 text-sm text-[#a5a0cc]">
+            On <strong className="text-white">Starter</strong>? <Link href="/pricing" className="text-[#F59E0B] underline">Upgrade to Growth</Link> to unlock the course.
+          </p>
+          <p className="mt-3 text-xs text-[#6b6899]">
             ⭐⭐⭐⭐⭐ Joined by 500+ sellers · 87% report first sale within 14 days
           </p>
         </section>
@@ -177,7 +198,7 @@ export default function CoursesPage() {
             <p className="text-lg text-[#a5a0cc] max-w-2xl mx-auto mb-8 leading-relaxed">
               Follow the course for 30 days. If you list at least 10 products and don't make a single sale, email{" "}
               <a href="mailto:support@unicornds.io" className="text-[#F59E0B] underline">support@unicornds.io</a>{" "}
-              and we'll refund 100% of your money. No questions. No "are you sure?" emails. No hoops.
+              and we'll refund 100% of your subscription. No questions. No "are you sure?" emails. No hoops.
             </p>
             <p className="text-sm text-[#6b6899]">
               EcomSniper offers "30-day money back" but only if you don't use it.<br />
@@ -190,9 +211,9 @@ export default function CoursesPage() {
         <section className="max-w-4xl mx-auto px-6 mb-20">
           <div className="text-center mb-10">
             <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold mb-3">
-              Mastery vs. EcomSniper Course
+              UnicornDS Growth vs. EcomSniper
             </h2>
-            <p className="text-[#a5a0cc]">Real numbers. Real features. You decide.</p>
+            <p className="text-[#a5a0cc]">Same outcome. Half the price. Better guarantee.</p>
           </div>
 
           <div className="overflow-x-auto">
@@ -200,21 +221,20 @@ export default function CoursesPage() {
               <thead>
                 <tr className="bg-[#0f0e1a]/60">
                   <th className="p-4 text-left text-sm text-[#a5a0cc] font-bold">Feature</th>
-                  <th className="p-4 text-center text-sm font-extrabold text-[#F59E0B]">UnicornDS Mastery</th>
+                  <th className="p-4 text-center text-sm font-extrabold text-[#F59E0B]">UnicornDS Growth</th>
                   <th className="p-4 text-center text-sm text-[#6b6899] font-bold">EcomSniper</th>
                 </tr>
               </thead>
               <tbody className="text-sm">
                 {[
-                  ["First Month Price", "£79.99 (20% off)", "$97 (~£77)"],
-                  ["Monthly After", "£59.99", "$199 (~£158)"],
+                  ["Monthly Price", "£59.99", "$199 (~£158)"],
+                  ["Course Included", "✅ FREE", "❌ Course = bundle only"],
                   ["Money-Back Guarantee", "✅ If no sales in 30 days", "❌ 30-day refund only"],
-                  ["Extension Listings/Month", "3,000", "3,000"],
+                  ["Extension Listings/Month", "1,500", "3,000"],
                   ["Amazon Source", "✅", "✅"],
                   ["AliExpress Source", "✅", "❌"],
                   ["Course Hours", "13+ hours", "Unknown"],
                   ["Telegram Community", "✅", "✅"],
-                  ["1-on-1 Onboarding Call", "✅ Included", "❌ Coaching is VIP only"],
                   ["UK Tax & HMRC Module", "✅", "❌ US-focused"],
                   ["Multi-Marketplace (DE/FR/AU/CA)", "✅", "❌"],
                 ].map(([f, us, them]) => (
@@ -258,15 +278,15 @@ export default function CoursesPage() {
               You Also Have <span className="text-[#F59E0B]">NO EXCUSES</span>...
             </h2>
             <p className="text-[#a5a0cc] mb-8 max-w-xl mx-auto">
-              Start the course today. List your first product this week. If you don't make a sale in 30 days, we refund every penny.
+              Subscribe to Growth or Empire today. List your first product this week. If you don't make a sale in 30 days, we refund every penny.
             </p>
             <Link
-              href="/checkout?plan=mastery"
+              href="/pricing"
               className="inline-block px-10 py-4 bg-[#F59E0B] hover:bg-[#FBBF24] text-[#1E1B4B] rounded-xl text-lg font-extrabold transition-all"
             >
-              🚀 Get UnicornDS Mastery — £{discountedFirst}
+              🚀 See Plans &amp; Get the Course
             </Link>
-            <p className="mt-4 text-xs text-[#6b6899]">20% off first month · then £{monthlyAfter}/mo · cancel anytime · 30-day sales guarantee</p>
+            <p className="mt-4 text-xs text-[#6b6899]">From £59.99/mo · cancel anytime · 30-day sales guarantee</p>
           </div>
         </section>
       </div>
