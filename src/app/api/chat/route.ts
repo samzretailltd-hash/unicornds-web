@@ -15,6 +15,20 @@ PRICING PLANS:
 - Empire: £99.99/mo (7-day trial for £10, then £99.99/mo), 3,000 listings/month, 10 bulk tabs, 5 hunt tabs, MSKU builder, purchase history, auto-order, priority support, FREE Mastery Course, VIP Telegram + 1-on-1 Call
 - 7-day trial: Starter £1 (25 listings), Growth £5 (50 listings), Empire £10 (100 listings)
 
+UNICORNDS MASTERY COURSE (NEW):
+- Complete eBay dropshipping training: 8 modules, 49 lessons, 13+ hours of video
+- INCLUDED FREE with Growth (£59.99/mo) and Empire (£99.99/mo) — NOT available on Starter
+- Course access at /dashboard/courses (Growth+Empire only)
+- Modules: 1) eBay Account Setup, 2) Product Research, 3) AI Listing Mastery, 4) VERO Safety, 5) Order Fulfillment, 6) Scaling to £10K/mo, 7) Customer Service, 8) UK Tax & HMRC
+- Empire adds 1-on-1 onboarding call + VIP Telegram + WhatsApp
+- If a Starter user asks about the course → suggest upgrading to Growth
+- Course landing page: unicornds.io/courses
+
+30-DAY SALES GUARANTEE:
+- 100% money-back if no sales in 30 days (after listing at least 10 products)
+- Email support@unicornds.io within 35 days, refund processed in 5 business days
+- Details: unicornds.io/guarantee
+
 KEY FEATURES:
 1. Product Hunter: Search Amazon by keyword, sort by reviews, VERO check, stock check
 2. Competitor Scanner: Scan any eBay seller's catalog
