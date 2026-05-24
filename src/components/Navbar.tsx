@@ -45,6 +45,7 @@ export function Navbar() {
     { href: "/#demos", label: "Demos", desc: "See it in action", icon: "▶️" },
     { href: "/pricing", label: "Pricing", desc: "Plans from £29.99/mo", icon: "💰" },
     { href: "/courses", label: "Mastery Course", desc: "FREE with Growth & Empire", icon: "🎓", highlight: "gold" },
+    { href: "/vps", label: "UnicornVPS", desc: "Windows VPS — 50% off", icon: "🖥️", highlight: "gold" },
     { href: "/vs/ecomsniper", label: "vs EcomSniper", desc: "Why we're 60% cheaper", icon: "⚔️" },
     { href: "/guarantee", label: "30-Day Guarantee", desc: "Refund if no sales", icon: "💯", highlight: "green" },
   ];
