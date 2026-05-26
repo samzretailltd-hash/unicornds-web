@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatWidget } from "@/components/ChatWidget";
+import { RedditPixel } from "@/components/RedditPixel";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { Providers } from "@/components/Providers";
 import { AutoLogout } from "@/components/AutoLogout";
@@ -250,6 +251,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
           <ChatWidget />
+          <RedditPixel />
           <CookieConsent />
         </Providers>
       </body>
