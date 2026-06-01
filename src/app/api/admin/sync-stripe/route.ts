@@ -54,11 +54,11 @@ export async function POST(req: NextRequest) {
 
         console.log("[Sync Debug]", email, "period_end:", sub.current_period_end, "type:", typeof sub.current_period_end, "trial_end:", sub.trial_end);
         const update: Record<string, unknown> = {
-          billing_period_end: sub.current_period_end
-            ? new Date(sub.current_period_end * 1000).toISOString()
+          billing_period_end: (sub.current_period_end || sub.current_period?.end)
+            ? new Date((sub.current_period_end || sub.current_period?.end) * 1000).toISOString()
             : null,
-          trial_end: sub.trial_end
-            ? new Date(sub.trial_end * 1000).toISOString()
+          trial_end: (sub.trial_end || sub.trial?.end)
+            ? new Date((sub.trial_end || sub.trial?.end) * 1000).toISOString()
             : null,
           status: realStatus,
           synced_at: new Date().toISOString(),
