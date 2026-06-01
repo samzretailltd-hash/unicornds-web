@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
         const priceId = sub.items?.data?.[0]?.price?.id;
         const tierInfo = priceId ? PRICE_TO_TIER[priceId] : null;
 
+        console.log("[Sync Debug]", email, "period_end:", sub.current_period_end, "type:", typeof sub.current_period_end, "trial_end:", sub.trial_end);
         const update: Record<string, unknown> = {
           billing_period_end: sub.current_period_end
             ? new Date(sub.current_period_end * 1000).toISOString()
