@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
         const d = doc.data();
         const t = (d.tier || "").toLowerCase();
         // Strict check: must be active status, not payment_failed, not canceled
-        if (d.status === "active" && d.stripe_subscription_id) {
+        if (["active", "paid", "trialing"].includes(d.status) && ["starter", "growth", "empire"].includes(t)) {
           if (t === "starter") monthlyRevenue += 29.99;
           else if (t === "growth") monthlyRevenue += 59.99;
           else if (t === "empire") monthlyRevenue += 99.99;
