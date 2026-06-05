@@ -1,74 +1,103 @@
 import Link from "next/link";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
-interface BlogLayoutProps {
+export type BlogMeta = {
+  slug: string;
   title: string;
+  description: string;
   date: string;
   readTime: string;
+  category: string;
+};
+
+type RelatedItem = { slug: string; title: string };
+
+export function BlogLayout({
+  meta,
+  title,
+  date,
+  readTime,
+  category,
+  children,
+  related = [],
+}: {
+  meta?: BlogMeta;
+  title?: string;
+  date?: string;
+  readTime?: string;
+  category?: string;
   children: React.ReactNode;
-}
+  related?: RelatedItem[];
+}) {
+  const resolvedTitle = meta?.title ?? title ?? "";
+  const resolvedDate = meta?.date ?? date ?? "";
+  const resolvedReadTime = meta?.readTime ?? readTime ?? "";
+  const resolvedCategory = meta?.category ?? category ?? "Article";
 
-export function BlogLayout({ title, date, readTime, children }: BlogLayoutProps) {
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-[#0f0e1a]">
-      <article className="max-w-3xl mx-auto px-4">
-        <div className="mb-8">
-          <Link href="/blog" className="text-[#A78BFA] hover:text-white text-sm transition-colors">
-            ← Blog
+    <>
+      <Navbar />
+      <article className="min-h-screen bg-[#0f0e1a] pt-24 pb-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <Link href="/blog" className="text-[#7C3AED] hover:text-[#9333EA] text-sm">
+            ← All articles
           </Link>
-        </div>
 
-        <header className="mb-10">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold text-white mb-4 leading-tight">
-            {title}
-          </h1>
-          <div className="flex items-center gap-3 text-sm text-[#6b6899]">
-            <time>{date}</time>
-            <span>·</span>
-            <span>{readTime} read</span>
-            <span>·</span>
-            <span>by UnicornDS Team</span>
+          <div className="mt-4 mb-8">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#7C3AED]/20 text-[#A78BFA] mb-4">
+              {resolvedCategory}
+            </span>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-3 font-[family-name:var(--font-display)]">
+              {resolvedTitle}
+            </h1>
+            <div className="flex items-center gap-3 text-sm text-[#6b6899]">
+              {resolvedDate && <span>{resolvedDate}</span>}
+              {resolvedDate && resolvedReadTime && <span>·</span>}
+              {resolvedReadTime && <span>{resolvedReadTime}</span>}
+            </div>
           </div>
-        </header>
 
-        <div className="prose prose-invert prose-headings:font-bold prose-headings:text-white prose-p:text-[#c4bfe0] prose-p:leading-relaxed prose-a:text-[#A78BFA] prose-a:no-underline hover:prose-a:underline prose-strong:text-white prose-li:text-[#c4bfe0] prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-ul:my-4 prose-ol:my-4 prose-li:my-1 max-w-none">
-          {children}
-        </div>
-
-        {/* VPS CTA */}
-        <div className="mt-12 bg-gradient-to-r from-[#F59E0B]/15 to-[#7C3AED]/15 border border-[#F59E0B]/40 rounded-2xl p-6 text-center">
-          <h3 className="text-xl font-bold text-white mb-2">Need a VPS for your eBay business?</h3>
-          <p className="text-sm text-[#a5a0cc] mb-4">
-            UnicornVPS — Windows &amp; Linux VPS from $10/mo. 50% off with code FLASH50.
-          </p>
-          <a
-            href="https://unicornvps.com/#pricing"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-8 py-3 bg-[#F59E0B] hover:bg-[#D97706] text-[#1E1B4B] rounded-xl font-bold transition-colors"
-          >
-            Get 50% Off at UnicornVPS →
-          </a>
-        </div>
-
-        {/* Related articles */}
-        <div className="mt-12 border-t border-[#3d3580]/40 pt-8">
-          <h3 className="text-lg font-bold text-white mb-4">Related articles</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Link href="/blog/why-ebay-sellers-need-vps" className="bg-[#1E1B4B]/50 border border-[#3d3580]/50 rounded-xl p-4 hover:border-[#7C3AED]/50 transition-colors">
-              <span className="text-sm font-bold text-white">Why eBay Dropshippers Need a VPS in 2026</span>
-            </Link>
-            <Link href="/blog/best-vps-for-ebay-dropshipping-2026" className="bg-[#1E1B4B]/50 border border-[#3d3580]/50 rounded-xl p-4 hover:border-[#7C3AED]/50 transition-colors">
-              <span className="text-sm font-bold text-white">5 Best VPS for eBay Dropshipping (2026)</span>
-            </Link>
-            <Link href="/blog/vps-setup-guide-ebay-sellers" className="bg-[#1E1B4B]/50 border border-[#3d3580]/50 rounded-xl p-4 hover:border-[#7C3AED]/50 transition-colors">
-              <span className="text-sm font-bold text-white">How to Set Up a Windows VPS for eBay</span>
-            </Link>
-            <Link href="/vps" className="bg-[#1E1B4B]/50 border border-[#F59E0B]/30 rounded-xl p-4 hover:border-[#F59E0B]/60 transition-colors">
-              <span className="text-sm font-bold text-[#F59E0B]">🎟️ Get 50% Off UnicornVPS →</span>
-            </Link>
+          <div className="blog-prose text-[#c4c0e0] leading-relaxed space-y-5">
+            {children}
           </div>
+
+          <div className="mt-12 grid sm:grid-cols-2 gap-4">
+            <div className="bg-gradient-to-br from-[#1E1B4B] to-[#2d2766] border border-[#7C3AED]/30 rounded-2xl p-6">
+              <h3 className="text-white font-bold text-lg mb-2">Try UnicornDS Free</h3>
+              <p className="text-[#a5a0cc] text-sm mb-4">
+                Source from Amazon, AliExpress &amp; Walmart. List on eBay in seconds.
+              </p>
+              <Link href="/pricing" className="inline-block px-5 py-2.5 rounded-lg font-bold text-white text-sm" style={{ background: "linear-gradient(135deg, #7C3AED, #9333EA)" }}>
+                Start 7-Day Trial — £1 →
+              </Link>
+            </div>
+            <div className="bg-gradient-to-br from-[#1E1B4B] to-[#2d2766] border border-[#F59E0B]/30 rounded-2xl p-6">
+              <h3 className="text-white font-bold text-lg mb-2">🎓 Free Mastery Course</h3>
+              <p className="text-[#a5a0cc] text-sm mb-4">
+                Learn eBay dropshipping step by step — included with every plan.
+              </p>
+              <Link href="/courses" className="inline-block px-5 py-2.5 rounded-lg font-bold text-sm" style={{ background: "#F59E0B", color: "#1E1B4B" }}>
+                View Course →
+              </Link>
+            </div>
+          </div>
+
+          {related.length > 0 && (
+            <div className="mt-12">
+              <h3 className="text-white font-bold text-lg mb-4">Related articles</h3>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {related.map((r) => (
+                  <Link key={r.slug} href={`/blog/${r.slug}`} className="block bg-[#1E1B4B] border border-[#3d3580]/40 rounded-xl p-4 hover:border-[#7C3AED]/50 transition">
+                    <span className="text-[#c4c0e0] text-sm font-medium hover:text-white">{r.title}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </article>
-    </div>
+      <Footer />
+    </>
   );
 }

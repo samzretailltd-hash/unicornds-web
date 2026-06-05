@@ -1,205 +1,339 @@
-'use client';
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 
-const SLIDES = [
+/* ── Supplier glass card ───────────────────────────── */
+function SupplierCard({
+  src,
+  alt,
+  white,
+  delay,
+  top,
+}: {
+  src: string;
+  alt: string;
+  white?: boolean;
+  delay: string;
+  top: string;
+}) {
+  return (
+    <div
+      className="hs-glass hs-float"
+      style={{
+        position: "absolute",
+        top,
+        left: 0,
+        width: 158,
+        borderRadius: 14,
+        padding: "14px 18px",
+        animationDelay: delay,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        height: 54,
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt}
+        style={{ height: 22, width: "auto" }}
+        className={white ? "brightness-0 invert" : ""}
+      />
+    </div>
+  );
+}
+
+type Slide = {
+  id: string;
+  badge: string;
+  headline: React.ReactNode;
+  sub: string;
+  cta: { label: string; href: string };
+  /** which suppliers to show wired into eBay */
+  suppliers: { src: string; alt: string; white?: boolean }[];
+};
+
+const SLIDES: Slide[] = [
   {
-    icon: "🛡️",
-    badge: "VERO PROTECTION",
-    title: "3,390+ Brands Blocked Before You List",
-    desc: "eBay will suspend your account for listing trademarked brands. UnicornDS checks EVERY product against 3,390+ VERO-protected brands and blocks them BEFORE they reach eBay. Zero risk.",
-    highlights: ["Nike", "Adidas", "Dyson", "Apple", "Sony", "Samsung", "Aveeno", "+ 3,383 more"],
-    cta: "See How VERO Protection Works",
-    ctaLink: "/features/vero-protection",
-    color: "#EF4444",
-    accentBg: "rgba(239,68,68,0.08)",
-    accentBorder: "rgba(239,68,68,0.25)",
+    id: "three-giants",
+    badge: "3 SUPPLIERS · ONE TOOL",
+    headline: (
+      <>
+        Source from 3 giants.{" "}
+        <span className="hs-gradient">Sell on eBay.</span>
+      </>
+    ),
+    sub: "Find winning products on Amazon, AliExpress & Walmart — list on eBay in seconds with AI titles & VERO protection.",
+    cta: { label: "Start 7-Day Trial — £1", href: "/download" },
+    suppliers: [
+      { src: "/logos/amazon.svg", alt: "Amazon", white: true },
+      { src: "/logos/aliexpress.svg", alt: "AliExpress", white: true },
+      { src: "/logos/walmart.svg", alt: "Walmart" },
+    ],
   },
   {
-    icon: "🔒",
-    badge: "YOUR DATA IS SAFE",
-    title: "We NEVER Steal or Sell Your Data",
-    desc: "Unlike other tools that upload your product data to their servers, UnicornDS runs 100% inside your browser. Your eBay account, products, and business data NEVER leave your device.",
-    comparison: [
-      { feature: "Data stays on your device", us: true, them: false },
-      { feature: "No server uploads", us: true, them: false },
-      { feature: "No tracking your products", us: true, them: false },
-      { feature: "No selling your data", us: true, them: false },
-      { feature: "Works offline after install", us: true, them: false },
-    ],
-    cta: "Start 7-Day Trial",
-    ctaLink: "/signup",
-    color: "#10B981",
-    accentBg: "rgba(16,185,129,0.08)",
-    accentBorder: "rgba(16,185,129,0.25)",
+    id: "amazon",
+    badge: "AMAZON ARBITRAGE",
+    headline: (
+      <>
+        Amazon arbitrage,{" "}
+        <span className="hs-gradient">made simple.</span>
+      </>
+    ),
+    sub: "Fast Prime delivery means happy buyers and strong seller metrics. Flip Amazon products on eBay UK, US & Canada.",
+    cta: { label: "See How It Works", href: "/#features" },
+    suppliers: [{ src: "/logos/amazon.svg", alt: "Amazon", white: true }],
   },
   {
-    icon: "⚡",
-    badge: "100% PRIVATE",
-    title: "Your Business Stays Yours. Period.",
-    desc: "Other tools are web apps \u2014 they see everything. UnicornDS is a Chrome extension. Your eBay credentials, supplier links, pricing strategy, and product research stay in YOUR browser.",
-    trust: [
-      { icon: "🖥️", label: "Runs Locally", detail: "Chrome extension, not a web app" },
-      { icon: "🔐", label: "Zero Server Access", detail: "We never see your eBay login" },
-      { icon: "🚫", label: "No Data Mining", detail: "We don't analyse your products" },
-      { icon: "✅", label: "Open Inspection", detail: "Check our code in DevTools" },
-    ],
-    cta: "Download Extension",
-    ctaLink: "/download",
-    color: "#F59E0B",
-    accentBg: "rgba(245,158,11,0.08)",
-    accentBorder: "rgba(245,158,11,0.25)",
+    id: "aliexpress",
+    badge: "ALIEXPRESS DROPSHIPPING",
+    headline: (
+      <>
+        AliExpress{" "}
+        <span className="hs-gradient">dropshipping.</span>
+      </>
+    ),
+    sub: "Lowest sourcing cost, highest margins. Filter Choice products with fast shipping and list on eBay with one click.",
+    cta: { label: "Explore Features", href: "/#features" },
+    suppliers: [{ src: "/logos/aliexpress.svg", alt: "AliExpress", white: true }],
+  },
+  {
+    id: "walmart",
+    badge: "🆕 NEW SUPPLIER",
+    headline: (
+      <>
+        Now sourcing from{" "}
+        <span className="hs-gradient">Walmart.</span>
+      </>
+    ),
+    sub: "Expand to the US & Canada markets with Walmart. Competitive prices, fast domestic shipping, untapped products.",
+    cta: { label: "Start Selling in US & CA", href: "/pricing" },
+    suppliers: [{ src: "/logos/walmart.svg", alt: "Walmart" }],
   },
 ];
 
 export function HeroSlider() {
   const [current, setCurrent] = useState(0);
-  const [fading, setFading] = useState(false);
   const [paused, setPaused] = useState(false);
 
-  const goTo = useCallback((index: number) => {
-    if (index === current || fading) return;
-    setFading(true);
-    setTimeout(() => {
-      setCurrent(index);
-      setFading(false);
-    }, 350);
-  }, [current, fading]);
+  const next = useCallback(() => setCurrent((c) => (c + 1) % SLIDES.length), []);
+  const prev = useCallback(
+    () => setCurrent((c) => (c - 1 + SLIDES.length) % SLIDES.length),
+    []
+  );
 
   useEffect(() => {
     if (paused) return;
-    const timer = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setCurrent(c => (c + 1) % SLIDES.length);
-        setFading(false);
-      }, 350);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, [paused]);
+    const t = setInterval(next, 5500);
+    return () => clearInterval(t);
+  }, [paused, next]);
 
   const slide = SLIDES[current];
 
+  // vertical positions for 1-3 supplier cards, centred against the eBay node
+  const positions =
+    slide.suppliers.length === 1
+      ? ["73px"]
+      : slide.suppliers.length === 2
+      ? ["40px", "106px"]
+      : ["16px", "76px", "136px"];
+
   return (
-    <section
-      className="py-14 border-b border-[#3d3580]/20"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <div className="max-w-5xl mx-auto px-6">
-        {/* Tab Navigation */}
-        <div className="flex justify-center gap-3 mb-8 flex-wrap">
-          {SLIDES.map((s, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              className={`px-4 sm:px-5 py-2.5 rounded-full text-xs font-bold flex items-center gap-2 ${
-                i === current
-                  ? "text-white shadow-lg"
-                  : "bg-[#1E1B4B]/60 text-[#a5a0cc] border border-[#3d3580]/40 hover:border-[#7C3AED]/60"
-              }`}
-              style={{
-                ...(i === current ? { background: s.color, boxShadow: `0 4px 20px ${s.color}40` } : {}),
-                transition: "all 0.3s ease",
-              }}
-            >
-              <span>{s.icon}</span> <span className="hidden sm:inline">{s.badge}</span>
-            </button>
-          ))}
-        </div>
+    <section className="relative pt-32 sm:pt-40 pb-16 overflow-hidden grid-bg">
+      <div className="hero-glow" />
 
-        {/* Slide Content */}
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div
-          className="rounded-2xl p-6 sm:p-10 min-h-[320px]"
-          style={{
-            background: slide.accentBg,
-            border: `1px solid ${slide.accentBorder}`,
-            opacity: fading ? 0 : 1,
-            transform: fading ? "translateY(8px)" : "translateY(0)",
-            transition: "opacity 0.35s ease, transform 0.35s ease",
-          }}
+          className="relative rounded-3xl overflow-hidden hs-shell"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
         >
-          <div className="text-center mb-6">
-            <span className="text-5xl mb-4 block">{slide.icon}</span>
-            <h3
-              className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-extrabold mb-3"
-              style={{ color: slide.color }}
-            >
-              {slide.title}
-            </h3>
-            <p className="text-[#c4c0e0] max-w-2xl mx-auto leading-relaxed text-sm sm:text-base">{slide.desc}</p>
-          </div>
+          {/* glow orbs */}
+          <div className="hs-orb hs-orb-purple" />
+          <div className="hs-orb hs-orb-gold" />
 
-          {/* Slide 1: VERO Brands */}
-          {slide.highlights && (
-            <div className="flex flex-wrap justify-center gap-2 mt-6">
-              {slide.highlights.map((h, i) => (
-                <span
-                  key={i}
-                  className="px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold"
-                  style={{
-                    background: i < slide.highlights!.length - 1 ? "rgba(239,68,68,0.12)" : "rgba(239,68,68,0.25)",
-                    border: "1px solid rgba(239,68,68,0.3)",
-                    color: i < slide.highlights!.length - 1 ? "#F87171" : "#fff",
-                  }}
-                >
-                  {i < slide.highlights!.length - 1 ? "🚫 " : ""}{h}
-                </span>
-              ))}
+          <div className="relative px-6 sm:px-12 py-12 sm:py-16">
+            {/* Headline block */}
+            <div key={slide.id} className="text-center mb-10 hs-fade">
+              <span className="hs-glass inline-block px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[1.5px] text-[#F59E0B] mb-5">
+                {slide.badge}
+              </span>
+              <h1 className="font-[family-name:var(--font-display)] text-[30px] sm:text-5xl font-extrabold text-white leading-[1.08] tracking-[-0.02em] mb-4">
+                {slide.headline}
+              </h1>
+              <p className="text-[#8b85b1] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+                {slide.sub}
+              </p>
             </div>
-          )}
 
-          {/* Slide 2: Privacy Comparison */}
-          {slide.comparison && (
-            <div className="max-w-lg mx-auto mt-6">
-              <div className="flex justify-between text-xs font-bold text-[#6b6899] mb-2 px-4">
-                <span></span>
-                <div className="flex gap-4 sm:gap-6">
-                  <span className="text-[#10B981] w-16 sm:w-20 text-center">UnicornDS</span>
-                  <span className="w-16 sm:w-20 text-center">Others</span>
+            {/* Wired supplier → eBay visual */}
+            <div
+              key={slide.id + "-viz"}
+              className="relative mx-auto hs-fade"
+              style={{ maxWidth: 620, height: 200 }}
+            >
+              <svg
+                viewBox="0 0 620 200"
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient id="hs-wire" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.9" />
+                  </linearGradient>
+                </defs>
+                {positions.map((_, i) => {
+                  const y =
+                    positions.length === 1
+                      ? 100
+                      : positions.length === 2
+                      ? [67, 133][i]
+                      : [43, 100, 157][i];
+                  return (
+                    <path
+                      key={i}
+                      d={`M170 ${y} C 300 ${y}, 330 100, 440 100`}
+                      fill="none"
+                      stroke="url(#hs-wire)"
+                      strokeWidth="2.5"
+                      strokeDasharray="7 7"
+                      className="hs-dash"
+                      style={{ animationDuration: `${2.2 + i * 0.3}s` }}
+                    />
+                  );
+                })}
+                <circle cx="440" cy="100" r="5" fill="#F59E0B" />
+              </svg>
+
+              {/* supplier cards */}
+              {slide.suppliers.map((s, i) => (
+                <SupplierCard
+                  key={s.alt}
+                  src={s.src}
+                  alt={s.alt}
+                  white={s.white}
+                  delay={`${i * 0.5}s`}
+                  top={positions[i]}
+                />
+              ))}
+
+              {/* eBay node */}
+              <div
+                className="hs-glass hs-pulse"
+                style={{
+                  position: "absolute",
+                  top: 54,
+                  right: 0,
+                  width: 120,
+                  borderRadius: 18,
+                  padding: "20px 14px",
+                  textAlign: "center",
+                  boxShadow:
+                    "0 22px 55px -8px rgba(245,158,11,0.5), inset 0 1px 0 rgba(255,255,255,0.2)",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logos/ebay.svg"
+                  alt="eBay"
+                  style={{ height: 26, width: "auto", margin: "0 auto" }}
+                />
+                <div className="text-[9px] text-[#8b85b1] mt-1.5 tracking-wide">
+                  YOU SELL HERE
                 </div>
               </div>
-              {slide.comparison.map((c, i) => (
-                <div key={i} className="flex justify-between items-center py-2.5 px-4 rounded-lg text-xs sm:text-sm text-[#c8c4e0] odd:bg-[#0d0b2e]/30">
-                  <span className="font-medium">{c.feature}</span>
-                  <div className="flex gap-4 sm:gap-6">
-                    <span className="w-16 sm:w-20 text-center text-base sm:text-lg">✅</span>
-                    <span className="w-16 sm:w-20 text-center text-base sm:text-lg">❌</span>
-                  </div>
-                </div>
-              ))}
             </div>
-          )}
 
-          {/* Slide 3: Trust Points */}
-          {slide.trust && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6">
-              {slide.trust.map((t, i) => (
-                <div key={i} className="text-center p-4 sm:p-5 rounded-xl bg-[#0d0b2e]/40 border border-[#3d3580]/30">
-                  <span className="text-2xl sm:text-3xl block mb-2">{t.icon}</span>
-                  <p className="text-xs sm:text-sm font-bold text-[#F59E0B] mb-1">{t.label}</p>
-                  <p className="text-[10px] sm:text-xs text-[#a5a0cc]">{t.detail}</p>
-                </div>
-              ))}
+            {/* CTA */}
+            <div className="text-center mt-10 hs-fade" key={slide.id + "-cta"}>
+              <Link
+                href={slide.cta.href}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white text-base pulse-glow"
+                style={{
+                  background: "linear-gradient(135deg, #7C3AED, #9333EA)",
+                  boxShadow: "0 8px 30px rgba(124,58,237,0.5)",
+                }}
+              >
+                {slide.cta.label} <span>→</span>
+              </Link>
             </div>
-          )}
+          </div>
 
-          {/* CTA */}
-          <div className="text-center mt-8">
-            <Link
-              href={slide.ctaLink}
-              className="inline-block px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl text-sm font-bold text-white hover:scale-105"
-              style={{
-                background: slide.color,
-                boxShadow: `0 4px 20px ${slide.color}40`,
-                transition: "transform 0.2s ease",
-              }}
-            >
-              {slide.cta}
-            </Link>
+          {/* arrows */}
+          <button
+            onClick={prev}
+            aria-label="Previous slide"
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur transition z-20"
+          >
+            ‹
+          </button>
+          <button
+            onClick={next}
+            aria-label="Next slide"
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur transition z-20"
+          >
+            ›
+          </button>
+
+          {/* dots */}
+          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+            {SLIDES.map((s, i) => (
+              <button
+                key={s.id}
+                onClick={() => setCurrent(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className="h-[7px] rounded-full transition-all"
+                style={{
+                  width: i === current ? 30 : 7,
+                  background: i === current ? "#F59E0B" : "rgba(255,255,255,0.3)",
+                  boxShadow: i === current ? "0 0 12px rgba(245,158,11,0.7)" : "none",
+                }}
+              />
+            ))}
           </div>
         </div>
       </div>
+
+      <style>{`
+        .hs-shell {
+          background:#0f0e1a;
+          background-image:linear-gradient(rgba(124,58,237,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,0.06) 1px,transparent 1px);
+          background-size:38px 38px;
+          border:1px solid rgba(61,53,128,0.4);
+        }
+        .hs-glass {
+          background:rgba(255,255,255,0.055);
+          backdrop-filter:blur(14px);
+          -webkit-backdrop-filter:blur(14px);
+          border:1px solid rgba(255,255,255,0.15);
+          box-shadow:0 16px 40px -12px rgba(124,58,237,0.45),inset 0 1px 0 rgba(255,255,255,0.14);
+        }
+        .hs-gradient {
+          background:linear-gradient(90deg,#A78BFA,#F59E0B,#A78BFA);
+          background-size:200% auto;
+          -webkit-background-clip:text;background-clip:text;
+          -webkit-text-fill-color:transparent;
+          animation:hs-grad 4s ease infinite;
+        }
+        .hs-orb{position:absolute;border-radius:50%;filter:blur(45px);pointer-events:none;}
+        .hs-orb-purple{top:-90px;left:10%;width:340px;height:340px;background:radial-gradient(circle,rgba(124,58,237,0.4),transparent 70%);}
+        .hs-orb-gold{bottom:-110px;right:8%;width:320px;height:320px;background:radial-gradient(circle,rgba(245,158,11,0.24),transparent 70%);}
+        @keyframes hs-grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes hs-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+        @keyframes hs-dash{to{stroke-dashoffset:-100}}
+        @keyframes hs-pulse{0%,100%{opacity:0.85;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+        @keyframes hs-fadein{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+        .hs-float{animation:hs-float 5s ease-in-out infinite;}
+        .hs-dash{animation:hs-dash linear infinite;}
+        .hs-pulse{animation:hs-pulse 3s ease-in-out infinite;}
+        .hs-fade{animation:hs-fadein 0.5s ease;}
+        @media (max-width:640px){
+          .hs-shell .grid-bg{background:none;}
+        }
+      `}</style>
     </section>
   );
 }

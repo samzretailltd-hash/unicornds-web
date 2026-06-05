@@ -1,11 +1,10 @@
 'use client';
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { SITE } from "@/lib/constants";
 import { PricingSection } from "@/components/PricingSection";
 import { HeroSlider } from "@/components/HeroSlider";
-import { ParticleField } from "@/components/ParticleField";
 import { useGeo } from "@/lib/geo";
 import { t } from "@/lib/i18n";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
@@ -73,17 +72,6 @@ function BentoCard({ title, desc, screenshot, icon, wide = false, delay = 0, alt
 export function HomeContent() {
   const geo = useGeo();
   const l = geo.language;
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  function renderSubtitle(text: string) {
-    const parts = text.split(/\*\*(.*?)\*\*/g);
-    return parts.map((part, i) =>
-      i % 2 === 1 ? <strong key={i} className="text-white">{part}</strong> : part
-    );
-  }
 
   const videoSchema = [
     { id: 'gFoUuILDDSQ', name: 'Bulk List 4 Products on eBay with UnicornDS', description: 'Watch UnicornDS bulk list 4 Amazon products to eBay in under a minute with AI-generated titles and VERO protection.' },
@@ -109,87 +97,19 @@ export function HomeContent() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
       />
 
-      {/* ════════ HERO ════════ */}
-      <section ref={heroRef} className="relative pt-36 sm:pt-44 pb-8 text-center overflow-hidden grid-bg">
-        <div className="hero-glow" />
-        <ParticleField />
-
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="max-w-5xl mx-auto px-6 relative z-10">
-          {/* Announcement Bar */}
-          <AnnouncementBar />
-
-          {/* Badge */}
-          <Reveal>
-            <div className="inline-block px-5 py-1.5 rounded-full bg-[#7C3AED]/10 border border-[#7C3AED]/20 text-sm text-[#A78BFA] font-medium mb-8 hero-badge">
-              {t('hero.badge', l)}
-            </div>
-          </Reveal>
-
-          {/* Logo */}
-          <Reveal delay={0.05}>
-            <div className="flex justify-center mb-6">
-              <img src="/logo.png" alt="UnicornDS" width={80} height={80} className="drop-shadow-[0_0_30px_rgba(245,158,11,0.3)]" />
-            </div>
-          </Reveal>
-
-          {/* Headline */}
-          <Reveal delay={0.1}>
-            <h1 className="font-[family-name:var(--font-display)] text-[36px] sm:text-6xl lg:text-[80px] font-extrabold leading-[1.05] mb-6 tracking-[-0.02em]">
-              {t('hero.title1', l)}<br />
-              <span className="text-gradient-animated">{t('hero.title2', l)}</span>
-            </h1>
-          </Reveal>
-
-          {/* Subtitle with inline logos */}
-          <Reveal delay={0.2}>
-            <p className="text-lg sm:text-xl text-[#8b85b1] max-w-2xl mx-auto mb-10 leading-relaxed">
-              Source from{" "}
-              <img src="/logos/amazon.svg" alt="Amazon" className="inline-block h-5 sm:h-6 align-middle mx-1 brightness-0 invert" />{" "}
-              for fast delivery or{" "}
-              <img src="/logos/aliexpress.svg" alt="AliExpress" className="inline-block h-5 sm:h-6 align-middle mx-1 brightness-0 invert" />{" "}
-              for maximum margins. List on{" "}
-              <img src="/logos/ebay.svg" alt="eBay" className="inline-block h-5 sm:h-6 align-middle mx-1" />{" "}
-              in seconds with AI-powered automation.
-            </p>
-          </Reveal>
-
-          {/* CTAs */}
-          <Reveal delay={0.3}>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-              <Link href={SITE.chrome_store} className="btn-primary px-8 py-4 rounded-2xl text-base font-bold pulse-glow">
-                {t('hero.cta', l)}
-              </Link>
-              <Link href="/#features" className="btn-outline px-8 py-4 rounded-2xl text-base font-semibold">
-                {t('hero.cta2', l)}
-              </Link>
-            </div>
-            <p className="mt-5 text-sm text-[#4a4570]">{t('hero.free', l)}</p>
-          </Reveal>
-        </motion.div>
-
-        {/* Hero Screenshot */}
-        <Reveal delay={0.5}>
-          <div className="max-w-5xl mx-auto px-6 mt-16">
-            <div className="hero-screenshot-wrapper">
-              <img
-                src="/screenshots/overlay.png"
-                alt="UnicornDS Chrome Extension in action on AliExpress"
-                className="w-full h-auto block"
-                loading="eager"
-              />
-            </div>
-          </div>
-        </Reveal>
-      </section>
+      {/* ════════ HERO (3D wired slider) ════════ */}
+      <AnnouncementBar />
+      <HeroSlider />
 
       {/* ════════ PLATFORM LOGOS ════════ */}
       <section className="py-12">
         <Reveal>
           <div className="max-w-4xl mx-auto px-6">
-            <p className="text-center text-[11px] text-[#4a4570] uppercase tracking-[0.2em] mb-6 font-medium">Source from & sell on</p>
+            <p className="text-center text-[11px] text-[#4a4570] uppercase tracking-[0.2em] mb-6 font-medium">Source from &amp; sell on</p>
             <div className="flex items-center justify-center gap-10 sm:gap-16 flex-wrap">
               <img src="/logos/amazon.svg" alt="Amazon" className="h-7 sm:h-9 platform-logo" />
               <img src="/logos/aliexpress.svg" alt="AliExpress" className="h-7 sm:h-9 platform-logo" />
+              <img src="/logos/walmart.svg" alt="Walmart" className="h-7 sm:h-9 platform-logo" />
               <span className="text-xl text-[#2d2766]">→</span>
               <img src="/logos/ebay.svg" alt="eBay" className="h-7 sm:h-9 opacity-60 hover:opacity-100 transition-opacity" />
             </div>
@@ -233,9 +153,7 @@ export function HomeContent() {
         </Reveal>
       </section>
 
-      {/* ════════ TRUST SLIDER — VERO, Privacy, Data Safety ════════ */}
       <div className="section-divider" />
-      <HeroSlider />
 
       {/* ════════ BENTO FEATURES GRID ════════ */}
       <section id="features" className="py-20">
@@ -490,37 +408,37 @@ export function HomeContent() {
                 stars: 5,
                 metric: "Pays my rent",
               },
-            ].map((t, i) => {
-              const tierColor = t.tier === "empire" ? "text-[#F59E0B] bg-[#F59E0B]/15 border-[#F59E0B]/30" :
-                                t.tier === "growth" ? "text-[#A78BFA] bg-[#7C3AED]/15 border-[#7C3AED]/30" :
+            ].map((tm, i) => {
+              const tierColor = tm.tier === "empire" ? "text-[#F59E0B] bg-[#F59E0B]/15 border-[#F59E0B]/30" :
+                                tm.tier === "growth" ? "text-[#A78BFA] bg-[#7C3AED]/15 border-[#7C3AED]/30" :
                                 "text-[#34D399] bg-[#10B981]/15 border-[#10B981]/30";
               return (
                 <Reveal key={i} delay={i * 0.08}>
                   <div className="bento-card p-6 h-full flex flex-col">
                     {/* Stars */}
                     <div className="flex gap-0.5 mb-3 text-[#F59E0B] text-base">
-                      {Array.from({ length: t.stars }).map((_, j) => <span key={j}>★</span>)}
+                      {Array.from({ length: tm.stars }).map((_, j) => <span key={j}>★</span>)}
                     </div>
                     {/* Quote */}
                     <p className="text-[#c4c0e0] text-[15px] leading-relaxed mb-4 flex-grow">
-                      &ldquo;{t.quote}&rdquo;
+                      &ldquo;{tm.quote}&rdquo;
                     </p>
                     {/* Metric badge */}
                     <div className={`inline-block self-start px-3 py-1 rounded-full text-[11px] font-bold border ${tierColor} mb-4`}>
-                      📈 {t.metric}
+                      📈 {tm.metric}
                     </div>
                     {/* Person */}
                     <div className="flex items-center gap-3 pt-4 border-t border-[#3d3580]/30">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold ${
-                        t.tier === "empire" ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706]" :
-                        t.tier === "growth" ? "bg-gradient-to-br from-[#7C3AED] to-[#5B21B6]" :
+                        tm.tier === "empire" ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706]" :
+                        tm.tier === "growth" ? "bg-gradient-to-br from-[#7C3AED] to-[#5B21B6]" :
                         "bg-gradient-to-br from-[#10B981] to-[#059669]"
                       }`}>
-                        {t.avatar}
+                        {tm.avatar}
                       </div>
                       <div>
-                        <div className="text-white text-sm font-bold">{t.name}</div>
-                        <div className="text-[11px] text-[#8b85b1]">{t.role}</div>
+                        <div className="text-white text-sm font-bold">{tm.name}</div>
+                        <div className="text-[11px] text-[#8b85b1]">{tm.role}</div>
                       </div>
                     </div>
                   </div>
