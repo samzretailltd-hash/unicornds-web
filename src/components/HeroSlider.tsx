@@ -3,47 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 
-/* ── Supplier glass card ───────────────────────────── */
-function SupplierCard({
-  src,
-  alt,
-  white,
-  delay,
-  top,
-}: {
-  src: string;
-  alt: string;
-  white?: boolean;
-  delay: string;
-  top: string;
-}) {
-  return (
-    <div
-      className="hs-glass hs-float"
-      style={{
-        position: "absolute",
-        top,
-        left: 0,
-        width: 158,
-        borderRadius: 14,
-        padding: "14px 18px",
-        animationDelay: delay,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        height: 54,
-      }}
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt}
-        style={{ height: 22, width: "auto" }}
-        className={white ? "brightness-0 invert" : ""}
-      />
-    </div>
-  );
-}
+type Supplier = { src: string; alt: string; white?: boolean };
 
 type Slide = {
   id: string;
@@ -51,8 +11,7 @@ type Slide = {
   headline: React.ReactNode;
   sub: string;
   cta: { label: string; href: string };
-  /** which suppliers to show wired into eBay */
-  suppliers: { src: string; alt: string; white?: boolean }[];
+  suppliers: Supplier[];
 };
 
 const SLIDES: Slide[] = [
@@ -61,7 +20,7 @@ const SLIDES: Slide[] = [
     badge: "3 SUPPLIERS · ONE TOOL",
     headline: (
       <>
-        Source from 3 giants.{" "}
+        <span className="text-white">Source from 3 giants.</span>{" "}
         <span className="hs-gradient">Sell on eBay.</span>
       </>
     ),
@@ -78,7 +37,7 @@ const SLIDES: Slide[] = [
     badge: "AMAZON ARBITRAGE",
     headline: (
       <>
-        Amazon arbitrage,{" "}
+        <span className="text-white">Amazon arbitrage,</span>{" "}
         <span className="hs-gradient">made simple.</span>
       </>
     ),
@@ -91,7 +50,7 @@ const SLIDES: Slide[] = [
     badge: "ALIEXPRESS DROPSHIPPING",
     headline: (
       <>
-        AliExpress{" "}
+        <span className="text-white">AliExpress</span>{" "}
         <span className="hs-gradient">dropshipping.</span>
       </>
     ),
@@ -104,7 +63,7 @@ const SLIDES: Slide[] = [
     badge: "🆕 NEW SUPPLIER",
     headline: (
       <>
-        Now sourcing from{" "}
+        <span className="text-white">Now sourcing from</span>{" "}
         <span className="hs-gradient">Walmart.</span>
       </>
     ),
@@ -113,6 +72,15 @@ const SLIDES: Slide[] = [
     suppliers: [{ src: "/logos/walmart.svg", alt: "Walmart" }],
   },
 ];
+
+function centresFor(n: number): number[] {
+  if (n === 1) return [120];
+  if (n === 2) return [84, 156];
+  return [52, 120, 188];
+}
+function topsFor(n: number): number[] {
+  return centresFor(n).map((c) => c - 25);
+}
 
 export function HeroSlider() {
   const [current, setCurrent] = useState(0);
@@ -131,14 +99,11 @@ export function HeroSlider() {
   }, [paused, next]);
 
   const slide = SLIDES[current];
+  const n = slide.suppliers.length;
+  const centres = centresFor(n);
+  const tops = topsFor(n);
 
-  // vertical positions for 1-3 supplier cards, centred against the eBay node
-  const positions =
-    slide.suppliers.length === 1
-      ? ["73px"]
-      : slide.suppliers.length === 2
-      ? ["40px", "106px"]
-      : ["16px", "76px", "136px"];
+  const wirePath = (y: number) => `M150 ${y} C 300 ${y}, 350 120, 418 120`;
 
   return (
     <section className="relative pt-32 sm:pt-40 pb-16 overflow-hidden grid-bg">
@@ -150,17 +115,15 @@ export function HeroSlider() {
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {/* glow orbs */}
           <div className="hs-orb hs-orb-purple" />
           <div className="hs-orb hs-orb-gold" />
 
-          <div className="relative px-6 sm:px-12 py-12 sm:py-16">
-            {/* Headline block */}
-            <div key={slide.id} className="text-center mb-10 hs-fade">
+          <div className="relative px-6 sm:px-12 py-12 sm:py-14">
+            <div key={slide.id} className="text-center mb-9 hs-fade">
               <span className="hs-glass inline-block px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[1.5px] text-[#F59E0B] mb-5">
                 {slide.badge}
               </span>
-              <h1 className="font-[family-name:var(--font-display)] text-[30px] sm:text-5xl font-extrabold text-white leading-[1.08] tracking-[-0.02em] mb-4">
+              <h1 className="font-[family-name:var(--font-display)] text-[28px] sm:text-5xl font-extrabold leading-[1.08] tracking-[-0.02em] mb-4">
                 {slide.headline}
               </h1>
               <p className="text-[#8b85b1] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
@@ -168,93 +131,131 @@ export function HeroSlider() {
               </p>
             </div>
 
-            {/* Wired supplier → eBay visual */}
             <div
               key={slide.id + "-viz"}
               className="relative mx-auto hs-fade"
-              style={{ maxWidth: 620, height: 200 }}
+              style={{ maxWidth: 560, height: 240 }}
             >
               <svg
-                viewBox="0 0 620 200"
+                viewBox="0 0 560 240"
                 className="absolute inset-0 w-full h-full pointer-events-none"
+                style={{ overflow: "visible" }}
                 aria-hidden="true"
               >
                 <defs>
-                  <linearGradient id="hs-wire" gradientUnits="userSpaceOnUse" x1="170" y1="100" x2="440" y2="100">
-                    <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.9" />
+                  <linearGradient
+                    id="hs-wire"
+                    gradientUnits="userSpaceOnUse"
+                    x1="150"
+                    y1="120"
+                    x2="418"
+                    y2="120"
+                  >
+                    <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.25" />
+                    <stop offset="55%" stopColor="#A78BFA" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#F59E0B" stopOpacity="1" />
                   </linearGradient>
+                  <filter id="hs-glow" x="-60%" y="-60%" width="220%" height="220%">
+                    <feGaussianBlur stdDeviation="3.2" result="b" />
+                    <feMerge>
+                      <feMergeNode in="b" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
                 </defs>
-                {positions.map((_, i) => {
-                  const y =
-                    positions.length === 1
-                      ? 100
-                      : positions.length === 2
-                      ? [67, 133][i]
-                      : [43, 100, 157][i];
-                  return (
-                    <path
-                      key={i}
-                      d={`M170 ${y} C 300 ${y}, 330 100, 440 100`}
-                      fill="none"
-                      stroke="url(#hs-wire)"
-                      strokeWidth="2.5"
-                      strokeDasharray="7 7"
-                      className="hs-dash"
-                      style={{ animationDuration: `${2.2 + i * 0.3}s` }}
-                    />
-                  );
-                })}
-                <circle cx="440" cy="100" r="5" fill="#F59E0B" />
+
+                <g
+                  filter="url(#hs-glow)"
+                  fill="none"
+                  stroke="url(#hs-wire)"
+                  strokeWidth="2.6"
+                  strokeLinecap="round"
+                >
+                  {centres.map((y, i) => (
+                    <path key={i} d={wirePath(y)} />
+                  ))}
+                </g>
+
+                <g fill="#FBBF24" filter="url(#hs-glow)">
+                  {centres.map((y, i) => (
+                    <g key={i}>
+                      <circle r="3.4">
+                        <animateMotion
+                          dur={`${1.7 + i * 0.2}s`}
+                          repeatCount="indefinite"
+                          path={wirePath(y)}
+                        />
+                      </circle>
+                      <circle r="3.4">
+                        <animateMotion
+                          dur={`${1.7 + i * 0.2}s`}
+                          begin={`${0.85 + i * 0.1}s`}
+                          repeatCount="indefinite"
+                          path={wirePath(y)}
+                        />
+                      </circle>
+                    </g>
+                  ))}
+                </g>
               </svg>
 
-              {/* supplier cards */}
               {slide.suppliers.map((s, i) => (
-                <SupplierCard
+                <div
                   key={s.alt}
-                  src={s.src}
-                  alt={s.alt}
-                  white={s.white}
-                  delay={`${i * 0.5}s`}
-                  top={positions[i]}
-                />
+                  className="hs-glass hs-float"
+                  style={{
+                    position: "absolute",
+                    top: tops[i],
+                    left: 0,
+                    width: 150,
+                    height: 50,
+                    borderRadius: 14,
+                    padding: "0 16px",
+                    display: "flex",
+                    alignItems: "center",
+                    animationDelay: `${i * 0.5}s`,
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={s.src}
+                    alt={s.alt}
+                    style={{ height: 22, width: "auto" }}
+                    className={s.white ? "brightness-0 invert" : ""}
+                  />
+                </div>
               ))}
 
-              {/* eBay node */}
               <div
                 className="hs-glass hs-pulse"
                 style={{
                   position: "absolute",
-                  top: 54,
+                  top: 74,
                   right: 0,
-                  width: 120,
+                  width: 128,
+                  height: 92,
                   borderRadius: 18,
-                  padding: "20px 14px",
-                  textAlign: "center",
-                  boxShadow:
-                    "0 22px 55px -8px rgba(245,158,11,0.5), inset 0 1px 0 rgba(255,255,255,0.2)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logos/ebay.svg"
-                  alt="eBay"
-                  style={{ height: 26, width: "auto", margin: "0 auto" }}
-                />
-                <div className="text-[9px] text-[#8b85b1] mt-1.5 tracking-wide">
+                <img src="/logos/ebay.svg" alt="eBay" style={{ height: 26, width: "auto" }} />
+                <div className="text-[9px] text-[#a5a0cc] mt-1.5 tracking-wider">
                   YOU SELL HERE
                 </div>
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="text-center mt-10 hs-fade" key={slide.id + "-cta"}>
+            <div className="text-center mt-9 hs-fade" key={slide.id + "-cta"}>
               <Link
                 href={slide.cta.href}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white text-base pulse-glow"
                 style={{
                   background: "linear-gradient(135deg, #7C3AED, #9333EA)",
-                  boxShadow: "0 8px 30px rgba(124,58,237,0.5)",
+                  boxShadow: "0 8px 30px rgba(124,58,237,0.55)",
                 }}
               >
                 {slide.cta.label} <span>→</span>
@@ -262,7 +263,6 @@ export function HeroSlider() {
             </div>
           </div>
 
-          {/* arrows */}
           <button
             onClick={prev}
             aria-label="Previous slide"
@@ -278,7 +278,6 @@ export function HeroSlider() {
             ›
           </button>
 
-          {/* dots */}
           <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
             {SLIDES.map((s, i) => (
               <button
@@ -298,41 +297,36 @@ export function HeroSlider() {
       </div>
 
       <style>{`
-        .hs-shell {
+        .hs-shell{
           background:#0f0e1a;
           background-image:linear-gradient(rgba(124,58,237,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,0.06) 1px,transparent 1px);
-          background-size:38px 38px;
+          background-size:40px 40px;
           border:1px solid rgba(61,53,128,0.4);
         }
-        .hs-glass {
-          background:rgba(255,255,255,0.055);
-          backdrop-filter:blur(14px);
-          -webkit-backdrop-filter:blur(14px);
-          border:1px solid rgba(255,255,255,0.15);
-          box-shadow:0 16px 40px -12px rgba(124,58,237,0.45),inset 0 1px 0 rgba(255,255,255,0.14);
+        .hs-glass{
+          background:rgba(255,255,255,0.06);
+          backdrop-filter:blur(16px);
+          -webkit-backdrop-filter:blur(16px);
+          border:1px solid rgba(255,255,255,0.16);
+          box-shadow:0 16px 44px -14px rgba(124,58,237,0.5),inset 0 1px 0 rgba(255,255,255,0.16);
         }
-        .hs-gradient {
-          background:linear-gradient(90deg,#A78BFA,#F59E0B,#A78BFA);
+        .hs-gradient{
+          background:linear-gradient(90deg,#fff,#A78BFA,#F59E0B,#A78BFA,#fff);
           background-size:200% auto;
           -webkit-background-clip:text;background-clip:text;
           -webkit-text-fill-color:transparent;
-          animation:hs-grad 4s ease infinite;
+          animation:hs-grad 5s ease infinite;
         }
-        .hs-orb{position:absolute;border-radius:50%;filter:blur(45px);pointer-events:none;}
-        .hs-orb-purple{top:-90px;left:10%;width:340px;height:340px;background:radial-gradient(circle,rgba(124,58,237,0.4),transparent 70%);}
-        .hs-orb-gold{bottom:-110px;right:8%;width:320px;height:320px;background:radial-gradient(circle,rgba(245,158,11,0.24),transparent 70%);}
+        .hs-orb{position:absolute;border-radius:50%;filter:blur(50px);pointer-events:none;}
+        .hs-orb-purple{top:-100px;left:50%;transform:translateX(-50%);width:520px;height:300px;background:radial-gradient(circle,rgba(124,58,237,0.32),transparent 70%);}
+        .hs-orb-gold{bottom:-120px;right:14%;width:300px;height:300px;background:radial-gradient(circle,rgba(245,158,11,0.2),transparent 70%);}
         @keyframes hs-grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-        @keyframes hs-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-        @keyframes hs-dash{to{stroke-dashoffset:-100}}
-        @keyframes hs-pulse{0%,100%{opacity:0.85;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+        @keyframes hs-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @keyframes hs-pulse{0%,100%{box-shadow:0 22px 55px -8px rgba(245,158,11,0.45),inset 0 1px 0 rgba(255,255,255,0.2),0 0 0 1px rgba(245,158,11,0.25)}50%{box-shadow:0 22px 65px -6px rgba(245,158,11,0.7),inset 0 1px 0 rgba(255,255,255,0.25),0 0 0 1px rgba(245,158,11,0.5)}}
         @keyframes hs-fadein{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
         .hs-float{animation:hs-float 5s ease-in-out infinite;}
-        .hs-dash{animation:hs-dash linear infinite;}
         .hs-pulse{animation:hs-pulse 3s ease-in-out infinite;}
         .hs-fade{animation:hs-fadein 0.5s ease;}
-        @media (max-width:640px){
-          .hs-shell .grid-bg{background:none;}
-        }
       `}</style>
     </section>
   );
