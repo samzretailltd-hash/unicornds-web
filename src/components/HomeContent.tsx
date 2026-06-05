@@ -7,7 +7,6 @@ import { PricingSection } from "@/components/PricingSection";
 import { HeroSlider } from "@/components/HeroSlider";
 import { useGeo } from "@/lib/geo";
 import { t } from "@/lib/i18n";
-import { AnnouncementBar } from "@/components/AnnouncementBar";
 
 /* ─── Animated Counter ─── */
 function AnimatedCounter({ end, suffix = '', prefix = '' }: { end: number; suffix?: string; prefix?: string }) {
@@ -98,7 +97,6 @@ export function HomeContent() {
       />
 
       {/* ════════ HERO (3D wired slider) ════════ */}
-      <AnnouncementBar />
       <HeroSlider />
 
       {/* ════════ PLATFORM LOGOS ════════ */}

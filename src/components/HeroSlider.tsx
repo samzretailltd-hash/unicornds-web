@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { AnnouncementBar } from "./AnnouncementBar";
 
 type Supplier = { src: string; alt: string; white?: boolean };
 
@@ -110,6 +111,7 @@ export function HeroSlider() {
       <div className="hero-glow" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <AnnouncementBar />
         <div
           className="relative rounded-3xl overflow-hidden hs-shell"
           onMouseEnter={() => setPaused(true)}
