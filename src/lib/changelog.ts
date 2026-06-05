@@ -24,6 +24,15 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  // ═══════════════════ JUNE 2026 ═══════════════════
+  {
+    date: '2026-06-05',
+    version: 'v17',
+    category: 'launch',
+    title: 'Walmart added as a 3rd supplier + US & Canada markets',
+    description: 'Source from Amazon, AliExpress AND Walmart — now selling into eBay US and Canada. Plus a new animated homepage and 10 new guides.',
+    area: 'website',
+  },
   // ═══════════════════ MAY 2026 ═══════════════════
   {
     date: '2026-05-24',
