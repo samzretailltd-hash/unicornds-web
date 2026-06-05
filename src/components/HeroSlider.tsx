@@ -180,7 +180,7 @@ export function HeroSlider() {
                 aria-hidden="true"
               >
                 <defs>
-                  <linearGradient id="hs-wire" x1="0" y1="0" x2="1" y2="0">
+                  <linearGradient id="hs-wire" gradientUnits="userSpaceOnUse" x1="170" y1="100" x2="440" y2="100">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.2" />
                     <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.9" />
                   </linearGradient>
