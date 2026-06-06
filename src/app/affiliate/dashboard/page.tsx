@@ -20,6 +20,7 @@ export default function AffiliateDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<"overview" | "referrals" | "commissions" | "payouts" | "bank">("overview");
   const [copied, setCopied] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
   const [bankForm, setBankForm] = useState({ bank_name: "", account_name: "", sort_code: "", account_number: "", iban: "" });
   const [bankSaving, setBankSaving] = useState(false);
   const [bankMsg, setBankMsg] = useState("");
@@ -48,6 +49,7 @@ export default function AffiliateDashboardPage() {
       if (res.ok) {
         const d = await res.json();
         setData(d);
+        setUpdatedAt(new Date());
       }
     } catch { /* */ }
     setLoading(false);
@@ -59,6 +61,19 @@ export default function AffiliateDashboardPage() {
       fetchData();
     });
   }, [router, fetchData]);
+
+  // Auto-refresh: poll every 15s + refresh when tab regains focus (near real-time)
+  useEffect(() => {
+    const id = setInterval(() => { if (auth.currentUser) fetchData(); }, 15000);
+    const onFocus = () => { if (auth.currentUser) fetchData(); };
+    document.addEventListener("visibilitychange", onFocus);
+    window.addEventListener("focus", onFocus);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", onFocus);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [fetchData]);
 
   const copyLink = () => {
     if (!data?.affiliate.ref_link) return;
@@ -130,7 +145,13 @@ export default function AffiliateDashboardPage() {
             <h1 className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-white">Affiliate Dashboard</h1>
             <p className="text-sm text-[#a5a0cc]">Welcome back, {affiliate.name} · {stats.commission_rate}% commission</p>
           </div>
-          <button onClick={fetchData} className="px-4 py-2 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white transition-colors">Refresh</button>
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1.5 text-xs text-[#10B981]">
+              <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+              Live{updatedAt ? ` \u00b7 updated ${updatedAt.toLocaleTimeString()}` : ""}
+            </span>
+            <button onClick={fetchData} className="px-4 py-2 border border-[#3d3580] rounded-lg text-sm text-[#a5a0cc] hover:text-white transition-colors">Refresh</button>
+          </div>
         </div>
 
         {/* Referral Link */}
