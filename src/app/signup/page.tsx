@@ -28,6 +28,7 @@ export default function SignupPage() {
   const [country, setCountry] = useState("");
   const [phoneCode, setPhoneCode] = useState("+44");
   const [password, setPassword] = useState("");
+  const [refCode, setRefCode] = useState("");
   const [confirm, setConfirm] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
@@ -46,6 +47,20 @@ export default function SignupPage() {
       else if (tz.startsWith("Asia/Kolkata")) { setCountry("India"); setPhoneCode("+91"); }
       else { setCountry("United Kingdom"); setPhoneCode("+44"); }
     } catch { setCountry("United Kingdom"); }
+  }, []);
+
+  // Capture referral code: URL ?ref= wins, else fall back to saved cookie (90-day window)
+  useEffect(() => {
+    try {
+      const urlRef = new URLSearchParams(window.location.search).get("ref");
+      if (urlRef) {
+        setRefCode(urlRef);
+        document.cookie = `uds_ref=${encodeURIComponent(urlRef)}; max-age=${60 * 60 * 24 * 90}; path=/; SameSite=Lax`;
+      } else {
+        const m = document.cookie.match(/(?:^|; )uds_ref=([^;]+)/);
+        if (m) setRefCode(decodeURIComponent(m[1]));
+      }
+    } catch { /* */ }
   }, []);
 
   const handleCountryChange = (c: string) => { setCountry(c); setPhoneCode(PHONE_CODES[c] || "+"); };
@@ -73,7 +88,7 @@ export default function SignupPage() {
           fullName: fullName.trim(),
           phone: `${phoneCode}${phone.trim()}`,
           country,
-          ref: new URLSearchParams(window.location.search).get("ref") || null,
+          ref: refCode.trim() || null,
         }),
       });
       router.push("/verify-phone");
@@ -131,7 +146,12 @@ export default function SignupPage() {
             <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required
               className="w-full px-4 py-2.5 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-sm focus:border-[#7C3AED] outline-none" placeholder="••••••••" />
           </div>
-          <label className="flex items-start gap-2 cursor-pointer">
+          <div>
+            <label className="text-xs text-[#a5a0cc] mb-1 block">Referral code (optional)</label>
+            <input type="text" value={refCode} onChange={e => setRefCode(e.target.value.trim())}
+              className="w-full px-4 py-2.5 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-sm focus:border-[#7C3AED] outline-none" placeholder="e.g. JZTECH-ALI" />
+          </div>
+                    <label className="flex items-start gap-2 cursor-pointer">
             <input type="checkbox" checked={agreed} onChange={e => setAgreed(e.target.checked)}
               className="mt-0.5 accent-[#7C3AED]" />
             <span className="text-xs text-[#a5a0cc]">I agree to the <Link href="/terms" className="text-[#A78BFA] underline">Terms</Link> and <Link href="/privacy" className="text-[#A78BFA] underline">Privacy Policy</Link></span>
