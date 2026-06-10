@@ -119,8 +119,12 @@ export async function GET(req: NextRequest) {
       if (data.stripe_subscription_id) continue;
       // Skip already-free users
       if (!data.tier || data.tier === "free") continue;
+      // Skip manually-managed paid customers (active/paid set by admin, no Stripe sub)
+      if (data.status === "active" || data.status === "paid") continue;
       // Skip if no trial_end (shouldn't happen but safe)
       if (!data.trial_end) continue;
+      // Only expire users who are actually in/after a trial, never manually-set ones
+      if (data.trialUsed && data.status !== "trialing") continue;
 
       const trialEnd = new Date(data.trial_end);
       if (trialEnd < now) {
