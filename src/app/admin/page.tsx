@@ -371,7 +371,11 @@ export default function AdminPage() {
                     const expiryDate = isPaidUser
                       ? (u.billing_period_end || u.trial_end)
                       : (u.trial_end || u.billing_period_end);
-                    const daysLeft = expiryDate ? Math.max(0, Math.ceil((new Date(expiryDate).getTime() - Date.now()) / 86400000)) : null;
+                    // Only compute days when we have a REAL future-ish date; otherwise show "—" (not "Today")
+                    const expiryMs = expiryDate ? new Date(expiryDate).getTime() : null;
+                    const daysLeft = (expiryMs && !isNaN(expiryMs))
+                      ? Math.ceil((expiryMs - Date.now()) / 86400000)
+                      : null;
                     const userIP = u.signup_ip || u.last_ip || "";
                     const isDupIP = userIP && ipCounts[userIP] > 1;
                     const isDupPhone = u.phone && phoneCounts[u.phone] > 1;
@@ -407,7 +411,7 @@ export default function AdminPage() {
                       <td className="p-3 text-xs">
                         {daysLeft !== null ? (
                           <span className={`${daysLeft <= 3 ? 'text-red-400' : daysLeft <= 7 ? 'text-[#F59E0B]' : 'text-[#10B981]'}`}>
-                            {daysLeft === 0 ? 'Today' : `${daysLeft}d left`}
+                            {daysLeft < 0 ? 'Expired' : daysLeft === 0 ? 'Today' : `${daysLeft}d left`}
                           </span>
                         ) : <span className="text-[#6b6899]">—</span>}
                       </td>
