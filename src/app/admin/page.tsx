@@ -23,6 +23,8 @@ export default function AdminPage() {
   const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all"|"paid"|"failed"|"trial"|"expired"|"free"|"blocked">("all");
+  const [reconcileBusy, setReconcileBusy] = useState(false);
+  const [reconcileResult, setReconcileResult] = useState<string>("");
   const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "" });
   const [saving, setSaving] = useState(false);
   const [affiliates, setAffiliates] = useState<{id:string;name?:string;email?:string;website?:string;audience?:string;promotion_plan?:string;status?:string;applied_at?:string;ref_code?:string;ip?:string}[]>([]);
@@ -56,6 +58,30 @@ export default function AdminPage() {
       if (affRes.ok) { const d = await affRes.json(); setAffiliates(d.applications || []); }
     } catch (err) { console.error("Fetch error:", err); }
   }, [getToken]);
+
+  const runReconcile = useCallback(async () => {
+    if (!confirm("Check every paid user against Stripe and reconnect active subscriptions?\n\nThis NEVER removes access — it only reconnects real Stripe payers and reports the rest.")) return;
+    setReconcileBusy(true);
+    setReconcileResult("");
+    try {
+      const token = await getToken();
+      const res = await fetch("/api/admin/reconcile-stripe", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const d = await res.json();
+      if (res.ok) {
+        const review = (d.no_stripe_sub || []).map((u: { email: string; reason: string }) => `• ${u.email} — ${u.reason}`).join("\n");
+        setReconcileResult(`✅ Reconnected: ${d.reconnected_count} | Needs review: ${d.no_stripe_sub_count}\n\nNo live Stripe subscription (unchanged):\n${review || "(none)"}`);
+        fetchData();
+      } else {
+        setReconcileResult(`❌ ${d.error || "Failed"}`);
+      }
+    } catch (e) {
+      setReconcileResult(`❌ ${String(e)}`);
+    }
+    setReconcileBusy(false);
+  }, [getToken, fetchData]);
 
   useEffect(() => {
     if (user && ADMIN_EMAILS.includes(user.email || "")) fetchData();
@@ -253,6 +279,10 @@ export default function AdminPage() {
             <div className="mb-4 flex flex-wrap gap-3 items-center">
               <input type="text" placeholder="🔍 Search by email, name, phone, IP..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
                 className="px-3 py-2 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-xs w-72" />
+              <button onClick={runReconcile} disabled={reconcileBusy}
+                className="px-4 py-2 rounded-lg text-sm font-bold bg-[#7C3AED] hover:bg-[#6D28D9] text-white disabled:opacity-50 mr-2">
+                {reconcileBusy ? "Reconciling..." : "🔄 Reconcile with Stripe"}
+              </button>
               <select value={statusFilter} onChange={e => setStatusFilter(e.target.value as any)}
                 className="px-3 py-2 bg-[#0f0e1a] border border-[#3d3580] rounded-lg text-white text-xs">
                 <option value="all">All Status</option>
@@ -300,6 +330,9 @@ export default function AdminPage() {
               </div>
             </div>
           <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
+            {reconcileResult && (
+              <pre className="whitespace-pre-wrap text-xs text-[#c4c0e0] bg-[#1E1B4B]/60 border border-[#3d3580] rounded-lg p-4 mb-4">{reconcileResult}</pre>
+            )}
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
