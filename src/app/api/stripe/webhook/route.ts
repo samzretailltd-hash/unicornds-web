@@ -75,9 +75,12 @@ export async function POST(req: NextRequest) {
           stripe_subscription_id: subscriptionId,
           card_verified: true,
           billing_period: tierInfo?.period || session.metadata?.period || "monthly",
-          billing_period_end: (sub as any).current_period_end
-            ? new Date((sub as any).current_period_end * 1000).toISOString()
-            : null,
+          billing_period_end: (() => {
+            const pe = (sub as any).current_period_end
+              || (sub as any).items?.data?.[0]?.current_period_end
+              || null;
+            return pe ? new Date(pe * 1000).toISOString() : null;
+          })(),
           trial_end: trialEnd,
           trial_used: isTrialing ? true : undefined,
           trial_started_at: isTrialing ? new Date().toISOString() : undefined,
@@ -266,9 +269,10 @@ export async function POST(req: NextRequest) {
           tokensUsed: 0,
           tokensTotal: tierInfo?.tokensTotal || 500,
           status: "active",
-          billing_period_end: (sub as any).current_period_end
-            ? new Date((sub as any).current_period_end * 1000).toISOString()
-            : null,
+          billing_period_end: (() => {
+            const pe = (sub as any).current_period_end || (sub as any).items?.data?.[0]?.current_period_end || null;
+            return pe ? new Date(pe * 1000).toISOString() : null;
+          })(),
           updated_at: new Date().toISOString(),
         }, { merge: true });
 

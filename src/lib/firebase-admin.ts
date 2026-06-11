@@ -34,6 +34,9 @@ function getAdminApp() {
 
 const app = getAdminApp();
 export const adminDb = getFirestore(app);
+// Firestore throws on undefined field values by default; ignore them so a single
+// optional/undefined field can never crash a write (e.g. Stripe webhook upgrades).
+try { adminDb.settings({ ignoreUndefinedProperties: true }); } catch { /* settings can only be set once */ }
 export const adminAuth = getAuth(app);
 
 export async function verifyAdmin(authHeader: string | null): Promise<{ uid: string; email: string; role: AdminRole; name: string } | null> {

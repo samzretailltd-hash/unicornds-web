@@ -59,9 +59,10 @@ export async function GET(req: NextRequest) {
         const tierInfo = priceId ? PRICE_TO_TIER[priceId] : null;
 
         const update: Record<string, unknown> = {
-          billing_period_end: sub.current_period_end
-            ? new Date(sub.current_period_end * 1000).toISOString()
-            : null,
+          billing_period_end: (() => {
+            const pe = sub.current_period_end || sub.items?.data?.[0]?.current_period_end || null;
+            return pe ? new Date(pe * 1000).toISOString() : null;
+          })(),
           trial_end: sub.trial_end
             ? new Date(sub.trial_end * 1000).toISOString()
             : null,
