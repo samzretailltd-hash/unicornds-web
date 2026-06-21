@@ -27,6 +27,14 @@ export const CHANGELOG: ChangelogEntry[] = [
   // ═══════════════════ JUNE 2026 ═══════════════════
   {
     date: '2026-06-21',
+    version: 'v18',
+    category: 'feature',
+    title: 'Live chat support + Telegram community',
+    description: 'Added Tawk.to live chat across the site and a Telegram community with a join button and scannable QR code on the download page and footer.',
+    area: 'website',
+  },
+  {
+    date: '2026-06-21',
     version: 'v7.22.0',
     category: 'feature',
     title: 'Smarter, higher-converting eBay descriptions',

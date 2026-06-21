@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import TelegramCTA from "@/components/TelegramCTA";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -232,6 +233,8 @@ export default function DownloadPage() {
             <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Built-in eBay compliance guard</p>
           </div>
         </div>
+
+        <TelegramCTA />
 
         {/* Browser support */}
         <div className="mt-10 text-center">

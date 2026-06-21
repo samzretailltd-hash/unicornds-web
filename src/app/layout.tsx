@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatWidget } from "@/components/ChatWidget";
+import TawkChat from "@/components/TawkChat";
 import { RedditPixel } from "@/components/RedditPixel";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { Providers } from "@/components/Providers";
@@ -251,6 +252,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
           <ChatWidget />
+          <TawkChat />
           <RedditPixel />
           <CookieConsent />
         </Providers>
