@@ -26,6 +26,46 @@ export interface ChangelogEntry {
 export const CHANGELOG: ChangelogEntry[] = [
   // ═══════════════════ JUNE 2026 ═══════════════════
   {
+    date: '2026-06-21',
+    version: 'v7.21.0',
+    category: 'feature',
+    title: 'Walmart product variations now import',
+    description: 'Size, colour and style options import automatically, each with its own price and image — full multi-variant eBay listings instead of a single variant.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
+    version: 'v7.21.0',
+    category: 'feature',
+    title: 'Walmart strict sourcing — Walmart-fulfilled only',
+    description: 'Only list products sold AND shipped by Walmart.com. Unreliable third-party marketplace sellers (including WFS) are detected and skipped, so your stock and prices stay dependable.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
+    version: 'v7.21.0',
+    category: 'feature',
+    title: 'Multi-currency support (€, $, CHF, C$)',
+    description: 'Correct currency symbols and decimals across markets. Fixes European comma prices like €1,43 that were being read as 143.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
+    version: 'v7.21.0',
+    category: 'feature',
+    title: 'Native-language listings per marketplace',
+    description: 'Titles and descriptions are written in the marketplace language automatically — German for .de, French for .fr, and so on — based on the eBay market you sell on.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
+    version: 'v7.21.0',
+    category: 'fix',
+    title: 'Order Manager — delivered status, full imports, accurate earnings',
+    description: 'Delivered orders no longer get stuck on "pending", syncs now import all orders reliably (progressive save), and exact earnings are captured for more orders with amounts over £1,000 read correctly.',
+    area: 'extension',
+  },
+  {
     date: '2026-06-05',
     version: 'v17',
     category: 'launch',

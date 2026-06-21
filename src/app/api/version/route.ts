@@ -5,15 +5,15 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json(
     {
-      version: "7.12.1",
-      released: "2026-05-02",
+      version: "7.21.0",
+      released: "2026-06-21",
       changelog: [
-        "Order Manager — buyer names now show correctly (was showing order IDs)",
-        "Full order sync — scrapes ALL orders across multiple pages (up to 900+)",
-        "Estimated earnings — calculates eBay fees using your actual promo rate",
-        "Fetch Exact Earnings — new button scrapes real earnings from each order detail page",
-        "Export/Import Excel — download orders as CSV, edit in Excel, re-import",
-        "Date filters — 7, 30, 90 days and custom range with full data",
+        "Walmart variations + strict Walmart-only sourcing, plus Order Manager fixes (delivered status, full imports, accurate earnings)",
+        "Walmart — size/colour/style variations now import with per-variant prices and images",
+        "Walmart — strict mode lists only items sold & shipped by Walmart.com (skips third-party sellers)",
+        "Multi-currency support — correct symbols and decimals for €, $, CHF and C$",
+        "Native-language listings — titles and descriptions written in the marketplace language",
+        "Order Manager — delivered orders show correctly, all orders import, earnings captured accurately",
       ],
       downloadUrl: "https://www.unicornds.io/download",
       critical: false,

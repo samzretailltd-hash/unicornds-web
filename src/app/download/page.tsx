@@ -119,7 +119,7 @@ export default function DownloadPage() {
           className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold inline-flex items-center gap-2 disabled:opacity-50"
         >
           <span className="text-xl">{downloading ? "⏳" : "⬇️"}</span>
-          {downloading ? "Downloading..." : "Download UnicornDS v7.20.0"}
+          {downloading ? "Downloading..." : "Download UnicornDS v7.21.0"}
         </button>
       ),
     },
@@ -220,16 +220,16 @@ export default function DownloadPage() {
           ))}
         </div>
 
-        {/* What's new in v7.20 */}
+        {/* What's new in v7.21 */}
         <div className="mt-8 bg-gradient-to-r from-[#F59E0B]/10 to-[#7C3AED]/10 border border-[#F59E0B]/30 rounded-xl p-6">
-          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.20.0</h3>
+          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.21.0</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-[#a5a0cc]">
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Order Manager with profit tracking</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Bulk fulfill — process 50 orders at once</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Repeat buyer detection (VIP badges)</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Item thumbnails in order list</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Amazon address auto-fill (11 countries)</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> 12 buyer message templates</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Walmart product variations (size, colour, style)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Strict Walmart-only sourcing (skips 3rd-party sellers)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Multi-currency support (€, $, CHF, C$)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Native-language listings (DE, FR & more)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Delivered orders show correctly</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> All orders import + accurate earnings</p>
           </div>
         </div>
 
