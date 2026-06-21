@@ -45,8 +45,9 @@ export function ChatWidget() {
 
   // Escalate from AI to a human via Tawk live chat (falls back to email if Tawk isn't loaded)
   const talkToHuman = () => {
-    const api = (typeof window !== "undefined" ? (window as unknown as { Tawk_API?: { maximize?: () => void } }).Tawk_API : undefined);
+    const api = (typeof window !== "undefined" ? (window as unknown as { Tawk_API?: { maximize?: () => void; showWidget?: () => void } }).Tawk_API : undefined);
     if (api && typeof api.maximize === "function") {
+      if (typeof api.showWidget === "function") api.showWidget();
       api.maximize();
       setOpen(false);
     } else {

@@ -24,7 +24,7 @@ export default function TelegramCTA() {
       </div>
       <div className="bg-white rounded-xl p-3 flex flex-col items-center shrink-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/telegram-qr.svg" alt="Scan to join the UnicornDS Telegram" width={132} height={132} />
+        <img src="/telegram-qr.png" alt="Scan to join the UnicornDS Telegram" width={132} height={132} />
         <span className="text-xs text-[#1E1B4B] font-semibold mt-1">Scan to join</span>
       </div>
     </div>

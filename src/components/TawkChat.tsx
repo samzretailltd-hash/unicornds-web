@@ -18,6 +18,7 @@ export default function TawkChat() {
     <Script id="tawk-to" strategy="afterInteractive">
       {`var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();
 Tawk_API.customStyle={visibility:{desktop:{position:'bl',xOffset:20,yOffset:20},mobile:{position:'bl',xOffset:10,yOffset:20}}};
+Tawk_API.onLoad=function(){try{Tawk_API.hideWidget();}catch(e){}};
 (function(){
   var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
   s1.async=true;
