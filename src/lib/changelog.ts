@@ -27,6 +27,14 @@ export const CHANGELOG: ChangelogEntry[] = [
   // ═══════════════════ JUNE 2026 ═══════════════════
   {
     date: '2026-06-21',
+    version: 'v7.23.0',
+    category: 'feature',
+    title: 'eBay UK restricted-words protection',
+    description: 'Built-in eBay UK block-words list (updated 31 May 2026, 1,197 terms) flags high-risk words before you list — perfume, batteries, baby items, supplements, tools and more — so you can edit or skip and avoid blocked or removed listings. Protective and General levels, plus optional hard-block.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
     version: 'v18',
     category: 'feature',
     title: 'Live chat support + Telegram community',
