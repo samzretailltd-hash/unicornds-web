@@ -27,6 +27,30 @@ export const CHANGELOG: ChangelogEntry[] = [
   // ═══════════════════ JUNE 2026 ═══════════════════
   {
     date: '2026-06-21',
+    version: 'v7.22.0',
+    category: 'feature',
+    title: 'Smarter, higher-converting eBay descriptions',
+    description: 'AI descriptions now build a benefit strip, spec table, compatibility table, a "Why buy from us" comparison and a buyer FAQ — structured, mobile-first, and proven to lift conversion.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
+    version: 'v7.22.0',
+    category: 'feature',
+    title: 'Localized trust & support per marketplace',
+    description: 'Every listing ends with a branded delivery, returns and support row in the buyer\'s own language and region — UK, US, Deutschland, France, Italia, España and more.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
+    version: 'v7.22.0',
+    category: 'security',
+    title: 'Built-in eBay compliance guard',
+    description: 'A sanitizer strips any banned active content (JavaScript, forms, iframes, event handlers) before a description is posted, so listings can\'t be hidden for policy violations.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
     version: 'v7.21.0',
     category: 'feature',
     title: 'Walmart product variations now import',

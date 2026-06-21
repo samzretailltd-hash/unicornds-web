@@ -5,15 +5,13 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json(
     {
-      version: "7.21.0",
+      version: "7.22.0",
       released: "2026-06-21",
       changelog: [
-        "Walmart variations + strict Walmart-only sourcing, plus Order Manager fixes (delivered status, full imports, accurate earnings)",
-        "Walmart — size/colour/style variations now import with per-variant prices and images",
-        "Walmart — strict mode lists only items sold & shipped by Walmart.com (skips third-party sellers)",
-        "Multi-currency support — correct symbols and decimals for €, $, CHF and C$",
-        "Native-language listings — titles and descriptions written in the marketplace language",
-        "Order Manager — delivered orders show correctly, all orders import, earnings captured accurately",
+        "Smarter eBay descriptions — spec tables, a 'why buy from us' comparison, FAQ, and localized support per marketplace",
+        "Structured, mobile-first description layout proven to lift conversion",
+        "Localized trust & support row in the buyer's language (UK, US, DE, FR, IT, ES and more)",
+        "Built-in eBay compliance guard strips banned content automatically",
       ],
       downloadUrl: "https://www.unicornds.io/download",
       critical: false,

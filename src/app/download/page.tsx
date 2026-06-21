@@ -119,7 +119,7 @@ export default function DownloadPage() {
           className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold inline-flex items-center gap-2 disabled:opacity-50"
         >
           <span className="text-xl">{downloading ? "⏳" : "⬇️"}</span>
-          {downloading ? "Downloading..." : "Download UnicornDS v7.21.0"}
+          {downloading ? "Downloading..." : "Download UnicornDS v7.22.0"}
         </button>
       ),
     },
@@ -220,16 +220,16 @@ export default function DownloadPage() {
           ))}
         </div>
 
-        {/* What's new in v7.21 */}
+        {/* What's new in v7.22 */}
         <div className="mt-8 bg-gradient-to-r from-[#F59E0B]/10 to-[#7C3AED]/10 border border-[#F59E0B]/30 rounded-xl p-6">
-          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.21.0</h3>
+          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.22.0</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-[#a5a0cc]">
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Walmart product variations (size, colour, style)</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Strict Walmart-only sourcing (skips 3rd-party sellers)</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Multi-currency support (€, $, CHF, C$)</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Native-language listings (DE, FR & more)</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Delivered orders show correctly</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> All orders import + accurate earnings</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Structured, high-converting eBay descriptions</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> "Why buy from us" comparison + buyer FAQ</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Spec & compatibility tables</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Localized support per marketplace (UK, US, DE…)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Native-language listings</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Built-in eBay compliance guard</p>
           </div>
         </div>
 
