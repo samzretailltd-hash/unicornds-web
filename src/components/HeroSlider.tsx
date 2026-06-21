@@ -95,7 +95,7 @@ export function HeroSlider() {
   const arrived = typed.length > 0;
 
   return (
-    <section className="relative pt-32 sm:pt-40 pb-16 overflow-hidden grid-bg">
+    <section className="relative pt-20 sm:pt-24 pb-16 overflow-hidden grid-bg">
       <div className="hero-glow" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
