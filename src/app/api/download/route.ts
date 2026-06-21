@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
         uid: decoded.uid,
         email: decoded.email || "",
         tier: userDoc.exists ? userDoc.data()?.tier || "free" : "free",
-        version: "7.23.0",
+        version: "7.23.7",
         downloadedAt: new Date().toISOString(),
         userAgent: req.headers.get("user-agent") || "",
       });
@@ -33,9 +33,9 @@ export async function POST(req: NextRequest) {
 
     // Return the download URL (hashed filename)
     return NextResponse.json({
-      url: "/ext_b486c398093a.zip",
-      filename: "UnicornDS_v7_23_0.zip",
-      version: "7.23.0",
+      url: "/ext_c13b99e6226f.zip",
+      filename: "UnicornDS_v7_23_7.zip",
+      version: "7.23.7",
     });
   } catch (err: any) {
     console.error("Download auth error:", err);

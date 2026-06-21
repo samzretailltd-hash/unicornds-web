@@ -5,13 +5,13 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json(
     {
-      version: "7.23.0",
+      version: "7.23.7",
       released: "2026-06-21",
       changelog: [
-        "New eBay UK restricted-words protection — built-in block-words list (updated 31 May 2026) flags risky words before you list",
-        "Catches 1,197 high-risk terms (perfume, batteries, baby items, supplements, tools and more) to cut blocked/removed listings",
-        "Two levels: Protective (default) and General, with optional hard-block mode",
-        "Faster, single-pass keyword scanning across title and description",
+        "EU/FR variations now list correctly — creates your own variation attribute and adds every supplier option (works on FR, DE, ES, IT)",
+        "EU prices use the correct comma decimal (12,99 \u20AC) so they are no longer read as inflated amounts",
+        "Cleaner item specifics — no more duplicate attributes on non-UK markets",
+        "Fixed AI description occasionally showing raw code and line-break characters",
       ],
       downloadUrl: "https://www.unicornds.io/download",
       critical: false,

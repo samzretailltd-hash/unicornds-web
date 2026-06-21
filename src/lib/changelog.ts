@@ -27,6 +27,14 @@ export const CHANGELOG: ChangelogEntry[] = [
   // ═══════════════════ JUNE 2026 ═══════════════════
   {
     date: '2026-06-21',
+    version: 'v7.23.7',
+    category: 'fix',
+    title: 'EU markets: variations, pricing & descriptions fixed',
+    description: 'Listing to eBay France, Germany, Spain and Italy now works end-to-end. Multi-variation listings create your own variation attribute and add every supplier option; EU prices use the correct comma decimal (12,99 €) so they are no longer read as inflated; item specifics are no longer duplicated on non-UK markets; and the AI description no longer leaks raw code or line-break characters into the listing.',
+    area: 'extension',
+  },
+  {
+    date: '2026-06-21',
     version: 'v7.23.0',
     category: 'feature',
     title: 'eBay UK restricted-words protection',
