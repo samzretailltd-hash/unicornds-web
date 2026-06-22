@@ -27,10 +27,10 @@ export const CHANGELOG: ChangelogEntry[] = [
   // ═══════════════════ JUNE 2026 ═══════════════════
   {
     date: '2026-06-21',
-    version: 'v7.23.7',
+    version: 'v7.23.13',
     category: 'fix',
-    title: 'EU markets: variations, pricing & descriptions fixed',
-    description: 'Listing to eBay France, Germany, Spain and Italy now works end-to-end. Multi-variation listings create your own variation attribute and add every supplier option; EU prices use the correct comma decimal (12,99 €) so they are no longer read as inflated; item specifics are no longer duplicated on non-UK markets; and the AI description no longer leaks raw code or line-break characters into the listing.',
+    title: 'EU/FR listing fully fixed: variations, EAN, pricing & item specifics',
+    description: 'Listing to eBay France, Germany, Spain and Italy now works end-to-end, including variations. Each variation row now fills SKU, EAN ("Does not apply"), quantity, price and photos correctly; EU prices use the comma decimal (12,99 €) so they are no longer read as inflated; item specifics no longer default to the wrong value (e.g. country showing "Afghanistan") and country defaults to China where unknown. Also removed leftover debugging code for a lighter, cleaner extension. Bulk listing uses the same engine, so these fixes apply there too.',
     area: 'extension',
   },
   {
