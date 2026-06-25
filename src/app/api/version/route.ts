@@ -5,15 +5,14 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json(
     {
-      version: "7.12.1",
-      released: "2026-05-02",
+      version: "7.23.13",
+      released: "2026-06-21",
       changelog: [
-        "Order Manager — buyer names now show correctly (was showing order IDs)",
-        "Full order sync — scrapes ALL orders across multiple pages (up to 900+)",
-        "Estimated earnings — calculates eBay fees using your actual promo rate",
-        "Fetch Exact Earnings — new button scrapes real earnings from each order detail page",
-        "Export/Import Excel — download orders as CSV, edit in Excel, re-import",
-        "Date filters — 7, 30, 90 days and custom range with full data",
+        "EU/FR variations now list fully end-to-end — SKU, EAN, quantity, price and photos all filled correctly",
+        "EAN: now writes \"Does not apply\" per variation row so EU listings stop being rejected",
+        "Fixed item specifics defaulting to the wrong value (e.g. country showing \"Afghanistan\") — country now defaults to China where unknown",
+        "EU prices use the correct comma decimal (12,99 \u20AC) so they are no longer read as inflated amounts",
+        "Cleaner item specifics and AI descriptions; removed leftover code for a lighter extension",
       ],
       downloadUrl: "https://www.unicornds.io/download",
       critical: false,

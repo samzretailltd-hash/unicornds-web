@@ -1,295 +1,192 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, type MouseEvent } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { AnnouncementBar } from "./AnnouncementBar";
 
-type Supplier = { src: string; alt: string; white?: boolean };
-
-type Slide = {
-  id: string;
-  badge: string;
-  headline: React.ReactNode;
-  sub: string;
-  cta: { label: string; href: string };
-  suppliers: Supplier[];
+type Item = {
+  key: string;
+  logo: string;
+  name: string;
+  title: string;
+  price: string;
+  profit: string;
 };
 
-const SLIDES: Slide[] = [
+const ITEMS: Item[] = [
   {
-    id: "three-giants",
-    badge: "3 SUPPLIERS · ONE TOOL",
-    headline: (
-      <>
-        <span className="text-white">Source from 3 giants.</span>{" "}
-        <span className="hs-gradient">Sell on eBay.</span>
-      </>
-    ),
-    sub: "Find winning products on Amazon, AliExpress & Walmart — list on eBay in seconds with AI titles & VERO protection.",
-    cta: { label: "Start 7-Day Trial — £1", href: "/download" },
-    suppliers: [
-      { src: "/logos/amazon.svg", alt: "Amazon", white: true },
-      { src: "/logos/aliexpress.svg", alt: "AliExpress", white: true },
-      { src: "/logos/walmart.svg", alt: "Walmart" },
-    ],
+    key: "ali",
+    logo: "/logos/aliexpress.svg",
+    name: "AliExpress",
+    title: "Wireless Earbuds Bluetooth 5.3 ANC Noise Cancelling Black",
+    price: "£24.99",
+    profit: "+£9.20",
   },
   {
-    id: "amazon",
-    badge: "AMAZON ARBITRAGE",
-    headline: (
-      <>
-        <span className="text-white">Amazon arbitrage,</span>{" "}
-        <span className="hs-gradient">made simple.</span>
-      </>
-    ),
-    sub: "Fast Prime delivery means happy buyers and strong seller metrics. Flip Amazon products on eBay UK, US & Canada.",
-    cta: { label: "See How It Works", href: "/#features" },
-    suppliers: [{ src: "/logos/amazon.svg", alt: "Amazon", white: true }],
+    key: "amz",
+    logo: "/logos/amazon.svg",
+    name: "Amazon",
+    title: "Stainless Steel Soap Dispenser Pump 500ml Kitchen Matte",
+    price: "£14.99",
+    profit: "+£6.10",
   },
   {
-    id: "aliexpress",
-    badge: "ALIEXPRESS DROPSHIPPING",
-    headline: (
-      <>
-        <span className="text-white">AliExpress</span>{" "}
-        <span className="hs-gradient">dropshipping.</span>
-      </>
-    ),
-    sub: "Lowest sourcing cost, highest margins. Filter Choice products with fast shipping and list on eBay with one click.",
-    cta: { label: "Explore Features", href: "/#features" },
-    suppliers: [{ src: "/logos/aliexpress.svg", alt: "AliExpress", white: true }],
-  },
-  {
-    id: "walmart",
-    badge: "🆕 NEW SUPPLIER",
-    headline: (
-      <>
-        <span className="text-white">Now sourcing from</span>{" "}
-        <span className="hs-gradient">Walmart.</span>
-      </>
-    ),
-    sub: "Expand to the US & Canada markets with Walmart. Competitive prices, fast domestic shipping, untapped products.",
-    cta: { label: "Start Selling in US & CA", href: "/pricing" },
-    suppliers: [{ src: "/logos/walmart.svg", alt: "Walmart" }],
+    key: "wmt",
+    logo: "/logos/walmart.svg",
+    name: "Walmart",
+    title: "Self-Watering Plant Pot Set of 3 Indoor Planter Grey",
+    price: "£19.99",
+    profit: "+£8.40",
   },
 ];
 
-function centresFor(n: number): number[] {
-  if (n === 1) return [120];
-  if (n === 2) return [84, 156];
-  return [52, 120, 188];
-}
-function topsFor(n: number): number[] {
-  return centresFor(n).map((c) => c - 25);
-}
+const CYCLE = 4000;
+const TYPE_START = 1900;
 
-const variants = {
-  enter: (dir: number) => ({
-    opacity: 0,
-    x: dir > 0 ? 160 : -160,
-    rotateY: dir > 0 ? 35 : -35,
-    scale: 0.9,
-  }),
-  center: { opacity: 1, x: 0, rotateY: 0, scale: 1 },
-  exit: (dir: number) => ({
-    opacity: 0,
-    x: dir > 0 ? -160 : 160,
-    rotateY: dir > 0 ? -35 : 35,
-    scale: 0.9,
-  }),
-};
-
-function SlideContent({ slide }: { slide: Slide }) {
-  const n = slide.suppliers.length;
-  const centres = centresFor(n);
-  const tops = topsFor(n);
-  const wirePath = (y: number) => `M150 ${y} C 300 ${y}, 350 120, 418 120`;
-
+function Parcel({ size = 20 }: { size?: number }) {
   return (
-    <div className="relative px-6 sm:px-12 py-12 sm:py-14">
-      <div className="text-center mb-9">
-        <span className="hs-glass inline-block px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[1.5px] text-[#F59E0B] mb-5">
-          {slide.badge}
-        </span>
-        <h1 className="font-[family-name:var(--font-display)] text-[28px] sm:text-5xl font-extrabold leading-[1.08] tracking-[-0.02em] mb-4">
-          {slide.headline}
-        </h1>
-        <p className="text-[#8b85b1] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-          {slide.sub}
-        </p>
-      </div>
-
-      <div className="relative mx-auto" style={{ maxWidth: 560, height: 240 }}>
-        <svg
-          viewBox="0 0 560 240"
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          style={{ overflow: "visible" }}
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="hs-wire" gradientUnits="userSpaceOnUse" x1="150" y1="120" x2="418" y2="120">
-              <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.25" />
-              <stop offset="55%" stopColor="#A78BFA" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#F59E0B" stopOpacity="1" />
-            </linearGradient>
-            <filter id="hs-glow" x="-60%" y="-60%" width="220%" height="220%">
-              <feGaussianBlur stdDeviation="3.2" result="b" />
-              <feMerge>
-                <feMergeNode in="b" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          <g filter="url(#hs-glow)" fill="none" stroke="url(#hs-wire)" strokeWidth="2.6" strokeLinecap="round">
-            {centres.map((y, i) => (
-              <path key={i} d={wirePath(y)} />
-            ))}
-          </g>
-
-          <g fill="#FBBF24" filter="url(#hs-glow)">
-            {centres.map((y, i) => (
-              <g key={i}>
-                <circle r="3.4">
-                  <animateMotion dur={`${1.7 + i * 0.2}s`} repeatCount="indefinite" path={wirePath(y)} />
-                </circle>
-                <circle r="3.4">
-                  <animateMotion dur={`${1.7 + i * 0.2}s`} begin={`${0.85 + i * 0.1}s`} repeatCount="indefinite" path={wirePath(y)} />
-                </circle>
-              </g>
-            ))}
-          </g>
-        </svg>
-
-        {slide.suppliers.map((s, i) => (
-          <div
-            key={s.alt}
-            className="hs-glass hs-float"
-            style={{
-              position: "absolute",
-              top: tops[i],
-              left: 0,
-              width: 150,
-              height: 50,
-              borderRadius: 14,
-              padding: "0 16px",
-              display: "flex",
-              alignItems: "center",
-              animationDelay: `${i * 0.5}s`,
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={s.src} alt={s.alt} style={{ height: 22, width: "auto" }} className={s.white ? "brightness-0 invert" : ""} />
-          </div>
-        ))}
-
-        <div
-          className="hs-glass hs-pulse"
-          style={{
-            position: "absolute",
-            top: 74,
-            right: 0,
-            width: 128,
-            height: 92,
-            borderRadius: 18,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logos/ebay.svg" alt="eBay" style={{ height: 26, width: "auto" }} />
-          <div className="text-[9px] text-[#a5a0cc] mt-1.5 tracking-wider">YOU SELL HERE</div>
-        </div>
-      </div>
-
-      <div className="text-center mt-9">
-        <Link
-          href={slide.cta.href}
-          className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white text-base pulse-glow"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #9333EA)", boxShadow: "0 8px 30px rgba(124,58,237,0.55)" }}
-        >
-          {slide.cta.label} <span>→</span>
-        </Link>
-      </div>
-    </div>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#1E1B4B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" />
+      <path d="M12 12l8-4.5M12 12v9M12 12L4 7.5" />
+    </svg>
   );
 }
 
 export function HeroSlider() {
-  const [[current, direction], setState] = useState<[number, number]>([0, 1]);
+  const [idx, setIdx] = useState(0);
+  const [typed, setTyped] = useState("");
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const typeRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const paginate = useCallback((dir: number) => {
-    setState(([c]) => [(c + dir + SLIDES.length) % SLIDES.length, dir]);
-  }, []);
-
-  const goTo = useCallback((i: number) => {
-    setState(([c]) => [i, i > c ? 1 : -1]);
+  useEffect(() => {
+    const iv = setInterval(() => setIdx((i) => (i + 1) % ITEMS.length), CYCLE);
+    return () => clearInterval(iv);
   }, []);
 
   useEffect(() => {
-    const t = setInterval(() => paginate(1), 5000);
-    return () => clearInterval(t);
-  }, [paginate]);
+    const full = ITEMS[idx].title;
+    setTyped("");
+    const start = setTimeout(() => {
+      let n = 0;
+      typeRef.current = setInterval(() => {
+        n += 1;
+        setTyped(full.slice(0, n));
+        if (n >= full.length && typeRef.current) clearInterval(typeRef.current);
+      }, 26);
+    }, TYPE_START);
+    return () => {
+      clearTimeout(start);
+      if (typeRef.current) clearInterval(typeRef.current);
+    };
+  }, [idx]);
 
-  const slide = SLIDES[current];
+  const onMove = (e: MouseEvent<HTMLDivElement>) => {
+    const el = stageRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    setTilt({ x: (px - 0.5) * 9, y: (0.5 - py) * 6 });
+  };
+  const onLeave = () => setTilt({ x: 0, y: 0 });
+
+  const it = ITEMS[idx];
+  const arrived = typed.length > 0;
 
   return (
-    <section className="relative pt-32 sm:pt-40 pb-16 overflow-hidden grid-bg">
+    <section className="relative pt-20 sm:pt-24 pb-16 overflow-hidden grid-bg">
       <div className="hero-glow" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnnouncementBar />
+
         <div className="relative rounded-3xl overflow-hidden hs-shell" style={{ perspective: 1400 }}>
           <div className="hs-orb hs-orb-purple" />
           <div className="hs-orb hs-orb-gold" />
 
-          <AnimatePresence mode="wait" custom={direction} initial={false}>
-            <motion.div
-              key={slide.id}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ transformStyle: "preserve-3d" }}
+          <div className="relative px-6 sm:px-12 py-12 sm:py-14 z-10">
+            <div className="text-center mb-9">
+              <span className="hs-glass inline-block px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[1.5px] text-[#F59E0B] mb-5">
+                3 SUPPLIERS · ONE TOOL
+              </span>
+              <h1 className="font-[family-name:var(--font-display)] text-[28px] sm:text-5xl font-extrabold leading-[1.08] tracking-[-0.02em] mb-4">
+                <span className="text-white">Source winning products.</span>{" "}
+                <span className="hs-gradient">List them on eBay.</span>
+              </h1>
+              <p className="text-[#8b85b1] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+                Find products on Amazon, AliExpress &amp; Walmart — our AI writes the title, you list on eBay in one click.
+              </p>
+            </div>
+
+            <div
+              ref={stageRef}
+              onMouseMove={onMove}
+              onMouseLeave={onLeave}
+              className="uds-stage"
+              style={{
+                transform: `perspective(1000px) rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`,
+                transition: "transform .15s ease-out",
+                transformStyle: "preserve-3d",
+              }}
             >
-              <SlideContent slide={slide} />
-            </motion.div>
-          </AnimatePresence>
+              <div className="hs-glass uds-card">
+                <div className="uds-cap">SOURCE</div>
+                <div className="uds-plate">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img key={it.key} src={it.logo} alt={it.name} className="uds-fade" />
+                </div>
+                <div className="uds-sub2">{it.name}</div>
+              </div>
 
-          <button
-            onClick={() => paginate(-1)}
-            aria-label="Previous slide"
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur transition z-20"
-          >
-            ‹
-          </button>
-          <button
-            onClick={() => paginate(1)}
-            aria-label="Next slide"
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur transition z-20"
-          >
-            ›
-          </button>
+              <div className="uds-wire2">
+                <span className="uds-ai">
+                  <span style={{ marginRight: 4 }}>✦</span> AI title
+                </span>
+                <span className="uds-pkt">
+                  <Parcel />
+                </span>
+              </div>
 
-          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-            {SLIDES.map((s, i) => (
-              <button
-                key={s.id}
-                onClick={() => goTo(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className="h-[7px] rounded-full transition-all"
-                style={{
-                  width: i === current ? 30 : 7,
-                  background: i === current ? "#F59E0B" : "rgba(255,255,255,0.3)",
-                  boxShadow: i === current ? "0 0 12px rgba(245,158,11,0.7)" : "none",
-                }}
-              />
-            ))}
+              <div className="hs-glass uds-card">
+                <div className="uds-cap" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span>LISTING ON</span>
+                  <span className="uds-plate uds-plate-sm">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/logos/ebay.svg" alt="eBay" />
+                  </span>
+                </div>
+                <div className="uds-listing">
+                  <div className="uds-thumb"><Parcel size={22} /></div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div className="uds-title">{typed}<span className="uds-caret" /></div>
+                    <div className="uds-row" style={{ opacity: arrived ? 1 : 0 }}>
+                      <span className="uds-price">{it.price}</span>
+                      <span className="uds-profit">▲ {it.profit}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center mt-10">
+              <Link
+                href="/download"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white text-base pulse-glow"
+                style={{ background: "linear-gradient(135deg, #7C3AED, #9333EA)", boxShadow: "0 8px 30px rgba(124,58,237,0.55)" }}
+              >
+                Start 7-Day Trial — £1 <span>→</span>
+              </Link>
+              <div className="uds-trust">
+                <span>Works with</span>
+                {ITEMS.map((m) => (
+                  <span key={m.key} className="uds-plate uds-plate-sm">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={m.logo} alt={m.name} />
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -319,10 +216,41 @@ export function HeroSlider() {
         .hs-orb-purple{top:-100px;left:50%;transform:translateX(-50%);width:520px;height:300px;background:radial-gradient(circle,rgba(124,58,237,0.32),transparent 70%);}
         .hs-orb-gold{bottom:-120px;right:14%;width:300px;height:300px;background:radial-gradient(circle,rgba(245,158,11,0.2),transparent 70%);}
         @keyframes hs-grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-        @keyframes hs-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-        @keyframes hs-pulse{0%,100%{box-shadow:0 22px 55px -8px rgba(245,158,11,0.45),inset 0 1px 0 rgba(255,255,255,0.2),0 0 0 1px rgba(245,158,11,0.25)}50%{box-shadow:0 22px 65px -6px rgba(245,158,11,0.7),inset 0 1px 0 rgba(255,255,255,0.25),0 0 0 1px rgba(245,158,11,0.5)}}
-        .hs-float{animation:hs-float 5s ease-in-out infinite;}
-        .hs-pulse{animation:hs-pulse 3s ease-in-out infinite;}
+
+        .uds-stage{position:relative;display:flex;align-items:stretch;justify-content:space-between;gap:10px;max-width:540px;margin:0 auto;will-change:transform;}
+        .uds-card{flex:0 0 152px;border-radius:16px;padding:12px;text-align:left;}
+        .uds-cap{font-size:9px;letter-spacing:.08em;color:#8b88c8;margin-bottom:8px;}
+        .uds-plate{background:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;height:44px;padding:0 12px;box-shadow:0 6px 18px rgba(0,0,0,0.28);}
+        .uds-plate img{height:22px;width:auto;max-width:104px;object-fit:contain;display:block;}
+        .uds-plate-sm{height:22px;padding:0 6px;border-radius:6px;box-shadow:none;}
+        .uds-plate-sm img{height:13px;max-width:60px;}
+        .uds-sub2{font-size:11px;color:#cfcaf2;margin-top:8px;font-weight:500;}
+        .uds-fade{animation:uds-in .45s ease;}
+        @keyframes uds-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+        .uds-wire2{position:relative;flex:1;min-width:54px;align-self:center;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(167,139,250,.2),rgba(245,158,11,.6),rgba(167,139,250,.2));}
+        .uds-pkt{position:absolute;top:50%;left:6px;width:34px;height:34px;margin-top:-17px;border-radius:9px;background:#F59E0B;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(245,158,11,.55);animation:udsTravel 4s ease-in-out infinite;}
+        @keyframes udsTravel{0%{left:6px;opacity:0}6%{opacity:1}50%{left:calc(100% - 40px);opacity:1}60%{left:calc(100% - 40px);opacity:0}100%{left:calc(100% - 40px);opacity:0}}
+        .uds-ai{position:absolute;top:-30px;left:50%;transform:translateX(-50%) scale(.6);opacity:0;font-size:11px;font-weight:500;color:#1E1B4B;background:#A78BFA;border-radius:20px;padding:3px 10px;white-space:nowrap;animation:udsAi 4s ease-in-out infinite;}
+        @keyframes udsAi{0%,22%{opacity:0;transform:translateX(-50%) scale(.6)}30%,45%{opacity:1;transform:translateX(-50%) scale(1)}55%{opacity:0;transform:translateX(-50%) scale(.9)}100%{opacity:0}}
+
+        .uds-listing{display:flex;gap:10px;align-items:flex-start;}
+        .uds-thumb{flex:0 0 40px;height:40px;border-radius:9px;background:rgba(167,139,250,.18);display:flex;align-items:center;justify-content:center;color:#A78BFA;}
+        .uds-thumb svg{stroke:#A78BFA;}
+        .uds-title{font-size:12px;line-height:1.35;color:#efeaff;min-height:34px;}
+        .uds-caret{display:inline-block;width:2px;height:12px;background:#F59E0B;margin-left:1px;vertical-align:-1px;animation:uds-blink 1s step-end infinite;}
+        @keyframes uds-blink{50%{opacity:0}}
+        .uds-row{display:flex;align-items:center;gap:8px;margin-top:5px;transition:opacity .35s;}
+        .uds-price{font-size:17px;font-weight:700;color:#fff;}
+        .uds-profit{font-size:11px;font-weight:500;color:#34D399;background:rgba(16,185,129,.14);border-radius:6px;padding:2px 7px;}
+
+        .uds-trust{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;font-size:11px;color:#7c77a6;}
+
+        @media (max-width:520px){
+          .uds-card{flex-basis:128px;padding:10px;}
+          .uds-plate img{max-width:88px;}
+          .uds-wire2{min-width:30px;}
+        }
       `}</style>
     </section>
   );

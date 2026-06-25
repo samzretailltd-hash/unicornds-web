@@ -43,6 +43,18 @@ export function ChatWidget() {
     setLoading(false);
   };
 
+  // Escalate from AI to a human via Tawk live chat (falls back to email if Tawk isn't loaded)
+  const talkToHuman = () => {
+    const api = (typeof window !== "undefined" ? (window as unknown as { Tawk_API?: { maximize?: () => void; showWidget?: () => void } }).Tawk_API : undefined);
+    if (api && typeof api.maximize === "function") {
+      if (typeof api.showWidget === "function") api.showWidget();
+      api.maximize();
+      setOpen(false);
+    } else {
+      window.location.href = "mailto:support@unicornds.io";
+    }
+  };
+
   return (
     <>
       {/* Floating Button */}
@@ -80,7 +92,7 @@ export function ChatWidget() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ height: "calc(100% - 120px)" }}>
+          <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ height: "calc(100% - 150px)" }}>
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                 {msg.role === "assistant" && (
@@ -111,6 +123,11 @@ export function ChatWidget() {
             )}
             <div ref={messagesEnd} />
           </div>
+
+          {/* Human handoff */}
+          <button onClick={talkToHuman} className="w-full text-center text-[11px] text-[#a5a0cc] hover:text-white py-1.5 border-t border-[#3d3580]/40 transition-colors">
+            Need a person? Talk to a human &rarr;
+          </button>
 
           {/* Input */}
           <div className="border-t border-[#3d3580]/50 p-3 flex gap-2 bg-[#0f0e1a]">

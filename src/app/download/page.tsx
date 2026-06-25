@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import TelegramCTA from "@/components/TelegramCTA";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -119,7 +120,7 @@ export default function DownloadPage() {
           className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold inline-flex items-center gap-2 disabled:opacity-50"
         >
           <span className="text-xl">{downloading ? "⏳" : "⬇️"}</span>
-          {downloading ? "Downloading..." : "Download UnicornDS v7.20.0"}
+          {downloading ? "Downloading..." : "Download UnicornDS v7.23.13"}
         </button>
       ),
     },
@@ -220,18 +221,20 @@ export default function DownloadPage() {
           ))}
         </div>
 
-        {/* What's new in v7.20 */}
+        {/* What's new in v7.23 */}
         <div className="mt-8 bg-gradient-to-r from-[#F59E0B]/10 to-[#7C3AED]/10 border border-[#F59E0B]/30 rounded-xl p-6">
-          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.20.0</h3>
+          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.23.13</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-[#a5a0cc]">
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Order Manager with profit tracking</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Bulk fulfill — process 50 orders at once</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Repeat buyer detection (VIP badges)</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Item thumbnails in order list</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Amazon address auto-fill (11 countries)</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> 12 buyer message templates</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> EU/FR variations list fully — SKU, EAN, qty, price & photos</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> EAN now writes "Does not apply" on each row (FR, DE, ES, IT)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Fixed item specifics defaulting wrong (no more "Afghanistan")</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> EU prices use the comma decimal (12,99 €) — no inflated prices</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Same fixes apply to bulk listing (shared engine)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Lighter extension — removed leftover debugging code</p>
           </div>
         </div>
+
+        <TelegramCTA />
 
         {/* Browser support */}
         <div className="mt-10 text-center">

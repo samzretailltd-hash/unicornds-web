@@ -6,6 +6,7 @@ import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { SITE, PLANS } from "@/lib/constants";
 import { ChangelogWidget } from "@/components/ChangelogWidget";
+import TelegramCTA from "@/components/TelegramCTA";
 
 const CF_BASE = "https://us-central1-unicorn-ds-7f831.cloudfunctions.net";
 
@@ -348,6 +349,11 @@ export default function DashboardPage() {
         {/* What's New — Changelog Widget */}
         <div className="mb-6">
           <ChangelogWidget />
+        </div>
+
+        {/* Telegram community */}
+        <div className="mb-6">
+          <TelegramCTA />
         </div>
 
         {/* Bottom Grid */}
