@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const tier = (body.tier || "growth").trim();
     const paymentAmount = Number(body.payment_amount) || 0;
     const emails = Array.isArray(body.referred_emails)
-      ? body.referred_emails.map((e) => e.trim().toLowerCase()).filter(Boolean) : [];
+      ? body.referred_emails.map((e: string) => e.trim().toLowerCase()).filter(Boolean) : [];
     if (!refCode || paymentAmount <= 0 || emails.length === 0)
       return NextResponse.json({ error: "ref_code, payment_amount and referred_emails are required" }, { status: 400 });
 
