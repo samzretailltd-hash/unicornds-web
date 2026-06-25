@@ -36,6 +36,13 @@ export default function AdminPage() {
     return onAuthStateChanged(auth, (u) => { setUser(u); setLoading(false); });
   }, []);
 
+  const [commRefCode, setCommRefCode] = useState("JZTECH-ALI");
+  const [commEmails, setCommEmails] = useState("");
+  const [commTier, setCommTier] = useState("growth");
+  const [commAmount, setCommAmount] = useState("59.99");
+  const [commBusy, setCommBusy] = useState(false);
+  const [commResult, setCommResult] = useState("");
+
   const getToken = useCallback(async () => {
     if (!user) return "";
     return user.getIdToken();
@@ -58,6 +65,28 @@ export default function AdminPage() {
       if (affRes.ok) { const d = await affRes.json(); setAffiliates(d.applications || []); }
     } catch (err) { console.error("Fetch error:", err); }
   }, [getToken]);
+
+  const runAddCommission = useCallback(async () => {
+    const emails = commEmails.split(/[\s,]+/).map(e => e.trim()).filter(Boolean);
+    if (emails.length === 0) { setCommResult("Enter at least one email"); return; }
+    if (!confirm(`Add commission for ${emails.length} referral(s) to ${commRefCode}?`)) return;
+    setCommBusy(true); setCommResult("");
+    try {
+      const token = await getToken();
+      const res = await fetch("/api/admin/add-commission", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ ref_code: commRefCode, tier: commTier, payment_amount: parseFloat(commAmount), referred_emails: emails }),
+      });
+      const d = await res.json();
+      if (res.ok) {
+        setCommResult(`✅ ${d.affiliate}: added ${d.added_count} (£${d.per_commission} each = £${d.total_added}). Skipped ${d.skipped_count} duplicate(s).`);
+      } else {
+        setCommResult(`❌ ${d.error || "Failed"}`);
+      }
+    } catch (e) { setCommResult(`❌ ${String(e)}`); }
+    setCommBusy(false);
+  }, [getToken, commRefCode, commEmails, commTier, commAmount]);
 
   const runReconcile = useCallback(async () => {
     if (!confirm("Check every paid user against Stripe and reconnect active subscriptions?\n\nThis NEVER removes access — it only reconnects real Stripe payers and reports the rest.")) return;
@@ -578,6 +607,23 @@ export default function AdminPage() {
             <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
               <div className="p-4 border-b border-[#3d3580]/30">
                 <h3 className="text-white font-bold">Affiliate Applications ({affiliates.length})</h3>
+              </div>
+              <div className="bg-[#1E1B4B]/40 border border-[#3d3580] rounded-xl p-4 mb-4">
+                <h3 className="text-white font-bold mb-3">➕ Add Manual Commission</h3>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <input value={commRefCode} onChange={e => setCommRefCode(e.target.value)} placeholder="Ref code" className="px-3 py-2 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm" />
+                  <select value={commTier} onChange={e => setCommTier(e.target.value)} className="px-3 py-2 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm">
+                    <option value="starter">Starter</option>
+                    <option value="growth">Growth</option>
+                    <option value="empire">Empire</option>
+                  </select>
+                </div>
+                <input value={commAmount} onChange={e => setCommAmount(e.target.value)} placeholder="Payment amount (e.g. 59.99)" className="w-full px-3 py-2 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm mb-3" />
+                <textarea value={commEmails} onChange={e => setCommEmails(e.target.value)} placeholder="Referred emails (one per line or comma separated)" rows={4} className="w-full px-3 py-2 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm mb-3" />
+                <button onClick={runAddCommission} disabled={commBusy} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#F59E0B] text-[#1E1B4B] hover:opacity-90 disabled:opacity-50">
+                  {commBusy ? "Adding..." : "Add Commission"}
+                </button>
+                {commResult && <p className="text-sm text-[#c4c0e0] mt-3">{commResult}</p>}
                 <p className="text-xs text-[#6b6899]">Pending: {affiliates.filter(a => a.status === "pending").length} | Approved: {affiliates.filter(a => a.status === "approved").length}</p>
               </div>
               <div className="overflow-x-auto">
