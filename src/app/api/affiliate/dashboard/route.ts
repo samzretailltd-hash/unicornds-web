@@ -9,19 +9,21 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "No token" }, { status: 401 });
     const token = authHeader.split("Bearer ")[1];
     const decoded = await adminAuth.verifyIdToken(token);
+    const myEmail = (decoded.email || "").trim().toLowerCase();
 
-    // Find affiliate by email
-    const affSnap = await adminDb.collection("affiliate_applications")
-      .where("email", "==", decoded.email)
+    // Find approved affiliate by email (case-insensitive)
+    let affDoc = null;
+    const approvedSnap = await adminDb.collection("affiliate_applications")
       .where("status", "==", "approved")
-      .limit(1)
       .get();
-
-    if (affSnap.empty) {
-      return NextResponse.json({ error: "Not an approved affiliate", approved: false }, { status: 403 });
+    for (const d of approvedSnap.docs) {
+      const e = (d.data().email || "").trim().toLowerCase();
+      if (e === myEmail) { affDoc = d; break; }
     }
 
-    const affDoc = affSnap.docs[0];
+    if (!affDoc) {
+      return NextResponse.json({ error: "Not an approved affiliate", approved: false }, { status: 403 });
+    }
     const affData = affDoc.data() as any;
     const affiliate = { id: affDoc.id, ...affData };
     const refCode = affData.ref_code || "";
@@ -117,19 +119,21 @@ export async function POST(req: NextRequest) {
     const decoded = await adminAuth.verifyIdToken(token);
 
     const { action, bank_name, account_name, sort_code, account_number, iban } = await req.json();
+    const myEmail2 = (decoded.email || "").trim().toLowerCase();
 
-    // Find affiliate
-    const affSnap = await adminDb.collection("affiliate_applications")
-      .where("email", "==", decoded.email)
+    // Find approved affiliate by email (case-insensitive)
+    let affDoc = null;
+    const approvedSnap2 = await adminDb.collection("affiliate_applications")
       .where("status", "==", "approved")
-      .limit(1)
       .get();
-
-    if (affSnap.empty) {
-      return NextResponse.json({ error: "Not an approved affiliate" }, { status: 403 });
+    for (const d of approvedSnap2.docs) {
+      const e = (d.data().email || "").trim().toLowerCase();
+      if (e === myEmail2) { affDoc = d; break; }
     }
 
-    const affDoc = affSnap.docs[0];
+    if (!affDoc) {
+      return NextResponse.json({ error: "Not an approved affiliate" }, { status: 403 });
+    }
     const affData = affDoc.data() as any;
 
     if (action === "save_bank") {
