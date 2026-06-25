@@ -53,10 +53,18 @@ export async function POST(req: NextRequest) {
         || null;
       const periodEnd = periodEndUnix ? new Date(periodEndUnix * 1000).toISOString() : null;
 
+      const TRIAL_TOKENS: Record<string, number> = { starter: 25, growth: 50, empire: 100 };
+      const FULL_TOKENS: Record<string, number> = { starter: 500, growth: 1500, empire: 3000 };
+      const reconTier = tierInfo?.tier || tier;
+      const reconTokens = live.status === "trialing"
+        ? (TRIAL_TOKENS[reconTier] || 25)
+        : (FULL_TOKENS[reconTier] || 500);
+
       await adminDb.collection("users").doc(doc.id).set({
         stripe_subscription_id: live.id,
         status: live.status === "trialing" ? "trialing" : "active",
-        tier: tierInfo?.tier || tier,
+        tier: reconTier,
+        tokensTotal: reconTokens,
         billing_period_end: periodEnd,
         reconciled_at: new Date().toISOString(),
         reconciled_by: admin.email,

@@ -56,7 +56,8 @@ export async function POST(req: NextRequest) {
         const tierInfo = priceId ? PRICE_TO_TIER[priceId] : null;
         const tier = tierInfo?.tier || session.metadata?.tier || "starter";
         const isTrialing = sub.status === "trialing";
-        const checkoutMode = session.metadata?.mode || (isTrialing ? "trial" : "full");
+        // Trust Stripe's real state: if the subscription is trialing, it's a trial (metadata.mode can be missing/wrong on yearly).
+        const checkoutMode = isTrialing ? "trial" : "full";
 
         // Trial mode: limited listings. Full mode: full listings.
         const TRIAL_TOKENS: Record<string, number> = { starter: 25, growth: 50, empire: 100 };
