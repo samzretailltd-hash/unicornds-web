@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No token" }, { status: 401 });
     const token = authHeader.split("Bearer ")[1];
     const decoded = await adminAuth.verifyIdToken(token);
-    const admin = verifyAdmin(decoded.email || "");
+    const admin = await verifyAdmin(authHeader);
     if (!admin) return NextResponse.json({ error: "Not admin" }, { status: 403 });
 
     const { payout_id, action, reference } = await req.json();

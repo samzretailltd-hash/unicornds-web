@@ -151,6 +151,16 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "request_payout") {
+      // Prevent duplicate payout requests (avoid double-pay)
+      const existingPending = await adminDb.collection("affiliate_payouts")
+        .where("affiliate_id", "==", affDoc.id)
+        .where("status", "==", "pending")
+        .limit(1)
+        .get();
+      if (!existingPending.empty) {
+        return NextResponse.json({ error: "You already have a pending payout request being processed." }, { status: 400 });
+      }
+
       // Check minimum payout (£25)
       const commissionsSnap = await adminDb.collection("affiliate_commissions")
         .where("affiliate_id", "==", affDoc.id)

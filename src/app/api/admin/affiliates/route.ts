@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
     const { id, status, refCode } = await req.json();
     if (!id || !["approved","rejected"].includes(status)) return NextResponse.json({ error: "Invalid" }, { status: 400 });
     const update: Record<string, unknown> = { status, reviewed_by: admin.email, reviewed_at: new Date().toISOString() };
+    if (status === "approved") update.approved_at = new Date().toISOString();
     if (refCode) update.ref_code = refCode;
     await adminDb.collection("affiliate_applications").doc(id).update(update);
     return NextResponse.json({ ok: true });
