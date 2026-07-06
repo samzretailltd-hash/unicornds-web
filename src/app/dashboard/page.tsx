@@ -98,8 +98,8 @@ export default function DashboardPage() {
           return;
         }
 
-        // Gate 4: Must book setup call (new users only)
-        if (!profileData.call_booked && userCreatedAt >= CALL_REQUIRED_AFTER) {
+        // Gate 4: Must book setup call (new users only, skip if already paid)
+        if (!profileData.call_booked && userCreatedAt >= CALL_REQUIRED_AFTER && tier !== "starter" && tier !== "growth" && tier !== "empire") {
           router.push("/book-call");
           return;
         }
