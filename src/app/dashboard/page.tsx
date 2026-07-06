@@ -69,7 +69,8 @@ export default function DashboardPage() {
       // SECURITY GATES — must pass ALL checks in order
       // ═══════════════════════════════════════════════
 
-      // Gate 1: Email must be verified
+      // Gate 1: Email must be verified (reload to pick up admin changes)
+      await u.reload();
       if (!u.emailVerified) {
         router.push("/verify-email");
         return;
