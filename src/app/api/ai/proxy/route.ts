@@ -3,12 +3,25 @@ import { adminAuth } from "@/lib/firebase-admin";
 
 const OPENAI_KEY = process.env.OPENAI_API_KEY || "";
 
+
+// Handle CORS preflight
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     // Verify request has a valid auth token (try Firebase, fall back to accepting any Bearer token)
     const authHeader = req.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer "))
-      return NextResponse.json({ error: "No token" }, { status: 401 });
+      return NextResponse.json({ error: "No token" }, { status: 401, headers: { "Access-Control-Allow-Origin": "*" } });
     const token = authHeader.split("Bearer ")[1];
     try {
       await adminAuth.verifyIdToken(token);
@@ -66,7 +79,7 @@ export async function POST(req: NextRequest) {
     const result = data.choices?.[0]?.message?.content || "";
 
     // Return in the same format the extension expects: { result: { result: "..." } }
-    return NextResponse.json({ result: { result } });
+    return NextResponse.json({ result: { result } }, { headers: { "Access-Control-Allow-Origin": "*" } });
   } catch (err) {
     console.error("[AI Proxy] Error:", err);
     return NextResponse.json({ error: String(err) }, { status: 500 });
