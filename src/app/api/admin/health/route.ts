@@ -3,7 +3,7 @@ import { adminAuth, adminDb } from "@/lib/firebase-admin";
 import { existsSync, statSync } from "fs";
 import { join } from "path";
 
-const CF_BASE = "https://us-central1-unicorn-ds-7f831.cloudfunctions.net";
+const CF_BASE = "https://www.unicornds.io";
 const BREVO_KEY = process.env.BREVO_KEY || "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";
 
 const ADMIN_EMAILS = ["1stunicorndistribution@gmail.com", "zohaib219@gmail.com"];
@@ -76,7 +76,7 @@ export async function GET(req: NextRequest) {
   // 2. FIREBASE CLOUD FUNCTIONS — ping versionCheck
   try {
     const t0 = Date.now();
-    const res = await fetch(`${CF_BASE}/versionCheck`, {
+    const res = await fetch(`${CF_BASE}/api/version`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ data: {} }),
@@ -84,13 +84,13 @@ export async function GET(req: NextRequest) {
     const json = await res.json();
     const version = json.result?.latestVersion || json.latestVersion || "unknown";
     checks.push({
-      name: "Firebase Functions",
+      name: "Server API",
       status: res.ok ? "ok" : "error",
       message: res.ok ? `Running — latest version: ${version}` : `HTTP ${res.status}`,
       latency: Date.now() - t0,
     });
   } catch (e: any) {
-    checks.push({ name: "Firebase Functions", status: "error", message: e.message });
+    checks.push({ name: "Server API", status: "error", message: e.message });
   }
 
   // 3. BREVO EMAIL — check account
