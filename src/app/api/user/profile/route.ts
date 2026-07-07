@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
 
     const data = doc.data()!;
     return NextResponse.json({
+      ...data,
       phone: data.phone || "",
       phone_verified: data.phone_verified || false,
       call_booked: data.call_booked || false,
@@ -25,6 +26,13 @@ export async function GET(req: NextRequest) {
       tier: data.tier || "free",
       status: data.status || "active",
       created_at: data.created_at || "",
+      tokensUsed: data.tokensUsed || 0,
+      tokensTotal: data.tokensTotal || 0,
+      card_verified: data.card_verified || false,
+      stripe_subscription_id: data.stripe_subscription_id || "",
+      stripe_customer_id: data.stripe_customer_id || "",
+      billing_period_end: data.billing_period_end || null,
+      trial_used: data.trial_used || false,
     });
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 });

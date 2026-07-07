@@ -53,10 +53,8 @@ export default function DashboardPage() {
   const fetchProfile = useCallback(async (u: User) => {
     try {
       const token = await u.getIdToken();
-      const res = await fetch(`${CF_BASE}/getUserProfile`, {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ data: {} }),
+      const res = await fetch("/api/user/profile", {
+        headers: { "Authorization": `Bearer ${token}` },
       });
       if (!res.ok) { setProfileError("Could not load profile"); return; }
 
