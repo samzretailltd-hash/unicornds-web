@@ -8,7 +8,8 @@ import { SITE, PLANS } from "@/lib/constants";
 import { ChangelogWidget } from "@/components/ChangelogWidget";
 import TelegramCTA from "@/components/TelegramCTA";
 
-const CF_BASE = "https://us-central1-unicorn-ds-7f831.cloudfunctions.net";
+// const CF_BASE - REMOVED: now using same-origin Vercel API (no CORS, London region)
+const CF_BASE = "";
 
 // Canonical tier configs — dashboard uses these, NOT stale Firestore data
 const TIER_CONFIG: Record<string, { name: string; color: string; listings: number; hunter: number; scanner: number; stock: number; bulk: number; ai: boolean; image: boolean; tracker: boolean }> = {
@@ -53,7 +54,7 @@ export default function DashboardPage() {
   const fetchProfile = useCallback(async (u: User) => {
     try {
       const token = await u.getIdToken();
-      const res = await fetch(`${CF_BASE}/getUserProfile`, {
+      const res = await fetch(`/api/user/profile`, {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ data: {} }),
