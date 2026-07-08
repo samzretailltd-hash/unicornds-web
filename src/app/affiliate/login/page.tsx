@@ -1,70 +1,42 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
-import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function AffiliateLoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+const C = { navy: "#1E1B4B", purple: "#7C3AED", gold: "#F59E0B", bg: "#0F0D2E", card: "#242150", text: "#EEECFB", sub: "#A9A4D6", border: "#39356B" };
+const inputStyle: React.CSSProperties = { width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${C.border}`, background: "#1A1740", color: C.text, fontSize: 15, marginBottom: 14, boxSizing: "border-box" };
+
+export default function Login() {
   const router = useRouter();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    setError("");
-    if (!email || !password) { setError("Please enter your email and password."); return; }
-    setLoading(true);
+  async function submit() {
+    setErr(""); setLoading(true);
     try {
-      const check = await fetch("/api/affiliate/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const result = await check.json();
-      if (!result.approved) {
-        setError("This email is not an approved affiliate. If you are a customer, please use the normal login.");
-        setLoading(false);
-        return;
-      }
-      await signInWithEmailAndPassword(auth, email, password);
+      const r = await fetch("/api/affiliate/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+      const d = await r.json();
+      if (!r.ok) { setErr(d.error || "Login failed."); setLoading(false); return; }
       router.push("/affiliate/dashboard");
-    } catch (e: unknown) {
-      const err = e as { code?: string };
-      if (err.code === "auth/invalid-credential" || err.code === "auth/wrong-password" || err.code === "auth/user-not-found") {
-        setError("Wrong email or password. If you have not set up your login yet, use Set up login below.");
-      } else {
-        setError("Login failed. Please try again.");
-      }
-      setLoading(false);
-    }
-  };
+    } catch { setErr("Network error."); setLoading(false); }
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-20 px-4 bg-[#0f0e1a]">
-      <div className="w-full max-w-md bg-[#1E1B4B]/50 border border-[#3d3580] rounded-2xl p-8">
-        <h1 className="text-2xl font-extrabold text-white text-center mb-1">Affiliate Login</h1>
-        <p className="text-sm text-[#a5a0cc] text-center mb-6">Sign in to see your referrals and earnings.</p>
-        <label className="block text-sm text-[#a5a0cc] mb-1">Email</label>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-          className="w-full px-3 py-2 mb-4 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm" />
-        <label className="block text-sm text-[#a5a0cc] mb-1">Password</label>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-          onKeyDown={e => { if (e.key === "Enter") handleLogin(); }}
-          className="w-full px-3 py-2 mb-4 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm" />
-        {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
-        <button onClick={handleLogin} disabled={loading}
-          className="w-full py-3 rounded-lg font-bold bg-[#7C3AED] hover:bg-[#6D28D9] text-white disabled:opacity-50">
-          {loading ? "Signing in..." : "Sign In to Affiliate Dashboard"}
+    <main style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "system-ui, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+      <div style={{ width: "100%", maxWidth: 420, background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 32 }}>
+        <h1 style={{ fontSize: 26, fontWeight: 800, margin: "0 0 24px" }}>Affiliate login</h1>
+        {err && <div style={{ background: "rgba(239,68,68,0.15)", color: "#FCA5A5", padding: "10px 14px", borderRadius: 8, marginBottom: 16, fontSize: 14 }}>{err}</div>}
+        <input style={inputStyle} placeholder="Email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+        <input style={inputStyle} placeholder="Password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onKeyDown={(e) => e.key === "Enter" && submit()} />
+        <button onClick={submit} disabled={loading} style={{ width: "100%", padding: "13px", borderRadius: 10, border: "none", background: C.gold, color: C.navy, fontWeight: 700, fontSize: 16, cursor: "pointer", opacity: loading ? 0.6 : 1 }}>
+          {loading ? "Logging in..." : "Log in"}
         </button>
-        <p className="text-sm text-[#a5a0cc] text-center mt-4">
-          First time? <Link href="/affiliate/signup" className="text-[#A78BFA] hover:text-white">Set up your login</Link>
-        </p>
-        <p className="text-xs text-[#6b6899] text-center mt-2">
-          Not an affiliate yet? <Link href="/affiliate" className="text-[#A78BFA] hover:text-white">Apply here</Link>
+        <p style={{ textAlign: "center", color: C.sub, fontSize: 14, marginTop: 18 }}>
+          No account? <Link href="/affiliate/signup" style={{ color: C.gold }}>Sign up</Link>
         </p>
       </div>
-    </div>
+    </main>
   );
 }

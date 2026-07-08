@@ -1,96 +1,65 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useRouter } from "next/navigation";
 
-export default function AffiliateSignupPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [error, setError] = useState("");
+const C = { navy: "#1E1B4B", purple: "#7C3AED", gold: "#F59E0B", bg: "#0F0D2E", card: "#242150", text: "#EEECFB", sub: "#A9A4D6", border: "#39356B" };
+const inputStyle: React.CSSProperties = { width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${C.border}`, background: "#1A1740", color: C.text, fontSize: 15, marginBottom: 14, boxSizing: "border-box" };
+
+function ApplyForm() {
+  const [form, setForm] = useState({ name: "", email: "", password: "", paypalEmail: "", website: "", audience: "" });
+  const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const [done, setDone] = useState(false);
+  const set = (k: string) => (e: any) => setForm({ ...form, [k]: e.target.value });
 
-  const handleSubmit = async () => {
-    setError("");
-    if (!name || !email || !password) { setError("Please fill in all fields."); return; }
-    if (password.length < 6) { setError("Password must be at least 6 characters."); return; }
-    if (password !== confirm) { setError("Passwords do not match."); return; }
-
-    setLoading(true);
+  async function submit() {
+    setErr(""); setLoading(true);
     try {
-      // 1) Check this email is an approved affiliate
-      const check = await fetch("/api/affiliate/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const result = await check.json();
+      const r = await fetch("/api/affiliate/signup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+      const d = await r.json();
+      if (!r.ok) { setErr(d.error || "Application failed."); setLoading(false); return; }
+      setDone(true);
+    } catch { setErr("Network error."); setLoading(false); }
+  }
 
-      if (!result.approved) {
-        setError("This email is not an approved affiliate. Please apply at /affiliate first, or wait for approval.");
-        setLoading(false);
-        return;
-      }
-
-      // 2) Create the login account (no phone verification, no plan, no purchase)
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(cred.user, { displayName: name });
-
-      // 3) Straight to the affiliate dashboard
-      router.push("/affiliate/dashboard");
-    } catch (e: unknown) {
-      const err = e as { code?: string; message?: string };
-      if (err.code === "auth/email-already-in-use") {
-        setError("An account with this email already exists. Please log in instead.");
-      } else {
-        setError(err.message || "Signup failed. Please try again.");
-      }
-      setLoading(false);
-    }
-  };
+  if (done) {
+    return (
+      <div style={{ width: "100%", maxWidth: 440, background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 32, textAlign: "center" }}>
+        <div style={{ fontSize: 44, marginBottom: 12 }}>🦄</div>
+        <h1 style={{ fontSize: 24, fontWeight: 800, margin: "0 0 10px" }}>Application received</h1>
+        <p style={{ color: C.sub, fontSize: 15, lineHeight: 1.5 }}>Thanks for applying to the UnicornDS affiliate program. We review every application. If you qualify, we'll approve your account and email you so you can log in and get your referral link.</p>
+        <Link href="/" style={{ display: "inline-block", marginTop: 20, color: C.gold, fontWeight: 600 }}>Back to homepage</Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-20 px-4 bg-[#0f0e1a]">
-      <div className="w-full max-w-md bg-[#1E1B4B]/50 border border-[#3d3580] rounded-2xl p-8">
-        <h1 className="text-2xl font-extrabold text-white text-center mb-1">Affiliate Sign Up</h1>
-        <p className="text-sm text-[#a5a0cc] text-center mb-6">
-          Set up your login to access your affiliate dashboard.
-        </p>
-
-        <label className="block text-sm text-[#a5a0cc] mb-1">Full Name</label>
-        <input value={name} onChange={e => setName(e.target.value)}
-          className="w-full px-3 py-2 mb-4 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm" />
-
-        <label className="block text-sm text-[#a5a0cc] mb-1">Email (the one you applied with)</label>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-          className="w-full px-3 py-2 mb-4 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm" />
-
-        <label className="block text-sm text-[#a5a0cc] mb-1">Password</label>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-          className="w-full px-3 py-2 mb-4 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm" />
-
-        <label className="block text-sm text-[#a5a0cc] mb-1">Confirm Password</label>
-        <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)}
-          className="w-full px-3 py-2 mb-4 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm" />
-
-        {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
-
-        <button onClick={handleSubmit} disabled={loading}
-          className="w-full py-3 rounded-lg font-bold bg-[#7C3AED] hover:bg-[#6D28D9] text-white disabled:opacity-50">
-          {loading ? "Setting up..." : "Create Affiliate Login"}
-        </button>
-
-        <p className="text-sm text-[#a5a0cc] text-center mt-4">
-          Already have a login? <Link href="/login" className="text-[#A78BFA] hover:text-white">Log in</Link>
-        </p>
-        <p className="text-xs text-[#6b6899] text-center mt-2">
-          Not an affiliate yet? <Link href="/affiliate" className="text-[#A78BFA] hover:text-white">Apply here</Link>
-        </p>
-      </div>
+    <div style={{ width: "100%", maxWidth: 460, background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 32 }}>
+      <h1 style={{ fontSize: 26, fontWeight: 800, margin: "0 0 6px" }}>Apply to become an affiliate</h1>
+      <p style={{ color: C.sub, margin: "0 0 24px", fontSize: 14 }}>We review each application. Approved partners earn recurring commission.</p>
+      {err && <div style={{ background: "rgba(239,68,68,0.15)", color: "#FCA5A5", padding: "10px 14px", borderRadius: 8, marginBottom: 16, fontSize: 14 }}>{err}</div>}
+      <input style={inputStyle} placeholder="Full name" value={form.name} onChange={set("name")} />
+      <input style={inputStyle} placeholder="Email" type="email" value={form.email} onChange={set("email")} />
+      <input style={inputStyle} placeholder="Password (min 6 characters)" type="password" value={form.password} onChange={set("password")} />
+      <input style={inputStyle} placeholder="Website / YouTube / social link" value={form.website} onChange={set("website")} />
+      <input style={inputStyle} placeholder="Your audience (e.g. 5k eBay sellers on YouTube)" value={form.audience} onChange={set("audience")} />
+      <input style={inputStyle} placeholder="PayPal email (for payouts) — optional" type="email" value={form.paypalEmail} onChange={set("paypalEmail")} />
+      <button onClick={submit} disabled={loading} style={{ width: "100%", padding: "13px", borderRadius: 10, border: "none", background: C.gold, color: C.navy, fontWeight: 700, fontSize: 16, cursor: "pointer", opacity: loading ? 0.6 : 1 }}>
+        {loading ? "Submitting..." : "Submit application"}
+      </button>
+      <p style={{ textAlign: "center", color: C.sub, fontSize: 14, marginTop: 18 }}>
+        Already approved? <Link href="/affiliate/login" style={{ color: C.gold }}>Log in</Link>
+      </p>
     </div>
+  );
+}
+
+export default function Signup() {
+  return (
+    <main style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: "system-ui, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+      <Suspense fallback={<div style={{ color: C.sub }}>Loading...</div>}>
+        <ApplyForm />
+      </Suspense>
+    </main>
   );
 }

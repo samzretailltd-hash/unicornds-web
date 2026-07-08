@@ -1,6 +1,16 @@
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
+let _stripe: Stripe | null = null;
+export const stripe = new Proxy({} as Stripe, {
+  get(_t, prop) {
+    if (!_stripe) {
+      const key = process.env.STRIPE_SECRET_KEY;
+      if (!key) throw new Error("STRIPE_SECRET_KEY is not set");
+      _stripe = new Stripe(key, {});
+    }
+    return (_stripe as any)[prop];
+  },
+});
 
 // Price ID → tier mapping
 export const PRICE_TO_TIER: Record<string, { tier: string; period: string; tokensTotal: number }> = {

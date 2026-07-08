@@ -13,6 +13,7 @@ const TRIAL_FEES: Record<string, { priceId: string; amount: number; listings: nu
 export async function POST(req: NextRequest) {
   try {
     const { token, tier, period, mode } = await req.json();
+    const affiliateCode = req.cookies.get("aff_ref")?.value || "";
 
     if (!token) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     const decoded = await adminAuth.verifyIdToken(token);
@@ -116,6 +117,7 @@ export async function POST(req: NextRequest) {
         trial_period_days: trialAllowed ? 7 : undefined,
         metadata: {
           firebase_uid: decoded.uid,
+          affiliate_code: affiliateCode,
           tier,
           period: period || "monthly",
           mode: trialAllowed ? "trial" : "full",
@@ -124,6 +126,7 @@ export async function POST(req: NextRequest) {
       },
       metadata: {
         firebase_uid: decoded.uid,
+          affiliate_code: affiliateCode,
         tier,
         period: period || "monthly",
         mode: trialAllowed ? "trial" : "full",

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { stripe, PRICE_TO_TIER } from "@/lib/stripe";
+import { recordAffiliateCommission } from "@/lib/affiliateCommission";
 import { sendWelcomeEmail, sendAdminNewPayment, sendAdminCancellation, sendAdminPaymentFailed, sendTelegram } from "@/lib/brevo";
 
 export async function POST(req: NextRequest) {
@@ -116,51 +117,14 @@ export async function POST(req: NextRequest) {
         }).catch(() => {});
         sendTelegram(`${isTrialing ? "🎯" : "💰"} <b>${isTrialing ? "New Trial!" : "New Payment!"}</b>\n📧 ${custEmail}\n📋 ${tier.toUpperCase()} (${tierInfo?.period || "monthly"})\n💷 ${isTrialing ? "£0 (7-day £1 trial)" : "£" + ((session.amount_total || 0) / 100).toFixed(2)}`).catch(() => {});
 
-        // AFFILIATE COMMISSION: 30% one-time on first payment
+        // AFFILIATE COMMISSION (new system: fixed per plan, recurring). Onboarding, real payments only.
         try {
-          const userDoc = await adminDb.collection("users").doc(uid).get();
-          const refCode = userDoc.data()?.ref;
-          if (refCode && !userDoc.data()?.affiliate_commission_paid) {
-            // Find the affiliate
-            const affSnap = await adminDb.collection("affiliate_applications")
-              .where("ref_code", "==", refCode)
-              .where("status", "==", "approved")
-              .limit(1)
-              .get();
-
-            if (!affSnap.empty) {
-              const affDoc = affSnap.docs[0];
-              const paymentAmount = (session.amount_total || 0) / 100;
-              // Exclude £1 trial fee — commission on subscription price only
-              const subscriptionAmount = paymentAmount > 1 ? paymentAmount - 1 : paymentAmount;
-              const commission = Math.round(subscriptionAmount * 0.30 * 100) / 100;
-
-              if (commission > 0) {
-                await adminDb.collection("affiliate_commissions").add({
-                  affiliate_id: affDoc.id,
-                  affiliate_email: affDoc.data().email,
-                  affiliate_name: affDoc.data().name,
-                  referred_uid: uid,
-                  referred_email: custEmail,
-                  referred_tier: tier,
-                  payment_amount: subscriptionAmount,
-                  commission_rate: 0.30,
-                  amount: commission,
-                  paid: false,
-                  created_at: new Date().toISOString(),
-                });
-
-                // Mark user so we don't double-pay
-                await adminDb.collection("users").doc(uid).set({
-                  affiliate_commission_paid: true,
-                  affiliate_ref: refCode,
-                }, { merge: true });
-
-                sendTelegram(
-                  `🤝 <b>Affiliate Commission!</b>\n👤 Affiliate: ${affDoc.data().name} (${affDoc.data().email})\n📧 Referred: ${custEmail}\n📋 ${tier.toUpperCase()}\n💷 Commission: £${commission.toFixed(2)} (30% of £${subscriptionAmount.toFixed(2)})`
-                ).catch(() => {});
-              }
-            }
+          const affCode = (sub.metadata && sub.metadata.affiliate_code) || (session.metadata && session.metadata.affiliate_code) || "";
+          if (!isTrialing && affCode) {
+            const r = await recordAffiliateCommission({ code: affCode, plan: tier, orderId: session.id, customerEmail: custEmail, amount: (session.amount_total || 0) / 100 });
+            if (r.ok && r.commission) {
+              sendTelegram(`🤝 <b>Affiliate Commission!</b>\n📧 ${custEmail}\n📋 ${tier.toUpperCase()}\n💷 £${r.commission.toFixed(2)} → code ${affCode}`).catch(() => {});
+            } else if (!r.ok) { console.log("[Affiliate] skipped:", r.reason); }
           }
         } catch (e) { console.error("[Affiliate] Commission error:", e); }
 
@@ -290,6 +254,14 @@ export async function POST(req: NextRequest) {
           received_at: new Date().toISOString(),
         });
 
+        // recurring commission on renewal (new affiliate system)
+        try {
+          const affCodeR = sub.metadata && sub.metadata.affiliate_code;
+          if (affCodeR) {
+            const rc = await recordAffiliateCommission({ code: affCodeR, plan: (tierInfo && tierInfo.tier) || (sub.metadata && sub.metadata.tier) || "starter", orderId: invoice.id, customerEmail: (invoice as any).customer_email, amount: ((invoice as any).amount_paid || 0) / 100 });
+            if (rc.ok && rc.commission) { sendTelegram(`🔄🤝 <b>Recurring commission!</b>\n💷 £${rc.commission.toFixed(2)} → code ${affCodeR}`).catch(() => {}); }
+          }
+        } catch (e) { console.error("[Affiliate] Renewal commission error:", e); }
         console.log("[Stripe] Renewal:", uid, "-> credits reset, £" + (((invoice as any).amount_paid || 0) / 100));
         // Notify admin
         const renewedUser = await adminDb.collection("users").doc(uid).get();
