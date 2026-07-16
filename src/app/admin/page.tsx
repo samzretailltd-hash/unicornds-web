@@ -16,7 +16,12 @@ export default function AdminPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
-  const [tab, setTab] = useState<"overview" | "users" | "payments" | "affiliates" | "settings" | "health">("overview");
+  const [tab, setTab] = useState<"overview" | "users" | "payments" | "affiliates" | "support" | "settings" | "health">("overview");
+  const [ticketsData, setTicketsData] = useState<any>({ tickets: [], counts: {} });
+  const [openTicket, setOpenTicket] = useState<any>(null);
+  const [ticketMsgs, setTicketMsgs] = useState<any[]>([]);
+  const [adminReply, setAdminReply] = useState("");
+  const [ticketFilter, setTicketFilter] = useState("open");
   const [role, setRole] = useState<"owner" | "support">("support");
   const [stats, setStats] = useState<Stats | null>(null);
   const [users, setUsers] = useState<UserData[]>([]);
@@ -180,6 +185,42 @@ export default function AdminPage() {
     fetchData();
   };
 
+  const loadTickets = useCallback(async (status = "open") => {
+    const token = await getToken();
+    if (!token) return;
+    try {
+      const r = await fetch(`/api/admin/tickets?status=${status}`, { headers: { Authorization: `Bearer ${token}` } });
+      if (r.ok) setTicketsData(await r.json());
+    } catch (e) { console.error("loadTickets", e); }
+  }, [getToken]);
+
+  const viewTicket = async (id: string) => {
+    const token = await getToken();
+    const r = await fetch(`/api/admin/tickets?id=${id}`, { headers: { Authorization: `Bearer ${token}` } });
+    if (r.ok) { const d = await r.json(); setOpenTicket(d.ticket); setTicketMsgs(d.messages || []); }
+  };
+
+  const sendAdminReply = async () => {
+    if (!adminReply.trim() || !openTicket) return;
+    const token = await getToken();
+    const r = await fetch("/api/admin/tickets", {
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id: openTicket.id, message: adminReply }),
+    });
+    if (r.ok) { setAdminReply(""); viewTicket(openTicket.id); loadTickets(ticketFilter); }
+    else alert("Could not send reply");
+  };
+
+  const setTicketStatus = async (id: string, status: string) => {
+    const token = await getToken();
+    await fetch("/api/admin/tickets", {
+      method: "PATCH", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id, status }),
+    });
+    loadTickets(ticketFilter);
+    if (openTicket?.id === id) viewTicket(id);
+  };
+
   const saveSettings = async () => {
     setSaving(true);
     const token = await getToken();
@@ -236,8 +277,8 @@ export default function AdminPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 mb-8 bg-[#1E1B4B]/30 rounded-lg p-1 w-fit">
-          {(["overview", "users", "payments", "affiliates", "settings", "health"] as const).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+          {(["overview", "users", "payments", "affiliates", "support", "settings", "health"] as const).map(t => (
+            <button key={t} onClick={() => { setTab(t); if (t === "support") { setOpenTicket(null); loadTickets(ticketFilter); } }}
               className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${tab === t ? "bg-[#7C3AED] text-white" : "text-[#a5a0cc] hover:text-white"}`}>
               {t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
@@ -597,6 +638,81 @@ export default function AdminPage() {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+
+        {/* Support Tab */}
+        {tab === "support" && (
+          <div>
+            {!openTicket && (
+              <>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {["open", "pending", "resolved", "closed", "all"].map(f => (
+                    <button key={f} onClick={() => { setTicketFilter(f); loadTickets(f); }}
+                      className={`px-4 py-1.5 rounded-lg text-sm font-medium ${ticketFilter === f ? "bg-[#7C3AED] text-white" : "bg-[#1E1B4B]/50 text-[#a5a0cc] hover:text-white"}`}>
+                      {f.charAt(0).toUpperCase() + f.slice(1)}
+                      {ticketsData.counts?.[f] != null && <span className="ml-2 opacity-70">{ticketsData.counts[f]}</span>}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {(ticketsData.tickets || []).length === 0 && (
+                    <div className="text-center py-12 text-[#6b6899] border border-dashed border-[#3d3580] rounded-xl">No {ticketFilter} tickets.</div>
+                  )}
+                  {(ticketsData.tickets || []).map((t: any) => (
+                    <button key={t.id} onClick={() => viewTicket(t.id)}
+                      className="w-full text-left bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-4 hover:border-[#7C3AED] transition">
+                      <div className="flex justify-between items-start gap-3">
+                        <div className="min-w-0">
+                          <div className="font-semibold text-white truncate">
+                            {t.unreadForAdmin && <span className="mr-2 text-xs bg-[#F59E0B] text-[#1E1B4B] px-2 py-0.5 rounded-full font-bold">NEW</span>}
+                            {t.subject}
+                          </div>
+                          <div className="text-xs text-[#6b6899] mt-1">
+                            {t.email} · {t.tier} · {t.category} · {t.messageCount} msg · {new Date(t.updatedAt).toLocaleString("en-GB")}
+                          </div>
+                        </div>
+                        <div className="flex gap-2 items-center whitespace-nowrap">
+                          {t.priority === "high" && <span className="text-xs font-bold text-red-400">HIGH</span>}
+                          <span className="text-xs font-bold px-2 py-1 rounded-full bg-[#7C3AED]/20 text-[#A78BFA]">{t.status}</span>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {openTicket && (
+              <div>
+                <div className="flex flex-wrap justify-between items-center gap-3 mb-4">
+                  <button onClick={() => { setOpenTicket(null); loadTickets(ticketFilter); }} className="text-sm text-[#a5a0cc] hover:text-white">← All tickets</button>
+                  <div className="flex gap-2">
+                    {["open", "pending", "resolved", "closed"].map(st => (
+                      <button key={st} onClick={() => setTicketStatus(openTicket.id, st)}
+                        className={`px-3 py-1 rounded-lg text-xs font-semibold ${openTicket.status === st ? "bg-[#7C3AED] text-white" : "bg-[#1E1B4B]/60 text-[#a5a0cc] hover:text-white"}`}>{st}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-[#1E1B4B]/40 border border-[#3d3580] rounded-xl p-4 mb-4">
+                  <h3 className="font-bold text-white">{openTicket.subject}</h3>
+                  <p className="text-xs text-[#6b6899] mt-1">{openTicket.name} ({openTicket.email}) · {openTicket.tier} · {openTicket.category}</p>
+                </div>
+                <div className="space-y-3 mb-4">
+                  {ticketMsgs.map((m: any) => (
+                    <div key={m.id} className={`rounded-xl p-4 border ${m.from === "admin" ? "bg-[#7C3AED]/10 border-[#7C3AED]/40" : "bg-[#1E1B4B]/50 border-[#3d3580]"}`}>
+                      <div className="text-xs text-[#6b6899] mb-1">{m.from === "admin" ? "🦄 " : "👤 "}{m.authorName} · {new Date(m.createdAt).toLocaleString("en-GB")}</div>
+                      <div className="text-sm text-white whitespace-pre-wrap">{m.body}</div>
+                    </div>
+                  ))}
+                </div>
+                <textarea value={adminReply} onChange={(e) => setAdminReply(e.target.value)} rows={4}
+                  placeholder="Reply to the customer…"
+                  className="w-full bg-[#0F0D2E] border border-[#3d3580] rounded-lg px-3 py-2 text-sm text-white mb-2" />
+                <button onClick={sendAdminReply} disabled={!adminReply.trim()}
+                  className="bg-[#F59E0B] text-[#1E1B4B] font-bold px-5 py-2 rounded-lg text-sm disabled:opacity-50">Send reply</button>
+              </div>
+            )}
           </div>
         )}
 
