@@ -24,6 +24,15 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  // ═════════════════ JULY 2026 ═════════════════
+  {
+    date: '2026-07-15',
+    version: 'v7.24.0',
+    category: 'fix',
+    title: 'US marketplace support, VERO false positives fixed & 5 new markets',
+    description: 'Selling on eBay US now works properly: prices, currency and Amazon links follow your Primary Market instead of defaulting to the UK, and £0 price errors on newer Amazon pages are fixed. VERO checking no longer blocks innocent products such as a Mac mini dock or a camera case, while still catching genuinely protected brands. Bulk listing now skips out-of-stock and low-stock items automatically on both Amazon and Walmart, and stock is detected in six languages. Added Netherlands, Ireland, Austria, Belgium and Switzerland, each with the correct currency, language, carrier and date format.',
+    area: 'extension',
+  },
   // ═══════════════════ JUNE 2026 ═══════════════════
   {
     date: '2026-06-21',
