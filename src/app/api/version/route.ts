@@ -5,14 +5,15 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json(
     {
-      version: "7.23.13",
-      released: "2026-06-21",
+      version: "7.24.0",
+      released: "2026-07-15",
       changelog: [
-        "EU/FR variations now list fully end-to-end — SKU, EAN, quantity, price and photos all filled correctly",
-        "EAN: now writes \"Does not apply\" per variation row so EU listings stop being rejected",
-        "Fixed item specifics defaulting to the wrong value (e.g. country showing \"Afghanistan\") — country now defaults to China where unknown",
-        "EU prices use the correct comma decimal (12,99 \u20AC) so they are no longer read as inflated amounts",
-        "Cleaner item specifics and AI descriptions; removed leftover code for a lighter extension",
+        "US marketplace fully supported — prices, currency and Amazon links now follow your Primary Market instead of defaulting to the UK",
+        "Fixed VERO false positives — products like 'Mac mini dock' or 'camera' are no longer wrongly blocked, while real protected brands still are",
+        "Fixed £0 price errors on newer Amazon product pages",
+        "Out-of-stock and low-stock products are now skipped automatically when bulk listing (Amazon + Walmart)",
+        "Stock detection now works in English, German, French, Spanish, Italian and Dutch",
+        "5 new markets added: Netherlands, Ireland, Austria, Belgium and Switzerland — each with correct currency, language and carrier",
       ],
       downloadUrl: "https://www.unicornds.io/download",
       critical: false,
