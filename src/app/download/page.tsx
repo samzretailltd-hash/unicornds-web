@@ -120,7 +120,7 @@ export default function DownloadPage() {
           className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold inline-flex items-center gap-2 disabled:opacity-50"
         >
           <span className="text-xl">{downloading ? "⏳" : "⬇️"}</span>
-          {downloading ? "Downloading..." : "Download UnicornDS v7.24.0"}
+          {downloading ? "Downloading..." : "Download UnicornDS v7.25.9"}
         </button>
       ),
     },
@@ -221,9 +221,9 @@ export default function DownloadPage() {
           ))}
         </div>
 
-        {/* What's new in v7.23 */}
+        {/* What's new in v7.25.9 */}
         <div className="mt-8 bg-gradient-to-r from-[#F59E0B]/10 to-[#7C3AED]/10 border border-[#F59E0B]/30 rounded-xl p-6">
-          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.24.0</h3>
+          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.25.9</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-[#a5a0cc]">
             <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Full eBay US support — prices, currency & Amazon links follow your market</p>
             <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Fixed VERO false positives (a "Mac mini dock" is no longer blocked)</p>

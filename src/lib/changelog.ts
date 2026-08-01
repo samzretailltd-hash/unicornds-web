@@ -24,6 +24,14 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    date: '2026-08-01',
+    version: 'v7.25.9',
+    category: 'fix',
+    title: 'Order Manager overhaul: full order sync, correct dispatch status & earnings',
+    description: 'The Order Manager now pulls every eBay order (a merge bug was collapsing repeat sales of the same item into a single row, so large sellers only saw a fraction of their orders). Dispatch status is now accurate: orders you still need to send show as TO DISPATCH with their deadline date, overdue ones turn red, and only genuinely dispatched orders show as SHIPPED. Buyer names no longer appear as ID numbers, a tracking-number display glitch is fixed, and new buttons let you fetch earnings for all orders or just selected ones. Also includes Amazon per-variant stock filtering and the full US plus 5 new EU markets.',
+    area: 'extension',
+  },
   // ═════════════════ JULY 2026 ═════════════════
   {
     date: '2026-07-15',

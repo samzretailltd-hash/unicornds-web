@@ -5,15 +5,15 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json(
     {
-      version: "7.24.0",
-      released: "2026-07-15",
+      version: "7.25.9",
+      released: "2026-08-01",
       changelog: [
-        "US marketplace fully supported — prices, currency and Amazon links now follow your Primary Market instead of defaulting to the UK",
-        "Fixed VERO false positives — products like 'Mac mini dock' or 'camera' are no longer wrongly blocked, while real protected brands still are",
-        "Fixed £0 price errors on newer Amazon product pages",
-        "Out-of-stock and low-stock products are now skipped automatically when bulk listing (Amazon + Walmart)",
-        "Stock detection now works in English, German, French, Spanish, Italian and Dutch",
-        "5 new markets added: Netherlands, Ireland, Austria, Belgium and Switzerland — each with correct currency, language and carrier",
+        "Order Manager now syncs ALL your eBay orders (fixed a merge bug that collapsed repeat-item sales into one row)",
+        "Correct dispatch status: TO DISPATCH with deadline date, LATE orders in red, SHIPPED only when actually dispatched",
+        "Fixed buyer names showing as ID numbers, and removed a tracking-number display glitch",
+        "New 'Fetch All Earnings' and 'Fetch Earnings for Selected' buttons",
+        "Amazon variations: out-of-stock and third-party variants are now filtered out before listing",
+        "US marketplace fully supported; 5 new markets (NL, IE, AT, BE, CH)",
       ],
       downloadUrl: "https://www.unicornds.io/download",
       critical: false,
