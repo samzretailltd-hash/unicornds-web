@@ -174,6 +174,23 @@ export async function POST(req: NextRequest) {
         const uid = sub.metadata?.firebase_uid;
         if (!uid) break;
 
+        // GUARD: if the customer still has ANOTHER live subscription, do NOT downgrade.
+        // (A duplicate/cancelled sub must not wipe a paying customer's access.)
+        try {
+          const custId = sub.customer as string;
+          if (custId) {
+            const others = await stripe.subscriptions.list({ customer: custId, status: "all", limit: 20 });
+            const hasOtherLiveSub = others.data.some(o =>
+              o.id !== sub.id && ["active", "trialing", "past_due"].includes(o.status)
+            );
+            if (hasOtherLiveSub) {
+              console.log("[Stripe] Cancelled duplicate for", uid, "— keeping access (another live sub exists)");
+              sendTelegram(`ℹ️ <b>Duplicate sub cancelled</b>\n${uid} still has an active subscription — access kept.`).catch(() => {});
+              break;
+            }
+          }
+        } catch (e) { console.error("[Stripe] deleted-guard error:", e); }
+
         await adminDb.collection("users").doc(uid).set({
           tier: "free",
           tokensUsed: 0,
@@ -199,6 +216,22 @@ export async function POST(req: NextRequest) {
           : null;
         const uid = sub?.metadata?.firebase_uid;
         if (!uid) break;
+
+        // GUARD: don't lock out the user if they have ANOTHER live subscription
+        // (a failing duplicate must not zero a paying customer's tokens).
+        try {
+          const custId2 = sub?.customer as string;
+          if (custId2) {
+            const others2 = await stripe.subscriptions.list({ customer: custId2, status: "all", limit: 20 });
+            const hasOtherLiveSub = others2.data.some(o =>
+              o.id !== sub?.id && ["active", "trialing"].includes(o.status)
+            );
+            if (hasOtherLiveSub) {
+              console.log("[Stripe] Payment failed on duplicate for", uid, "— access kept (another live sub).");
+              break;
+            }
+          }
+        } catch (e) { console.error("[Stripe] failed-guard error:", e); }
 
         await adminDb.collection("users").doc(uid).set({
           status: "payment_failed",
