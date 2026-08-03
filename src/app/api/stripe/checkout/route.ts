@@ -97,6 +97,40 @@ export async function POST(req: NextRequest) {
     let customerId: string | undefined;
     if (existing.data.length > 0) customerId = existing.data[0].id;
 
+    // ═══════════════════════════════════════════════
+    // DUPLICATE SUBSCRIPTION GUARD
+    // Block a second subscription if the customer already has an active or
+    // trialing one — this is what caused a customer to be billed twice.
+    // ═══════════════════════════════════════════════
+    if (customerId) {
+      const activeSubs = await stripe.subscriptions.list({
+        customer: customerId,
+        status: "all",
+        limit: 20,
+      });
+      const live = activeSubs.data.filter(sub =>
+        ["active", "trialing", "past_due", "unpaid"].includes(sub.status)
+      );
+      if (live.length > 0) {
+        sendTelegram(
+          `⚠️ <b>Duplicate subscription blocked</b>\n📧 ${decoded.email}\n👤 ${decoded.name || "—"}\nAlready has ${live.length} live subscription(s) — sent to billing portal instead.`
+        ).catch(() => {});
+        // Send them to manage their existing subscription rather than create a new one
+        try {
+          const portal = await stripe.billingPortal.sessions.create({
+            customer: customerId,
+            return_url: `${req.nextUrl.origin}/dashboard/billing`,
+          });
+          return NextResponse.json({ url: portal.url, alreadySubscribed: true });
+        } catch (e) {
+          return NextResponse.json(
+            { error: "You already have an active subscription. Manage it from your billing page." },
+            { status: 409 }
+          );
+        }
+      }
+    }
+
     const lineItems: { price: string; quantity: number }[] = [
       { price: priceId, quantity: 1 },
     ];
