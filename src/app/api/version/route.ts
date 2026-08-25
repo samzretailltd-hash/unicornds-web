@@ -5,15 +5,13 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json(
     {
-      version: "7.25.9",
-      released: "2026-08-01",
+      version: "7.32.0",
+      released: "2026-08-25",
       changelog: [
-        "Order Manager now syncs ALL your eBay orders (fixed a merge bug that collapsed repeat-item sales into one row)",
-        "Correct dispatch status: TO DISPATCH with deadline date, LATE orders in red, SHIPPED only when actually dispatched",
-        "Fixed buyer names showing as ID numbers, and removed a tracking-number display glitch",
-        "New 'Fetch All Earnings' and 'Fetch Earnings for Selected' buttons",
-        "Amazon variations: out-of-stock and third-party variants are now filtered out before listing",
-        "US marketplace fully supported; 5 new markets (NL, IE, AT, BE, CH)",
+        "Exact Amazon product finder: reads the ASIN planted on an eBay listing and opens the exact product (not a keyword search)",
+        "Reads ASIN from item specifics and the listing description automatically",
+        "US marketplace accuracy improved; competitor finder no longer forces Prime-only",
+        "Faster, more reliable exact-match sourcing from eBay to Amazon",
       ],
       downloadUrl: "https://www.unicornds.io/download",
       critical: false,
