@@ -227,10 +227,10 @@ export default function DownloadPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-[#a5a0cc]">
             <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Exact Amazon product finder — opens the exact product, not a keyword search</p>
             <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Reads the ASIN from an eBay listing automatically (specifics + description)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> New Stock Monitor — checks Amazon stock on your active listings</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Auto-ends genuinely out-of-stock items (Fast Tracker queue)</p>
+            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Safety: in-stock items that only fail a rule are never ended</p>
             <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Better US sourcing — competitor finder no longer forces Prime-only</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Faster, more reliable eBay → Amazon exact matching</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Full eBay US support — prices, currency & Amazon links follow your market</p>
-            <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Out-of-stock & low-stock items skipped automatically when bulk listing</p>
           </div>
         </div>
 

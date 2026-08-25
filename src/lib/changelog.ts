@@ -25,6 +25,14 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    date: '2026-08-25',
+    version: 'v7.32.0',
+    category: 'feature',
+    title: 'Exact Amazon product finder + automatic stock monitoring & ending',
+    description: 'The "Search Amazon" button on any eBay item now opens the exact matching Amazon product instead of a keyword search — UnicornDS reads the product identifier straight from the eBay listing (item specifics and description) and takes you to that precise page, falling back to a smart title search only when no identifier exists. Active listings now get a built-in Stock Monitor that checks Amazon stock and can automatically end genuinely out-of-stock items, and the Fast Tracker queues out-of-stock listings to end for you. Important safety fix: listings that are still in stock but merely fail a rule (such as a Prime or delivery check) are never ended — only truly out-of-stock items can be. US sourcing is also more accurate, as the competitor finder no longer forces a Prime-only filter, so you see far more of the real US catalogue.',
+    area: 'extension',
+  },
+  {
     date: '2026-08-01',
     version: 'v7.25.9',
     category: 'fix',
