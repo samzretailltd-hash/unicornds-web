@@ -281,6 +281,7 @@ export async function POST(req: NextRequest) {
           : null;
         const uid = await resolveUid(sub, (invoice as any).customer_email);
         if (!uid) break;
+        if (!sub) break;
 
         // Reset credits on renewal
         const priceId = sub.items.data[0]?.price?.id;
