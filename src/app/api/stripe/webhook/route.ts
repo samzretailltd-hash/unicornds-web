@@ -4,6 +4,29 @@ import { stripe, PRICE_TO_TIER } from "@/lib/stripe";
 import { recordAffiliateCommission } from "@/lib/affiliateCommission";
 import { sendWelcomeEmail, sendAdminNewPayment, sendAdminCancellation, sendAdminPaymentFailed, sendTelegram } from "@/lib/brevo";
 
+// Resolve a Firebase user UID for a Stripe subscription even when the
+// subscription is missing firebase_uid metadata (older/trial subs).
+// Order: metadata.firebase_uid -> users where stripe_customer_id -> users where email.
+async function resolveUid(sub: any, fallbackEmail?: string | null): Promise<string | null> {
+  const metaUid = sub?.metadata?.firebase_uid;
+  if (metaUid) return metaUid;
+
+  // Fallback 1: match by Stripe customer id stored on the user doc
+  const custId = typeof sub?.customer === "string" ? sub.customer : sub?.customer?.id;
+  if (custId) {
+    const snap = await adminDb.collection("users").where("stripe_customer_id", "==", custId).limit(1).get();
+    if (!snap.empty) return snap.docs[0].id;
+  }
+
+  // Fallback 2: match by email
+  const email = fallbackEmail || sub?.customer_email || null;
+  if (email) {
+    const snap = await adminDb.collection("users").where("email", "==", email).limit(1).get();
+    if (!snap.empty) return snap.docs[0].id;
+  }
+  return null;
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
@@ -133,7 +156,7 @@ export async function POST(req: NextRequest) {
 
       case "customer.subscription.updated": {
         const sub = event.data.object;
-        const uid = sub.metadata?.firebase_uid;
+        const uid = await resolveUid(sub);
         if (!uid) break;
 
         const priceId = sub.items.data[0]?.price?.id;
@@ -171,7 +194,7 @@ export async function POST(req: NextRequest) {
 
       case "customer.subscription.deleted": {
         const sub = event.data.object;
-        const uid = sub.metadata?.firebase_uid;
+        const uid = await resolveUid(sub);
         if (!uid) break;
 
         // GUARD: if the customer still has ANOTHER live subscription, do NOT downgrade.
@@ -214,7 +237,7 @@ export async function POST(req: NextRequest) {
         const sub = (invoice as any).subscription
           ? await stripe.subscriptions.retrieve((invoice as any).subscription as string)
           : null;
-        const uid = sub?.metadata?.firebase_uid;
+        const uid = await resolveUid(sub, (invoice as any).customer_email);
         if (!uid) break;
 
         // GUARD: don't lock out the user if they have ANOTHER live subscription
@@ -256,7 +279,7 @@ export async function POST(req: NextRequest) {
         const sub = (invoice as any).subscription
           ? await stripe.subscriptions.retrieve((invoice as any).subscription as string)
           : null;
-        const uid = sub?.metadata?.firebase_uid;
+        const uid = await resolveUid(sub, (invoice as any).customer_email);
         if (!uid) break;
 
         // Reset credits on renewal

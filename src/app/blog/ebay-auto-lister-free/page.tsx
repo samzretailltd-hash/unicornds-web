@@ -61,7 +61,7 @@ export default function Article() {
           <p>Unlike most eBay listing tools, UnicornDS does not require an API connection to your eBay account. This means two things: your product data stays completely private (no one can see what you are listing), and setup takes 30 seconds (install the Chrome extension and start listing).</p>
 
           <h2>Get Started Now</h2>
-          <p>Install UnicornDS from the Chrome Web Store, navigate to any Amazon or AliExpress product, and list it on eBay with one click. Start your 7-day trial from £1 at unicornds.io/signup.</p>
+          <p>Install UnicornDS from the Chrome Web Store, navigate to any Amazon or AliExpress product, and list it on eBay with one click. Get started today at unicornds.io/signup.</p>
           <p><Link href="/pricing">Install UnicornDS free →</Link></p>
 
           <RelatedArticles currentSlug="ebay-auto-lister-free" tags={["tools", "listing", "beginner"]} />

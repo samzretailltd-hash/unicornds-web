@@ -260,7 +260,7 @@ export default function BestEbayToolsArticle() {
 
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
               <h3 className="text-white text-lg font-bold mb-2">Try the #1 rated eBay tool from just £1</h3>
-              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS offers a 7-day trial from £1 on every plan. Full access to Product Hunter, Competitor Scanner, AI titles, VERO protection, and Bulk Lister. full access for 7 days.</p>
+              <p className="text-sm text-[#a5a0cc] mb-4">UnicornDS gives you full access to Product Hunter, Competitor Scanner, AI titles, VERO protection, and Bulk Lister. Simple monthly pricing, cancel anytime.</p>
               <Link href="/pricing" className="inline-block px-6 py-2.5 rounded-lg bg-[#7C3AED] text-white font-semibold text-sm hover:bg-[#6D28D9] transition-colors">Try 7 Days for £1 &rarr;</Link>
             </div>
             <RelatedArticles currentSlug="best-ebay-tools-us-sellers" tags={["tools", "comparison", "listing"]} />

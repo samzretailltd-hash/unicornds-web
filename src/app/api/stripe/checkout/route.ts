@@ -30,11 +30,13 @@ export async function POST(req: NextRequest) {
     const isTrial = mode === "trial";
 
     // ═══════════════════════════════════════════════
-    // TRIAL ABUSE PREVENTION (only for trial mode)
+    // TRIALS DISCONTINUED — no free/paid trial is ever created.
+    // Every checkout is now a normal full paid subscription.
+    // (Abuse-check block kept below but disabled via the flag.)
     // ═══════════════════════════════════════════════
-    let trialAllowed = isTrial;
+    let trialAllowed = false;
 
-    if (isTrial) {
+    if (false && isTrial) {
       const abuseReasons: string[] = [];
       const userDoc = await adminDb.collection("users").doc(decoded.uid).get();
       const userData = userDoc.data();
@@ -92,10 +94,26 @@ export async function POST(req: NextRequest) {
     // BUILD CHECKOUT SESSION
     // ═══════════════════════════════════════════════
 
-    // Check existing Stripe customer
-    const existing = await stripe.customers.list({ email: decoded.email!, limit: 1 });
+    // Load this user's Firestore doc so we can reuse their saved Stripe customer.
+    const userDocForCustomer = await adminDb.collection("users").doc(decoded.uid).get();
+
+    // Resolve the Stripe customer for this person.
+    // IMPORTANT: reuse the customer ID we already saved in Firestore FIRST.
+    // Falling back to an email lookup can create a SECOND customer for the same
+    // person (which is what caused duplicate subscriptions / two-card billing).
     let customerId: string | undefined;
-    if (existing.data.length > 0) customerId = existing.data[0].id;
+    const savedCustomerId = userDocForCustomer?.data()?.stripe_customer_id;
+    if (savedCustomerId) {
+      // Verify it still exists in Stripe (not deleted) before reusing.
+      try {
+        const c = await stripe.customers.retrieve(savedCustomerId);
+        if (c && !(c as any).deleted) customerId = savedCustomerId;
+      } catch { /* saved id invalid — fall back to email lookup below */ }
+    }
+    if (!customerId) {
+      const existing = await stripe.customers.list({ email: decoded.email!, limit: 1 });
+      if (existing.data.length > 0) customerId = existing.data[0].id;
+    }
 
     // ═══════════════════════════════════════════════
     // DUPLICATE SUBSCRIPTION GUARD

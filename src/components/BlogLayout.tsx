@@ -69,7 +69,7 @@ export function BlogLayout({
                 Source from Amazon, AliExpress &amp; Walmart. List on eBay in seconds.
               </p>
               <Link href="/pricing" className="inline-block px-5 py-2.5 rounded-lg font-bold text-white text-sm" style={{ background: "linear-gradient(135deg, #7C3AED, #9333EA)" }}>
-                Start 7-Day Trial — £1 →
+                Get Started →
               </Link>
             </div>
             <div className="bg-gradient-to-br from-[#1E1B4B] to-[#2d2766] border border-[#F59E0B]/30 rounded-2xl p-6">

@@ -104,7 +104,7 @@ export default function ListingsPerDayArticle() {
 
           <div className="bg-[#7C3AED]/10 border border-[#7C3AED]/30 rounded-xl p-6 mt-8">
             <h3 className="text-lg font-bold text-white mb-2">List 50+ products per day with UnicornDS</h3>
-            <p className="text-sm text-[#a5a0cc] mb-4">Bulk Lister creates listings in seconds. Product Hunter finds profitable products. AI generates optimised titles. Start your 7-day trial from £1 — full access to all features.</p>
+            <p className="text-sm text-[#a5a0cc] mb-4">Bulk Lister creates listings in seconds. Product Hunter finds profitable products. AI generates optimised titles. Get full access to all features, cancel anytime.</p>
             <Link href={SITE.chrome_store} target="_blank" className="btn-primary px-6 py-2.5 rounded-xl text-sm font-bold inline-block no-underline">Install UnicornDS Free</Link>
           </div>
           <RelatedArticles currentSlug="how-many-listings-per-day-ebay" tags={["strategy", "volume", "listings"]} />

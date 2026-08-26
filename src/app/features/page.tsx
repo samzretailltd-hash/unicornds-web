@@ -137,7 +137,7 @@ export default function FeaturesPage() {
         {/* CTA */}
         <div className="text-center mt-16">
           <Link href="/signup" className="px-8 py-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-xl font-semibold transition-colors inline-block">
-            Try 7 Days for £1
+            Get Started
           </Link>
         </div>
       </div>

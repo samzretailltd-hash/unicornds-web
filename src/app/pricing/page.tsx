@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Pricing — UnicornDS Plans from £29.99/mo",
-  description: "Simple pricing for eBay dropshipping tools. £1 for 7-day trial, £29.99 Starter, £59.99 Growth, £99.99 Empire. Cancel anytime.",
+  description: "Simple pricing for eBay dropshipping tools. £29.99 Starter, £59.99 Growth, £99.99 Empire. Cancel anytime.",
   alternates: { canonical: "https://www.unicornds.io/pricing" },
 };
 

@@ -175,7 +175,7 @@ export function HeroSlider() {
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-white text-base pulse-glow"
                 style={{ background: "linear-gradient(135deg, #7C3AED, #9333EA)", boxShadow: "0 8px 30px rgba(124,58,237,0.55)" }}
               >
-                Start 7-Day Trial — £1 <span>→</span>
+                Get Started <span>→</span>
               </Link>
               <div className="uds-trust">
                 <span>Works with</span>

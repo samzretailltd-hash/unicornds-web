@@ -56,7 +56,7 @@ export default function VsAutoDS() {
           <p>UnicornDS uses GPT-4o to generate SEO-optimised 80-character eBay titles from product data. AutoDS uses its own AI title generator. Both work well, but UnicornDS gives you more control over the output.</p>
 
           <h3>Pricing</h3>
-          <p>UnicornDS offers a 7-day trial from £1 with full access for 7 days, then £29.99 for 500 listings, £59.99 for 1,500, and £99.99 for 3,000. AutoDS starts at $26.90 per month for 200 products and goes up to $55.90 for 800 products. For high-volume sellers, UnicornDS offers significantly more listings per pound spent.</p>
+          <p>UnicornDS is £29.99 for 500 listings, £59.99 for 1,500, and £99.99 for 3,000. AutoDS starts at $26.90 per month for 200 products and goes up to $55.90 for 800 products. For high-volume sellers, UnicornDS offers significantly more listings per pound spent.</p>
 
           <h3>Stock Monitoring</h3>
           <p>Both tools monitor stock levels on source platforms. AutoDS checks stock automatically on a schedule. UnicornDS Stock Checker verifies on-demand before listing and can batch-check all products.</p>
@@ -66,7 +66,7 @@ export default function VsAutoDS() {
           <p><strong>Choose AutoDS if:</strong> You prefer a central dashboard, you manage hundreds of existing products that need automatic repricing, or you primarily use suppliers other than Amazon and AliExpress.</p>
 
           <h2>Verdict</h2>
-          <p>For most eBay sellers starting out or doing Amazon to eBay arbitrage, UnicornDS provides better value with its 7-day trial from £1, built-in research tools, and VERO protection. AutoDS is a solid choice for established sellers who need automated inventory management across multiple suppliers.</p>
+          <p>For most eBay sellers starting out or doing Amazon to eBay arbitrage, UnicornDS provides better value with its built-in research tools, and VERO protection. AutoDS is a solid choice for established sellers who need automated inventory management across multiple suppliers.</p>
 
           <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#2563EB]/20 border border-[#7C3AED]/30">
             <h3 className="text-white text-lg font-bold mb-2">Try UnicornDS Free</h3>

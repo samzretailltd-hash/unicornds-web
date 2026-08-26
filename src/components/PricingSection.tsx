@@ -58,7 +58,7 @@ export function PricingSection() {
           <span className="inline-block px-4 py-1 rounded-full bg-[#7C3AED]/12 border border-[#7C3AED]/25 text-xs text-[#A78BFA] font-semibold uppercase tracking-wider mb-4">{t('nav.pricing', geo.language)}</span>
           <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold mb-3">{t('pricing.title', geo.language)}</h2>
           <p className="text-[#a5a0cc] mb-2">{t('pricing.subtitle', geo.language)}</p>
-          <p className="text-sm text-[#F59E0B] font-semibold">7-day trial: Starter £1 · Growth £5 · Empire £10 — or subscribe at full price</p>
+          <p className="text-sm text-[#F59E0B] font-semibold">Simple monthly pricing · cancel anytime</p>
         </div>
 
         {/* ANNUAL SAVINGS BANNER */}
@@ -112,7 +112,7 @@ export function PricingSection() {
                   {displayPrice}<small className="text-sm font-normal text-[#a5a0cc]">{t('pricing.perMonth', geo.language)}</small>
                 </div>
                 <div className="text-sm text-[#10B981] h-5 mb-1">{annualTotal}</div>
-                <div className="text-xs text-[#F59E0B] font-semibold mb-1">7-day trial available — then {displayPrice}/mo</div>
+                <div className="text-xs text-[#F59E0B] font-semibold mb-1">{displayPrice}/mo · cancel anytime</div>
                 <div className="text-sm text-[#A78BFA] font-semibold mb-5">{plan.listings}</div>
                 <ul className="text-left mb-6 space-y-1.5">
                   {plan.features.map((f) => (
@@ -122,13 +122,6 @@ export function PricingSection() {
                   ))}
                 </ul>
                 <div className="space-y-2.5">
-                  <button
-                    onClick={() => handleCheckout(plan.id, "trial")}
-                    disabled={!!loading}
-                    className={`block w-full py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-50 border ${loading === plan.id + "-trial" ? "bg-[#F59E0B]/50 text-white/50 cursor-wait border-[#F59E0B]/30" : "border-[#F59E0B]/50 text-[#F59E0B] hover:bg-[#F59E0B]/10"}`}
-                  >
-                    {loading === plan.id + "-trial" ? "Loading..." : `Try 7 Days for £${TRIAL_FEES[plan.id]?.amount || "1"} · ${TRIAL_FEES[plan.id]?.listings || "25"} listings`}
-                  </button>
                   <button
                     onClick={() => handleCheckout(plan.id, "full")}
                     disabled={!!loading}

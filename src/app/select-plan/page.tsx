@@ -94,7 +94,7 @@ export default function SelectPlanPage() {
             Choose Your Plan
           </h1>
           <p className="text-lg text-[#a5a0cc]">
-            Try with a trial or go straight to full access — your choice
+            Choose your plan and get full access instantly
           </p>
         </div>
 
@@ -118,7 +118,7 @@ export default function SelectPlanPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {PLANS.map((plan) => {
             const displayPrice = period === "yearly" ? plan.yearlyPrice : plan.price;
-            const isTrialProcessing = processing && selectedPlan === `${plan.id}-trial`;
+            const isTrialProcessing = false; // trials discontinued
             const isFullProcessing = processing && selectedPlan === `${plan.id}-full`;
 
             return (
@@ -157,20 +157,6 @@ export default function SelectPlanPage() {
                 </ul>
 
                 <div className="space-y-3">
-                  <button
-                    onClick={() => handleCheckout(plan.id, "trial")}
-                    disabled={processing}
-                    className={`w-full py-3 rounded-xl font-semibold text-sm transition-all border ${
-                      isTrialProcessing
-                        ? "bg-[#F59E0B]/50 text-white/50 cursor-wait border-[#F59E0B]/30"
-                        : "border-[#F59E0B]/50 text-[#F59E0B] hover:bg-[#F59E0B]/10"
-                    }`}
-                  >
-                    {isTrialProcessing
-                      ? "Redirecting..."
-                      : `Try 7 Days for \u00A3${plan.trialFee} \u00B7 ${plan.trialListings} listings`}
-                  </button>
-
                   <button
                     onClick={() => handleCheckout(plan.id, "full")}
                     disabled={processing}
