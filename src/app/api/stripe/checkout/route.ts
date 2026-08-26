@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
       // CHECK 3: Same phone on another trial?
       if (userData?.phone) {
         const phoneSnap = await adminDb.collection("users")
-          .where("phone", "==", userData.phone)
+          .where("phone", "==", userData?.phone)
           .where("trial_used", "==", true)
           .limit(5).get();
         if (phoneSnap.docs.filter(d => d.id !== decoded.uid).length > 0) {
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
       // CHECK 4: Same device fingerprint?
       if (userData?.device_fingerprint) {
         const fpSnap = await adminDb.collection("users")
-          .where("device_fingerprint", "==", userData.device_fingerprint)
+          .where("device_fingerprint", "==", userData?.device_fingerprint)
           .where("trial_used", "==", true)
           .limit(5).get();
         if (fpSnap.docs.filter(d => d.id !== decoded.uid).length > 0) {
