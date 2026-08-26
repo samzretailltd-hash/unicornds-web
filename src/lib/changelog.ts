@@ -25,6 +25,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    date: '2026-08-27',
+    version: 'v7.33.0',
+    category: 'improvement',
+    title: 'Paid plans only — cleaner account experience',
+    description: 'UnicornDS is now a fully paid tool with simple monthly plans. Signing in takes you straight to plan selection if you do not have an active subscription, so there is no confusion about what is unlocked. Existing paid plans and features are unchanged.',
+    area: 'extension',
+  },
+
+  {
     date: '2026-08-25',
     version: 'v7.32.0',
     category: 'feature',

@@ -120,7 +120,7 @@ export default function DownloadPage() {
           className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold inline-flex items-center gap-2 disabled:opacity-50"
         >
           <span className="text-xl">{downloading ? "⏳" : "⬇️"}</span>
-          {downloading ? "Downloading..." : "Download UnicornDS v7.32.0"}
+          {downloading ? "Downloading..." : "Download UnicornDS v7.33.0"}
         </button>
       ),
     },
@@ -221,9 +221,9 @@ export default function DownloadPage() {
           ))}
         </div>
 
-        {/* What's new in v7.32.0 */}
+        {/* What's new in v7.33.0 */}
         <div className="mt-8 bg-gradient-to-r from-[#F59E0B]/10 to-[#7C3AED]/10 border border-[#F59E0B]/30 rounded-xl p-6">
-          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.32.0</h3>
+          <h3 className="text-base font-bold text-white mb-3">✨ What's new in v7.33.0</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-[#a5a0cc]">
             <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Exact Amazon product finder — opens the exact product, not a keyword search</p>
             <p className="flex gap-2"><span className="text-[#F59E0B]">★</span> Reads the ASIN from an eBay listing automatically (specifics + description)</p>

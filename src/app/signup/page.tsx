@@ -159,7 +159,7 @@ export default function SignupPage() {
           {error && <p className="text-red-400 text-sm">{error}</p>}
           <button type="submit" disabled={loading}
             className="w-full btn-primary py-3 rounded-lg font-bold text-sm disabled:opacity-50">
-            {loading ? "Creating account..." : "Create Free Account"}
+            {loading ? "Creating account..." : "Create Account"}
           </button>
         </form>
         <p className="mt-4 text-center text-xs text-[#6b6899]">Already have an account? <Link href="/login" className="text-[#A78BFA] hover:underline">Sign in</Link></p>
