@@ -190,7 +190,7 @@ export default function VsEcomSniperPage() {
             7-day full access. List products, see if it works. Cancel anytime. If you don&apos;t make a sale in 30 days after going paid, full refund.
           </p>
           <Link href="/pricing" className="inline-block px-10 py-4 bg-[#F59E0B] hover:bg-[#FBBF24] text-[#1E1B4B] rounded-xl text-lg font-extrabold transition-all">
-            🚀 Start Trial for £1
+            🚀 Get Started
           </Link>
           <p className="mt-4 text-xs text-[#6b6899]">Cancel anytime · Stripe secure · No long contracts</p>
         </div>

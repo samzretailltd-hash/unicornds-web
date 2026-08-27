@@ -67,7 +67,7 @@ export default function DownloadPage() {
       <div className="min-h-screen pt-24 pb-16">
         <div className="max-w-lg mx-auto px-4 text-center">
           <span className="inline-block px-4 py-1 rounded-full bg-[#7C3AED]/12 border border-[#7C3AED]/25 text-xs text-[#A78BFA] font-semibold uppercase tracking-wider mb-4">
-            7-Day Trial for £1
+            Get Started
           </span>
           <h1 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-extrabold text-white mb-3">
             Install UnicornDS
@@ -91,7 +91,7 @@ export default function DownloadPage() {
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/signup" className="btn-primary px-8 py-3.5 rounded-xl text-base font-bold">
-              Start 7-Day Trial for £1
+              Get Started
             </Link>
             <Link href="/login" className="px-8 py-3.5 rounded-xl text-base font-semibold border border-[#3d3580] text-[#e0d8ff] hover:border-[#7C3AED] hover:text-white transition-all">
               Already Have an Account? Log In

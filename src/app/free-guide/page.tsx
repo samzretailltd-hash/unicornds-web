@@ -116,7 +116,7 @@ export default function FreeGuidePage() {
                 <div className="border-t border-[#3d3580] pt-6 mt-6">
                   <p className="text-sm text-[#a5a0cc] mb-4">Ready to put it into practice?</p>
                   <Link href="/download" className="btn-primary px-8 py-3 rounded-xl text-sm font-bold inline-block">
-                    Start 7-Day Trial for £1 →
+                    Get Started →
                   </Link>
                 </div>
               </div>

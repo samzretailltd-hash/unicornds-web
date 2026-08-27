@@ -140,7 +140,7 @@ const sections = [
     icon: "👑",
     title: "Plans & Billing",
     items: [
-      { title: "7-Day Trial", content: "Starter £1, Growth £5, Empire £10. Limited listings during trial. Cancel anytime." },
+      { title: "Simple Pricing", content: "Starter £29.99, Growth £59.99, Empire £99.99 per month. Cancel anytime." },
       { title: "Starter — £29.99/mo", content: "500 listings/month, Product Hunter, AI titles, 5 competitor scans/day." },
       { title: "Growth — £59.99/mo", content: "1,500 listings, 5 bulk tabs, unlimited scanner, Image Designer, Address Helper." },
       { title: "Empire — £99.99/mo", content: "3,000 listings, 10 bulk tabs, MSKU builder, priority support. Works across multiple eBay accounts." },
@@ -177,7 +177,7 @@ export default function HandbookPage() {
           <p className="text-[#a5a0cc] mb-6">The UnicornDS Handbook is available to registered members. Log in or create a free account to access it.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/login" className="btn-primary px-6 py-3 rounded-xl text-sm font-bold">Log In</Link>
-            <Link href="/signup" className="px-6 py-3 rounded-xl text-sm font-semibold border border-[#3d3580] text-[#e0d8ff] hover:border-[#7C3AED] hover:text-white transition-all">Sign Up Free</Link>
+            <Link href="/signup" className="px-6 py-3 rounded-xl text-sm font-semibold border border-[#3d3580] text-[#e0d8ff] hover:border-[#7C3AED] hover:text-white transition-all">Get Started</Link>
           </div>
         </div>
       </div>

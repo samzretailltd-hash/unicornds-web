@@ -77,7 +77,7 @@ function LoginForm() {
         </form>
         <div className="mt-4 text-center space-y-2">
           <button onClick={handleReset} className="text-xs text-[#A78BFA] hover:underline">Forgot password?</button>
-          <p className="text-xs text-[#6b6899]">Don&apos;t have an account? <Link href="/signup" className="text-[#A78BFA] hover:underline">Sign up free</Link></p>
+          <p className="text-xs text-[#6b6899]">Don&apos;t have an account? <Link href="/signup" className="text-[#A78BFA] hover:underline">Sign up</Link></p>
         </div>
       </div>
     </div>

@@ -87,7 +87,8 @@ export function HeroSlider() {
     const r = el.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width;
     const py = (e.clientY - r.top) / r.height;
-    setTilt({ x: (px - 0.5) * 9, y: (0.5 - py) * 6 });
+    // Gentle tilt — smaller angles reduce repaint cost and visual jerk.
+    setTilt({ x: (px - 0.5) * 5, y: (0.5 - py) * 3.5 });
   };
   const onLeave = () => setTilt({ x: 0, y: 0 });
 
@@ -217,7 +218,7 @@ export function HeroSlider() {
         .hs-orb-gold{bottom:-120px;right:14%;width:300px;height:300px;background:radial-gradient(circle,rgba(245,158,11,0.2),transparent 70%);}
         @keyframes hs-grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-        .uds-stage{position:relative;display:flex;align-items:stretch;justify-content:space-between;gap:10px;max-width:540px;margin:0 auto;will-change:transform;}
+        .uds-stage{position:relative;display:flex;align-items:stretch;justify-content:space-between;gap:10px;max-width:540px;margin:0 auto;will-change:transform;min-height:150px;}
         .uds-card{flex:0 0 152px;border-radius:16px;padding:12px;text-align:left;}
         .uds-cap{font-size:9px;letter-spacing:.08em;color:#8b88c8;margin-bottom:8px;}
         .uds-plate{background:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;height:44px;padding:0 12px;box-shadow:0 6px 18px rgba(0,0,0,0.28);}
@@ -237,10 +238,10 @@ export function HeroSlider() {
         .uds-listing{display:flex;gap:10px;align-items:flex-start;}
         .uds-thumb{flex:0 0 40px;height:40px;border-radius:9px;background:rgba(167,139,250,.18);display:flex;align-items:center;justify-content:center;color:#A78BFA;}
         .uds-thumb svg{stroke:#A78BFA;}
-        .uds-title{font-size:12px;line-height:1.35;color:#efeaff;min-height:34px;}
+        .uds-title{font-size:12px;line-height:1.35;color:#efeaff;height:49px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;}
         .uds-caret{display:inline-block;width:2px;height:12px;background:#F59E0B;margin-left:1px;vertical-align:-1px;animation:uds-blink 1s step-end infinite;}
         @keyframes uds-blink{50%{opacity:0}}
-        .uds-row{display:flex;align-items:center;gap:8px;margin-top:5px;transition:opacity .35s;}
+        .uds-row{display:flex;align-items:center;gap:8px;margin-top:5px;transition:opacity .35s;min-height:24px;}
         .uds-price{font-size:17px;font-weight:700;color:#fff;}
         .uds-profit{font-size:11px;font-weight:500;color:#34D399;background:rgba(16,185,129,.14);border-radius:6px;padding:2px 7px;}
 
@@ -250,6 +251,8 @@ export function HeroSlider() {
           .uds-card{flex-basis:128px;padding:10px;}
           .uds-plate img{max-width:88px;}
           .uds-wire2{min-width:30px;}
+          .uds-title{height:49px;}
+          .uds-stage{min-height:140px;}
         }
       `}</style>
     </section>
