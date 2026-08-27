@@ -349,3 +349,36 @@ export async function sendCallReminder(email: string, name: string) {
 
   return sendBrevoEmail({ to: email, toName: name, subject: `📞 ${firstName}, your free setup call is waiting — let's get you selling!`, html });
 }
+
+// Device limit reached — sent to the user (once) when a new device is blocked.
+export async function sendDeviceLimitEmail(email: string, name: string, tier: string, limit: number) {
+  const isEmpire = limit > 1;
+  const html = `
+  <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#1E1B4B;border-radius:16px;overflow:hidden">
+    <div style="background:linear-gradient(135deg,#1E1B4B,#7C3AED);padding:28px 24px;text-align:center">
+      <div style="font-size:40px">🦄</div>
+      <h1 style="color:#fff;font-size:20px;margin:8px 0 0">Device Limit Reached</h1>
+    </div>
+    <div style="padding:24px;color:#d8d5f0;font-size:14px;line-height:1.6">
+      <p>Hi ${name || "there"},</p>
+      <p>Your <b style="color:#F59E0B">${tier.toUpperCase()}</b> plan is set up to work on
+      <b>${limit} device${limit > 1 ? "s" : ""}</b>, and we noticed a new device trying to use your account beyond that limit.</p>
+      <p style="color:#fff;font-weight:bold;margin-top:20px">Here's how to fix it:</p>
+      <ul style="padding-left:18px">
+        <li style="margin-bottom:8px">🔓 <b>Sign out on a device you no longer use</b> — this frees up a slot right away.</li>
+        ${!isEmpire ? `<li style="margin-bottom:8px">⬆️ <b>Upgrade to Empire</b> to use UnicornDS on up to <b>4 devices</b> at once.</li>` : ""}
+        <li style="margin-bottom:8px">💬 <b>Contact support</b> if you think this is a mistake — we're happy to help.</li>
+      </ul>
+      <div style="text-align:center;margin:24px 0">
+        <a href="https://www.unicornds.io/pricing" style="display:inline-block;background:#7C3AED;color:#fff;text-decoration:none;padding:12px 28px;border-radius:10px;font-weight:bold">View Plans</a>
+      </div>
+      <p style="color:#9b96c8;font-size:12px">If you need help, just reply to this email — we read every message.</p>
+    </div>
+  </div>`;
+  return sendBrevoEmail({
+    to: email,
+    toName: name,
+    subject: "UnicornDS — Device limit reached on your account",
+    html,
+  });
+}

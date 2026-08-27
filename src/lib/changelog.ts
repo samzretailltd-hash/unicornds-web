@@ -26,6 +26,24 @@ export interface ChangelogEntry {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     date: '2026-08-27',
+    version: 'v7.34.0',
+    category: 'improvement',
+    title: 'More reliable account security',
+    description: 'Improved how UnicornDS recognises your device so your account stays secure and your session is remembered correctly across eBay pages. Existing plans and features are unchanged.',
+    area: 'extension',
+  },
+
+  {
+    date: '2026-08-27',
+    version: 'v7.34.0',
+    category: 'security',
+    title: 'One account, your devices — fair-use device limits',
+    description: 'To keep accounts fair and secure, each plan now works on a set number of devices: Starter and Growth on one device, and Empire on up to four. Your first device is registered automatically. If you need to move to a new computer, sign out on the old one first. Empire users can run UnicornDS across up to four machines at once.',
+    area: 'extension',
+  },
+
+  {
+    date: '2026-08-27',
     version: 'v7.33.0',
     category: 'improvement',
     title: 'Paid plans only — cleaner account experience',

@@ -30,7 +30,7 @@ export default function AdminPage() {
   const [statusFilter, setStatusFilter] = useState<"all"|"paid"|"failed"|"trial"|"expired"|"free"|"blocked">("all");
   const [reconcileBusy, setReconcileBusy] = useState(false);
   const [reconcileResult, setReconcileResult] = useState<string>("");
-  const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "" });
+  const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "", device_limit_enforce: false });
   const [saving, setSaving] = useState(false);
   const [affiliates, setAffiliates] = useState<{id:string;name?:string;email?:string;website?:string;audience?:string;promotion_plan?:string;status?:string;applied_at?:string;ref_code?:string;ip?:string}[]>([]);
   const [affPayouts, setAffPayouts] = useState<any[]>([]);
@@ -876,6 +876,16 @@ export default function AdminPage() {
                   <button onClick={() => setSettings(s => ({ ...s, maintenance: !s.maintenance }))}
                     className={`w-12 h-6 rounded-full relative transition-colors ${settings.maintenance ? "bg-red-500" : "bg-[#3d3580]"}`}>
                     <span className={`absolute top-[3px] left-[3px] w-[18px] h-[18px] bg-white rounded-full transition-transform ${settings.maintenance ? "translate-x-6" : ""}`} />
+                  </button>
+                </div>
+                <div className="flex items-center justify-between border-t border-[#3d3580] pt-4">
+                  <div>
+                    <div className="text-sm font-medium text-white">Enforce Device Limit</div>
+                    <div className="text-xs text-[#6b6899]">Block extra devices (Starter/Growth = 1, Empire = 4). OFF = alert-only, no one blocked.</div>
+                  </div>
+                  <button onClick={() => setSettings(s => ({ ...s, device_limit_enforce: !s.device_limit_enforce }))}
+                    className={`w-12 h-6 rounded-full relative transition-colors ${settings.device_limit_enforce ? "bg-green-500" : "bg-[#3d3580]"}`}>
+                    <span className={`absolute top-[3px] left-[3px] w-[18px] h-[18px] bg-white rounded-full transition-transform ${settings.device_limit_enforce ? "translate-x-6" : ""}`} />
                   </button>
                 </div>
                 <div>

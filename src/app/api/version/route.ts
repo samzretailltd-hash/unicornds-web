@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json(
     {
-      version: "7.33.0",
+      version: "7.34.0",
       released: "2026-08-27",
       changelog: [
         "Exact Amazon product finder: opens the exact product from an eBay listing, not a keyword search",
