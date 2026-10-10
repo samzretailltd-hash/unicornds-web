@@ -30,23 +30,14 @@ export default function AdminPage() {
   const [statusFilter, setStatusFilter] = useState<"all"|"paid"|"failed"|"trial"|"expired"|"free"|"blocked">("all");
   const [reconcileBusy, setReconcileBusy] = useState(false);
   const [reconcileResult, setReconcileResult] = useState<string>("");
-  const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "", device_limit_enforce: false });
+  const [settings, setSettings] = useState({ min_version: "6.0.0", latest_version: "6.3.0", maintenance: false, message: "" });
   const [saving, setSaving] = useState(false);
-  const [affiliates, setAffiliates] = useState<{id:string;name?:string;email?:string;website?:string;audience?:string;promotion_plan?:string;status?:string;applied_at?:string;ref_code?:string;ip?:string}[]>([]);
-  const [affPayouts, setAffPayouts] = useState<any[]>([]);
   const [health, setHealth] = useState<any>(null);
   const [healthLoading, setHealthLoading] = useState(false);
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => { setUser(u); setLoading(false); });
   }, []);
-
-  const [commRefCode, setCommRefCode] = useState("JZTECH-ALI");
-  const [commEmails, setCommEmails] = useState("");
-  const [commTier, setCommTier] = useState("growth");
-  const [commAmount, setCommAmount] = useState("59.99");
-  const [commBusy, setCommBusy] = useState(false);
-  const [commResult, setCommResult] = useState("");
 
   const getToken = useCallback(async () => {
     if (!user) return "";
@@ -58,40 +49,16 @@ export default function AdminPage() {
     if (!token) return;
     const headers = { Authorization: `Bearer ${token}` };
     try {
-      const [statsRes, usersRes, settingsRes, affRes] = await Promise.all([
+      const [statsRes, usersRes, settingsRes] = await Promise.all([
         fetch("/api/admin/stats", { headers }),
         fetch("/api/admin/users", { headers }),
         fetch("/api/admin/settings", { headers }),
-        fetch("/api/admin/affiliates", { headers }),
       ]);
       if (statsRes.ok) { const s = await statsRes.json(); setStats(s); if (s.role) setRole(s.role); }
       if (usersRes.ok) { const d = await usersRes.json(); setUsers(d.users || []); }
       if (settingsRes.ok) { const d = await settingsRes.json(); setSettings(s => ({ ...s, ...d })); }
-      if (affRes.ok) { const d = await affRes.json(); setAffiliates(d.applications || []); }
     } catch (err) { console.error("Fetch error:", err); }
   }, [getToken]);
-
-  const runAddCommission = useCallback(async () => {
-    const emails = commEmails.split(/[\s,]+/).map(e => e.trim()).filter(Boolean);
-    if (emails.length === 0) { setCommResult("Enter at least one email"); return; }
-    if (!confirm(`Add commission for ${emails.length} referral(s) to ${commRefCode}?`)) return;
-    setCommBusy(true); setCommResult("");
-    try {
-      const token = await getToken();
-      const res = await fetch("/api/admin/add-commission", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ ref_code: commRefCode, tier: commTier, payment_amount: parseFloat(commAmount), referred_emails: emails }),
-      });
-      const d = await res.json();
-      if (res.ok) {
-        setCommResult(`✅ ${d.affiliate}: added ${d.added_count} (£${d.per_commission} each = £${d.total_added}). Skipped ${d.skipped_count} duplicate(s).`);
-      } else {
-        setCommResult(`❌ ${d.error || "Failed"}`);
-      }
-    } catch (e) { setCommResult(`❌ ${String(e)}`); }
-    setCommBusy(false);
-  }, [getToken, commRefCode, commEmails, commTier, commAmount]);
 
   const runReconcile = useCallback(async () => {
     if (!confirm("Check every paid user against Stripe and reconnect active subscriptions?\n\nThis NEVER removes access — it only reconnects real Stripe payers and reports the rest.")) return;
@@ -172,17 +139,6 @@ export default function AdminPage() {
     } else {
       alert("Error: " + (data.error || "Unknown error"));
     }
-  };
-
-  const handleAffiliate = async (id: string, status: "approved" | "rejected") => {
-    const refCode = status === "approved" ? prompt("Enter referral code for this affiliate (e.g. 'empowerers'):") : null;
-    if (status === "approved" && !refCode) return;
-    const token = await getToken();
-    await fetch("/api/admin/affiliates", {
-      method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ id, status, refCode }),
-    });
-    fetchData();
   };
 
   const loadTickets = useCallback(async (status = "open") => {
@@ -718,146 +674,18 @@ export default function AdminPage() {
 
         {/* Affiliates Tab */}
         {tab === "affiliates" && (
-          <div className="space-y-6">
-            {/* Applications Table */}
-            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
-              <div className="p-4 border-b border-[#3d3580]/30">
-                <h3 className="text-white font-bold">Affiliate Applications ({affiliates.length})</h3>
-              </div>
-              <div className="bg-[#1E1B4B]/40 border border-[#3d3580] rounded-xl p-4 mb-4">
-                <h3 className="text-white font-bold mb-3">➕ Add Manual Commission</h3>
-                <div className="grid grid-cols-2 gap-3 mb-3">
-                  <input value={commRefCode} onChange={e => setCommRefCode(e.target.value)} placeholder="Ref code" className="px-3 py-2 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm" />
-                  <select value={commTier} onChange={e => setCommTier(e.target.value)} className="px-3 py-2 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm">
-                    <option value="starter">Starter</option>
-                    <option value="growth">Growth</option>
-                    <option value="empire">Empire</option>
-                  </select>
-                </div>
-                <input value={commAmount} onChange={e => setCommAmount(e.target.value)} placeholder="Payment amount (e.g. 59.99)" className="w-full px-3 py-2 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm mb-3" />
-                <textarea value={commEmails} onChange={e => setCommEmails(e.target.value)} placeholder="Referred emails (one per line or comma separated)" rows={4} className="w-full px-3 py-2 rounded-lg bg-[#0f0e1a] border border-[#3d3580] text-white text-sm mb-3" />
-                <button onClick={runAddCommission} disabled={commBusy} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#F59E0B] text-[#1E1B4B] hover:opacity-90 disabled:opacity-50">
-                  {commBusy ? "Adding..." : "Add Commission"}
-                </button>
-                {commResult && <p className="text-sm text-[#c4c0e0] mt-3">{commResult}</p>}
-                <p className="text-xs text-[#6b6899]">Pending: {affiliates.filter(a => a.status === "pending").length} | Approved: {affiliates.filter(a => a.status === "approved").length}</p>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-[#2d2766] text-left">
-                      <th className="p-3 text-[#a5a0cc] font-medium">Name</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Email</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Website</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Method</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Ref Code</th>
-                      <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {affiliates.map(a => (
-                      <tr key={a.id} className="border-t border-[#3d3580]/20 hover:bg-[#2d2766]/30">
-                        <td className="p-3 text-white text-xs">{a.name || "—"}</td>
-                        <td className="p-3 text-white text-xs">{a.email || "—"}</td>
-                        <td className="p-3 text-[#a5a0cc] text-xs max-w-[150px] truncate">{a.website || "—"}</td>
-                        <td className="p-3 text-[#a5a0cc] text-xs">{a.promotion_plan || "—"}</td>
-                        <td className="p-3">
-                          <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                            a.status === "approved" ? "bg-green-500/20 text-green-400" :
-                            a.status === "rejected" ? "bg-red-500/20 text-red-400" :
-                            "bg-yellow-500/20 text-yellow-400"
-                          }`}>{(a.status || "pending").toUpperCase()}</span>
-                        </td>
-                        <td className="p-3 text-[#F59E0B] text-xs font-mono">{a.ref_code || "—"}</td>
-                        <td className="p-3 flex gap-2">
-                          {a.status === "pending" && (
-                            <>
-                              <button onClick={() => handleAffiliate(a.id, "approved")}
-                                className="px-2 py-1 rounded text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40">Approve</button>
-                              <button onClick={() => handleAffiliate(a.id, "rejected")}
-                                className="px-2 py-1 rounded text-xs font-bold bg-red-600/20 text-red-400 hover:bg-red-600/40">Reject</button>
-                            </>
-                          )}
-                          {a.status === "approved" && <span className="text-xs text-green-400">✓ Active</span>}
-                          {a.status === "rejected" && <span className="text-xs text-red-400">✕ Rejected</span>}
-                        </td>
-                      </tr>
-                    ))}
-                    {affiliates.length === 0 && (
-                      <tr><td colSpan={7} className="p-8 text-center text-[#6b6899]">No affiliate applications yet</td></tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Pending Payouts */}
-            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl overflow-hidden">
-              <div className="p-4 border-b border-[#3d3580]/30 flex items-center justify-between">
-                <h3 className="text-white font-bold">💰 Pending Payouts</h3>
-                <button onClick={async () => {
-                  try {
-                    const token = await getToken();
-                    const res = await fetch("/api/admin/affiliate-payouts", { headers: { Authorization: `Bearer ${token}` } });
-                    if (res.ok) {
-                      const d = await res.json();
-                      setAffPayouts(d.payouts || []);
-                    }
-                  } catch { /* */ }
-                }} className="px-3 py-1 text-xs text-[#a5a0cc] border border-[#3d3580] rounded hover:text-white">Load Payouts</button>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead><tr className="bg-[#2d2766] text-left">
-                    <th className="p-3 text-[#a5a0cc] font-medium">Affiliate</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Amount</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Status</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Requested</th>
-                    <th className="p-3 text-[#a5a0cc] font-medium">Actions</th>
-                  </tr></thead>
-                  <tbody>
-                    {(affPayouts || []).map((p: any) => (
-                      <tr key={p.id} className="border-t border-[#3d3580]/20">
-                        <td className="p-3 text-white text-xs">{p.affiliate_name} ({p.affiliate_email})</td>
-                        <td className="p-3 text-[#F59E0B] font-bold text-xs">£{(p.amount || 0).toFixed(2)}</td>
-                        <td className="p-3"><span className={`px-2 py-0.5 rounded text-xs font-bold ${p.status === "paid" ? "bg-green-500/20 text-green-400" : p.status === "rejected" ? "bg-red-500/20 text-red-400" : "bg-yellow-500/20 text-yellow-400"}`}>{(p.status || "pending").toUpperCase()}</span></td>
-                        <td className="p-3 text-[#6b6899] text-xs">{p.created_at ? new Date(p.created_at).toLocaleDateString() : "—"}</td>
-                        <td className="p-3 flex gap-2">
-                          {p.status === "pending" && (
-                            <>
-                              <button onClick={async () => {
-                                const ref = prompt("Bank transfer reference (optional):");
-                                const token = await getToken();
-                                await fetch("/api/affiliate/payout", {
-                                  method: "POST",
-                                  headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-                                  body: JSON.stringify({ payout_id: p.id, action: "approve", reference: ref || "" }),
-                                });
-                                alert("✅ Payout marked as paid");
-                              }} className="px-2 py-1 rounded text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40">Mark Paid</button>
-                              <button onClick={async () => {
-                                const reason = prompt("Reject reason:");
-                                const token = await getToken();
-                                await fetch("/api/affiliate/payout", {
-                                  method: "POST",
-                                  headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-                                  body: JSON.stringify({ payout_id: p.id, action: "reject", reference: reason || "" }),
-                                });
-                                alert("Payout rejected");
-                              }} className="px-2 py-1 rounded text-xs font-bold bg-red-600/20 text-red-400 hover:bg-red-600/40">Reject</button>
-                            </>
-                          )}
-                          {p.status === "paid" && <span className="text-xs text-green-400">✓ Paid</span>}
-                        </td>
-                      </tr>
-                    ))}
-                    {(!affPayouts || affPayouts.length === 0) && (
-                      <tr><td colSpan={5} className="p-6 text-center text-[#6b6899] text-xs">Click &quot;Load Payouts&quot; to see payout requests</td></tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+          <div className="space-y-6 max-w-xl">
+            <div className="bg-[#1E1B4B]/50 border border-[#3d3580] rounded-xl p-6">
+              <h3 className="text-white font-bold mb-2">Affiliate program</h3>
+              <p className="text-sm text-[#a5a0cc] mb-4">
+                The affiliate console lives on its own page. It shows live partners,
+                clicks, commissions and lets you record payouts against real pending
+                balances.
+              </p>
+              <a href="/admin/affiliates"
+                className="inline-block px-4 py-2 rounded-lg text-sm font-bold bg-[#F59E0B] text-[#1E1B4B] hover:opacity-90">
+                Open affiliate console →
+              </a>
             </div>
           </div>
         )}
@@ -876,16 +704,6 @@ export default function AdminPage() {
                   <button onClick={() => setSettings(s => ({ ...s, maintenance: !s.maintenance }))}
                     className={`w-12 h-6 rounded-full relative transition-colors ${settings.maintenance ? "bg-red-500" : "bg-[#3d3580]"}`}>
                     <span className={`absolute top-[3px] left-[3px] w-[18px] h-[18px] bg-white rounded-full transition-transform ${settings.maintenance ? "translate-x-6" : ""}`} />
-                  </button>
-                </div>
-                <div className="flex items-center justify-between border-t border-[#3d3580] pt-4">
-                  <div>
-                    <div className="text-sm font-medium text-white">Enforce Device Limit</div>
-                    <div className="text-xs text-[#6b6899]">Block extra devices (Starter/Growth = 1, Empire = 4). OFF = alert-only, no one blocked.</div>
-                  </div>
-                  <button onClick={() => setSettings(s => ({ ...s, device_limit_enforce: !s.device_limit_enforce }))}
-                    className={`w-12 h-6 rounded-full relative transition-colors ${settings.device_limit_enforce ? "bg-green-500" : "bg-[#3d3580]"}`}>
-                    <span className={`absolute top-[3px] left-[3px] w-[18px] h-[18px] bg-white rounded-full transition-transform ${settings.device_limit_enforce ? "translate-x-6" : ""}`} />
                   </button>
                 </div>
                 <div>

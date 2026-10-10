@@ -5,8 +5,11 @@ import { FieldValue } from "firebase-admin/firestore";
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("ref");
-  const to = req.nextUrl.searchParams.get("to") || "/";
-  const dest = new URL(to, AFFILIATE_CONFIG.siteUrl);
+  // Only allow same-site relative paths in `to` — never an absolute/off-site URL.
+  // Prevents the referral link being abused as an open redirect to a phishing page.
+  const rawTo = req.nextUrl.searchParams.get("to") || "/";
+  const safeTo = (rawTo.startsWith("/") && !rawTo.startsWith("//")) ? rawTo : "/";
+  const dest = new URL(safeTo, AFFILIATE_CONFIG.siteUrl);
   const res = NextResponse.redirect(dest);
   if (code) {
     res.cookies.set("aff_ref", code, {

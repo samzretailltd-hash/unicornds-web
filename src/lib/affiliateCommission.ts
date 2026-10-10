@@ -19,6 +19,16 @@ export async function recordAffiliateCommission(opts: {
   const affDoc = snap.docs[0];
   const aff = affDoc.data() as any;
   if (aff.status === "suspended") return { ok: false, reason: "affiliate suspended" };
+  // Block self-referral: an affiliate cannot earn commission on their own
+  // subscription (same email, or their registered PayPal email).
+  const buyer = (opts.customerEmail || "").trim().toLowerCase();
+  if (buyer) {
+    const affEmail = String(aff.email || "").trim().toLowerCase();
+    const affPaypal = String(aff.paypalEmail || "").trim().toLowerCase();
+    if (buyer === affEmail || buyer === affPaypal) {
+      return { ok: false, reason: "self-referral blocked" };
+    }
+  }
   const tier = aff.tier || "standard";
   const plan = String(opts.plan || "").toLowerCase();
   const commission = commissionFor(plan, tier);
